@@ -1,0 +1,4 @@
+// the configured options and settings for libnss-maria
+#define Tutorial_VERSION_MAJOR @libnss-maria_VERSION_MAJOR@
+#define Tutorial_VERSION_MINOR @libnss-maria_VERSION_MINOR@
+
