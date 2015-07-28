@@ -18,22 +18,21 @@ enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd,
 		puts("the environment is not threadsafe");
 	}
 
-	if(mysql_thread_init() == 0) {
+/*	if(mysql_thread_init() == 0) {
 		puts("threading could not have been initialized");
-	}
+	}*/
 
-	MYSQL *handle;
-	MYSQL *xxx = mysql_init(handle);
+	MYSQL *xxx = mysql_init(NULL);
 
 	if(xxx == NULL) {
 		puts("cannot initialize mysql");
 		return 1;
 	}
 
-	MYSQL *connection = mysql_real_connect(handle, c.host, c.user, c.passwd, c.db, c.port, c.unix_socket, 0);
+	MYSQL *connection = mysql_real_connect(xxx, c.host, c.user, c.passwd, c.db, c.port, c.unix_socket, 0);
 
 	if(connection == NULL) {
 		puts("could not connect to the database");
 	}
-
+  return 0;
 }
