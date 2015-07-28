@@ -31,5 +31,6 @@ enum nss_status _nss_maria_getspent_r(struct spwd *pwd,
 enum nss_status _nss_maria_getspnam_r(const char *name, struct spwd *pwd,
 		char *buffer, size_t buflen, int *errnop);
 
+// other
 void check_sanity(void);
 

@@ -25,7 +25,6 @@ configure_file (
 
 ## Compiler flags
 if (CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-#  add_definitions (--std=c99 -Wall -Wextra -Werror)
   add_definitions (--std=c99 -Wall -Wextra)
 endif()
 

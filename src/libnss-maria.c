@@ -1,16 +1,18 @@
 #include "libnss-maria.h"
 
-struct bla_conf {
+struct nssmariaconfig {
 	char host[255];
 	char user[255];
 	char passwd[255];
 	char db[255];
 	unsigned int port;
 	char unix_socket[255];
-} conf;
+};
 
 enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd,
 		char *buffer, size_t buflen, int *errnop) {
+
+  struct nssmariaconfig c = { "localhost", "root", "", "nssmaria", 3306, "" };
 
 	if(mysql_thread_safe() == 1) {
 		puts("the environment is not threadsafe");
@@ -28,7 +30,7 @@ enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd,
 		return 1;
 	}
 
-	MYSQL *connection = mysql_real_connect(handle, conf.host, conf.user, conf.passwd, conf.db, conf.port, conf.unix_socket, 0);
+	MYSQL *connection = mysql_real_connect(handle, c.host, c.user, c.passwd, c.db, c.port, c.unix_socket, 0);
 
 	if(connection == NULL) {
 		puts("could not connect to the database");
