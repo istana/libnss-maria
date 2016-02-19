@@ -1,5 +1,5 @@
 #define NSSMARIACONFIG "/etc/libnss-maria.conf"
-#include <libconfig.h>
+#include <config.h>
 
 config_t *nssconfig;
 config_init(nssconfig);

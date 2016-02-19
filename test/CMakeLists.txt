@@ -1,7 +1,7 @@
 include_directories("${CMAKE_SOURCE_DIR}/src")
 add_executable(nss-maria-test nss-maria-test.c)
 # m = math, z = zlib
-target_link_libraries(nss-maria-test nss-maria crypto ssl dl pthread m z mysqlclient_r)
+target_link_libraries(nss-maria-test nss-maria crypto ssl dl pthread m z config mysqlclient_r)
 
 ## Compiler flags
 if (CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
