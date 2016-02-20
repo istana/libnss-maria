@@ -1,6 +1,25 @@
 #define NSSMARIACONFIG "/etc/libnss-maria.conf"
-#include <config.h>
+#include <libconfig.h>
+#include <string.h>
 
+typedef struct Libnssmaria_configs {
+  char dbhost[1024];
+  unsigned int dbport;
+  char dbuser[1024];
+  char dbpass[1024];
+  char dbname[1024];
+} Libnssmaria_config;
+
+
+void libnss_maria_initialize_config(Libnssmaria_config *config) {
+  strncpy(config->dbhost, "localhost", 1023);
+  config->dbport = 3309;
+  strncpy(config->dbuser, "root", 1023);
+  strncpy(config->dbpass, "", 1023);
+  strncpy(config->dbname, "libnss_maria", 1023);
+}
+
+/*
 config_t *nssconfig;
 config_init(nssconfig);
 
@@ -26,3 +45,4 @@ char *dbname, ;
 config_lookup_string(nssconfig, "database", &dbname);
 
 config_destroy(nssconfig);
+*/
