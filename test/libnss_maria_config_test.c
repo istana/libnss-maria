@@ -1,58 +1,31 @@
 #include "libnss-maria.h"
 #include <criterion/criterion.h>
 
-Test(suite_name, test_name) {
-  // test contents
-  cr_expect(strlen("Test") == 4, "Expected \"Test\" to have a length of 4.");
-  cr_expect(strlen("Hello") == 4, "This will always fail, why did I add this?");
-  cr_assert(strlen("") == 0);
+Test(maria_config, initialize_config) {
+  Nssmaria_config config;
+  nss_maria_initialize_config(&config);
+
+  cr_assert_str_eq(config.dbhost, "localhost");
+  cr_assert_str_eq(config.dbuser, "root");
+  cr_assert_str_eq(config.dbpass, "");
+  cr_assert_str_eq(config.dbname, "libnss_maria");
+  cr_assert_eq(config.dbport, 3309);
+
+  cr_assert_str_eq(config.getpwnam, "");
+  cr_assert_str_eq(config.getpwuid, "");
+  cr_assert_str_eq(config.getpwent, "");
+
+  cr_assert_str_eq(config.getspnam, "");
+  cr_assert_str_eq(config.getspent, "");
+
+  cr_assert_str_eq(config.getgrnam, "");
+  cr_assert_str_eq(config.getgrid, "");
+  cr_assert_str_eq(config.getgrent, "");
+
+  cr_assert_str_eq(config.memsbygid, "");
+  cr_assert_str_eq(config.getspnam, "");
+  cr_assert_str_eq(config.gidsbymem, "");
 }
 
-/*
-int test_libnss_maria_initialize_config(void) {
-  Libnssmaria_config *config;
-  libnss_maria_initialize_config(config);
-
-  STREQ("localhost", config->dbhost);
-
-}
 
 
-int test_config() {
-  Libnssmaria_config *config;
-  libnss_maria_initialize_config(config);
-
-  //ssmaria_load_config("fixtures/nssmaria_root.conf");
-  //STREQ("hor.im", config.dbhost);
-  //STREQ("root", config.dbuser);
-  //STREQ("123456", config.dbpass);
-}
-
-int main(void) {
-  test_libnss_maria_initialize_config();
-
-  puts("xxx");
-  return 0;
-}
-*/
-/*
-int UNITTEST()
-
-
-
-
-int main(void) {
-  RUN_TESTS
-  n nssmaria_config *config = nssmaria_load_config("fixtures/nssmaria_root.conf");ssmaria_config *config = nssmaria_load_config("fixtures/nssmaria_root.conf");
-
-  if
-  //string* config = libnssmaria_load_config();
-  return 0;
-}
-
-int main(void) {
-  printf("Hello world\n");
-        test__nss_maria_getpwnam_r();
-}
-
-*/
