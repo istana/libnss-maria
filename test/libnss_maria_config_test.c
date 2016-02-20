@@ -27,5 +27,14 @@ Test(maria_config, initialize_config) {
   cr_assert_str_eq(config.gidsbymem, "");
 }
 
+Test(maria_config, populate_config_from_file_example_config) {
+  Nssmaria_config config;
+  nss_maria_initialize_config(&config);
+  cr_assert_eq(nss_maria_populate_config_from_file("./test/fixtures/libconfig-example.conf", &config), 0);
+}
 
-
+Test(maria_config, populate_config_from_file) {
+  Nssmaria_config config;
+  nss_maria_initialize_config(&config);
+  cr_assert_eq(nss_maria_populate_config_from_file("./test/fixtures/libnss-maria.conf", &config), 0);
+}

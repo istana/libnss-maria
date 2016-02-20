@@ -1,6 +1,8 @@
 #define NSSMARIACONFIG "/etc/libnss-maria.conf"
 #include <libconfig.h>
+#include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 typedef struct Nssmaria_configs {
   char dbhost[1024];
@@ -53,22 +55,41 @@ void nss_maria_initialize_config(Nssmaria_config *config) {
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
 }
 
-/*int nss_maria_populate_config_from_file(Nssmaria_config *config) {
+int nss_maria_populate_config_from_file(char *filepath, Nssmaria_config *config) {
+  FILE* config_stream = fopen(filepath, "r");
 
+  if(config_stream != NULL) {
+    // parse libconfig file
+    config_t config_nssmaria;
+    config_init(&config_nssmaria);
+
+    if(config_read(&config_nssmaria, config_stream) == CONFIG_TRUE) {
+      printf("ok");
+
+      return 0;
+    } else {
+      printf("error found in file %s, message: %s on line: %i",
+        filepath,
+        config_error_text(&config_nssmaria),
+        config_error_line(&config_nssmaria)
+      );
+      return 1;
+    }
+
+    config_destroy (&config_nssmaria);
+  } else {
+    printf("Opening file : Failed\n");
+    printf ("Error no is : %d\n", errno);
+    printf("Error description is : %s\n",strerror(errno));
+  }
+
+  fclose(config_stream);
 }
-*/
 
 /*
-config_t *nssconfig;
-config_init(nssconfig);
-
-if(config_read_file(nssconfig, NSSMARIACONFIG)) {
 
 
 
-} else {
-  puts("error found in file %s, message: %s on line: %i", config_error_file(nssconfig), config_error_text(nssconfig), config_error_line(nsconfig));
-}
 
 config_setting_t *database_config, *nss_queries;
 
