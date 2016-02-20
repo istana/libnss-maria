@@ -6,15 +6,4 @@ add_executable(libnss_maria_config_test libnss_maria_config_test.c)
 # m = math, z = zlib
 target_link_libraries(libnss_maria_config_test nss-maria crypto ssl dl pthread m z config mysqlclient_r)
 
-## Compiler flags
-if (CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} --std=c99 -Wall -Wextra")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} --std=c99 -Wall -Wextra -Werror")
-endif()
-
-message("CMAKE_CXX_FLAGS_DEBUG is ${CMAKE_CXX_FLAGS_DEBUG}")
-message("CMAKE_CXX_FLAGS_RELEASE is ${CMAKE_CXX_FLAGS_RELEASE}")
-
-enable_testing()
 add_test(config_test libnss_maria_config_test)
-

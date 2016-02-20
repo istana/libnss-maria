@@ -22,9 +22,3 @@ configure_file (
   "configuration.h.in"
   "configuration.h"
 )
-
-## Compiler flags
-if (CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  add_definitions (--std=c99 -Wall -Wextra)
-endif()
-
