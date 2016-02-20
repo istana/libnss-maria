@@ -1,7 +1,21 @@
-#define STREQ(EXPECTED,GOT) assert(strncmp(#EXPECTED, GOT, 1024) == 0);
-
-#include <stdio.h>
 #include "libnss-maria.h"
+#include <criterion/criterion.h>
+
+Test(suite_name, test_name) {
+  // test contents
+  cr_expect(strlen("Test") == 4, "Expected \"Test\" to have a length of 4.");
+  cr_expect(strlen("Hello") == 4, "This will always fail, why did I add this?");
+  cr_assert(strlen("") == 0);
+}
+
+/*
+int test_libnss_maria_initialize_config(void) {
+  Libnssmaria_config *config;
+  libnss_maria_initialize_config(config);
+
+  STREQ("localhost", config->dbhost);
+
+}
 
 
 int test_config() {
@@ -15,11 +29,12 @@ int test_config() {
 }
 
 int main(void) {
+  test_libnss_maria_initialize_config();
 
   puts("xxx");
   return 0;
 }
-
+*/
 /*
 int UNITTEST()
 
