@@ -32,3 +32,11 @@ I've chosen libconfig, because:
 - cannot found well maintained INI parser for linux, not sure about multiline strings
 - libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
 - libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
+
+## Run tests
+
+`make tests`
+
+but to see the output from unit testing library (to see what failed):
+
+`ctest --verbose`
