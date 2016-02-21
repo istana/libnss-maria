@@ -1,0 +1,3 @@
+CREATE USER 'maria'@'localhost' IDENTIFIED BY 'Isabelle';
+GRANT ALL PRIVILEGES ON nss_maria . * TO 'maria'@'localhost';
+CREATE DATABASE nss_maria;
