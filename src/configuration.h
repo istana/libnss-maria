@@ -111,3 +111,10 @@ int nss_maria_populate_config_from_file(char *filepath, Nssmaria_config *config)
 
   fclose(config_stream);
 }
+
+Nssmaria_config nss_maria_read_config_from_file(char *path) {
+  Nssmaria_config settings;
+  nss_maria_initialize_config(&settings);
+  nss_maria_populate_config_from_file(path, &settings);
+  return settings;
+}
