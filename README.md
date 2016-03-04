@@ -1,6 +1,6 @@
 # libnss-maria
 
-https://travis-ci.org/istana/libnss-maria.svg?branch=master
+[![Build Status](https://travis-ci.org/istana/libnss-maria.svg?branch=master)](https://travis-ci.org/istana/libnss-maria)
 
 Replacement for old libnss-mysql as naming service library.
 
