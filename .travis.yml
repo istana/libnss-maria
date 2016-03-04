@@ -9,6 +9,8 @@ addons:
       - libssl-dev
       - libc6-dev
       - zlib1g-dev
+      - libconfig-dev
+      - libmysqlclient-dev
 script:
   - mkdir Release
   - cd Release
