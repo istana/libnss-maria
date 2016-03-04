@@ -1,12 +1,14 @@
 # libnss-maria
 
+https://travis-ci.org/istana/libnss-maria.svg?branch=master
+
 Replacement for old libnss-mysql as naming service library.
 
 
 For test:
 
 ```
-apt-get install libssl-dev libltdl-dev libc6-dev
+apt-get install cmake libssl-dev libc6-dev zlib1g-dev libconfig-dev libmysqlclient-dev
 ```
 
 build
@@ -14,6 +16,14 @@ build
 ```
 mkdir Debug
 cmake -D CMAKE_BUILD_TYPE=Debug ..
+make VERBOSE=1
+```
+
+release build (optimizations, warnings treated as errors)
+
+```
+mkdir Release
+cmake -D CMAKE_BUILD_TYPE=Release ..
 make VERBOSE=1
 ```
 
