@@ -9,6 +9,8 @@ addons:
       - libssl-dev
       - libc6-dev
       - zlib1g-dev
-before_install:
-  - mkdir Debug
-  - cmake -D CMAKE_BUILD_TYPE=Debug ..
+script:
+  - mkdir Release
+  - cd Release
+  - cmake -D CMAKE_BUILD_TYPE=Release ..
+  - make && ctest --verbose
