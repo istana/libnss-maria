@@ -2,6 +2,7 @@ include_directories("${CMAKE_SOURCE_DIR}/src")
 
 # copy test fixtures to build directory
 file(COPY "${CMAKE_SOURCE_DIR}/test/fixtures" DESTINATION ".")
+file(COPY "${CMAKE_SOURCE_DIR}/sample" DESTINATION ".")
 
 # add vendorized "criterion" to path
 # cmake --help-policy CMP0015

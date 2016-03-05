@@ -1,15 +1,14 @@
+# this creates also a user
 DROP USER IF EXISTS 'nss-maria-user'@'localhost';
-CREATE USER 'nss-maria-user'@'localhost' IDENTIFIED BY 'Isabelle';
-
-DROP USER  IF EXISTS 'nss-maria-root'@'localhost';
-CREATE USER 'nss-maria-root'@'localhost' IDENTIFIED BY 'Catherine';
-
-# allegedly this is created automatically when CREATE USER is run, but...
 GRANT USAGE ON *.* TO `nss-maria-user`@`localhost` IDENTIFIED BY 'Isabelle';
+DROP USER  IF EXISTS 'nss-maria-root'@'localhost';
 GRANT USAGE ON *.* TO `nss-maria-root`@`localhost` IDENTIFIED BY 'Catherine';
 
 DROP DATABASE IF EXISTS `sos-sso-production`;
 CREATE DATABASE `sos-sso-production` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+GRANT USAGE ON `sos-sso-production`.* TO 'nss-maria-user'@'localhost';
+GRANT USAGE ON `sos-sso-production`.* TO 'nss-maria-root'@'localhost';
+
 FLUSH PRIVILEGES;
 
 USE `sos-sso-production`;
@@ -350,10 +349,6 @@ CREATE TABLE `wimax` (
 
 -- Dump completed on 2016-03-04 23:33:57
 
-
-/* ************************************************************** */
-/* ************************************************************** */
-/* ************************************************************** */
 
 -- GRANT SELECT (col1), INSERT (col1,col2) ON mydb.mytbl TO 'someuser'@'somehost';
 

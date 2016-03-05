@@ -24,7 +24,7 @@ enum nss_status
  
 enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd, char *buffer, size_t buflen, int *errnop) {
 
-  Nssmaria_config settings = nss_maria_read_config_from_file("./test/fixtures/connection_test.conf");
+  Nssmaria_config settings = nss_maria_read_config_from_file("./test/sample/sos-sso/libnss-maria.conf");
 
 	if(!mysql_thread_safe()) { LOG_ERROR("environment is NOT threadsafe!") }
 
