@@ -51,6 +51,11 @@ but to see the output from unit testing library (to see what failed):
 
 `ctest --verbose`
 
-# TODO
+## TODO
 
 - support for unix socket
+
+
+## Author + License
+
+Written by Ivan Stana, 2015-2016. Released under these licenses: GNU GPL v3, LGPL v3 and MIT
