@@ -50,3 +50,7 @@ I've chosen libconfig, because:
 but to see the output from unit testing library (to see what failed):
 
 `ctest --verbose`
+
+# TODO
+
+- support for unix socket
