@@ -2,8 +2,9 @@
 #include <criterion/criterion.h>
 
 Test(maria_config, initialize_config) {
-  Nssmaria_config config;
+  Nssmaria_configuration config;
   nss_maria_initialize_config(&config);
+
 
   cr_assert_str_eq(config.dbhost, "localhost");
   cr_assert_str_eq(config.dbuser, "root");
@@ -28,14 +29,18 @@ Test(maria_config, initialize_config) {
 }
 
 Test(maria_config, populate_config_from_file_example_config) {
-  Nssmaria_config config;
+  Nssmaria_configuration config;
   nss_maria_initialize_config(&config);
+
+
   cr_assert_eq(nss_maria_populate_config_from_file("./test/fixtures/libconfig-example.conf", &config), 0);
 }
 
 Test(maria_config, populate_config_from_file) {
-  Nssmaria_config config;
+  Nssmaria_configuration config;
   nss_maria_initialize_config(&config);
+
+
   cr_assert_eq(nss_maria_populate_config_from_file("./test/fixtures/libnss-maria.conf", &config), 0);
 
   printf("%s", config.dbhost);
