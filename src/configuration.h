@@ -108,7 +108,8 @@ int nss_maria_populate_config_from_file(char *filepath, Nssmaria_config *config)
   } else {
     printf("Opening file : Failed\n");
     printf ("Error no is : %d\n", errno);
-    printf("Error description is : %s\n",strerror(errno));
+    printf("Error description is : %s\n", strerror(errno));
+    return 1;
   }
 
   fclose(config_stream);
