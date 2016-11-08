@@ -62,6 +62,8 @@ void nss_maria_load_setting(config_t conffile, char *dest, const char *path) {
   if(config_lookup_string(&conffile, path, &buffer) == CONFIG_TRUE) {
     strncpy(dest, buffer, 1023);
   };
+
+  free(buffer);
 }
 
 int nss_maria_populate_config_from_file(char *filepath, Nssmaria_config *config) {
