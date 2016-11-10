@@ -1,10 +1,6 @@
 #define NSSMARIACONFIG "/etc/libnss-maria.conf"
-#include <libconfig.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include "configuration_helpers.c"
+#include "configuration_helpers.h"
 
 typedef struct Nssmaria_configurations {
   char dbhost[1024];
