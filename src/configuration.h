@@ -58,13 +58,12 @@ void nss_maria_initialize_config(Nssmaria_configuration *config) {
 
 /* internal */
 void nss_maria_load_setting(config_t libconfig_object, char *destination, const char *selector) {
+  // is freed by libconfig
   const char *buffer = malloc(1024 * sizeof(char));
 
   if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
     strncpy(destination, buffer, 1023);
   };
-
-  free(buffer);
 }
 
 int nss_maria_populate_config_from_file(char *libconfig_filepath, Nssmaria_configuration *nss_config) {
