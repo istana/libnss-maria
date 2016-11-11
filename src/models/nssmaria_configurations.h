@@ -1,3 +1,6 @@
+#ifndef NSSMARIA_CONFIGURATIONS_H
+#define NSSMARIA_CONFIGURATIONS_H
+
 typedef struct Nssmaria_configurations {
   char dbhost[1024];
   char dbport[1024];
@@ -34,3 +37,5 @@ typedef struct Nssmaria_configurations {
   char gidsbymem[8192];
 
 } Nssmaria_configuration;
+
+#endif /* NSSMARIA_CONFIGURATIONS_H */
