@@ -1,7 +1,7 @@
 #set (PROJECT_SOURCE_DIR src)
 #set (PROJECT_BINARY_DIR src)
 
-add_library(nss-maria SHARED configuration.c libnss-maria.c)
+add_library(nss-maria SHARED controllers/nssmaria_libconfig.c helpers/nssmaria_libconfig.c models/nssmaria_configurations.c libnss-maria.c)
 
 # The version number.
 # soname (MAJOR) version must be 2
