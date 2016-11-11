@@ -15,9 +15,3 @@ set_target_properties(nss-maria PROPERTIES
   VERSION ${nss-maria_VERSION}
   SOVERSION ${nss-maria_VERSION_MAJOR}
 )
-
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file (
-  "configuration.h.in"
-)
