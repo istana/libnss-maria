@@ -15,5 +15,5 @@ add_subdirectory(test)
 
 # this needs to be here and not in test/CMakeLists.txt
 enable_testing()
-add_test(config_test test/libnss_maria_config_test)
+add_test(config_test test/nssmaria_libconfig_test)
 add_test(queries_test test/libnss_maria_queries_test)

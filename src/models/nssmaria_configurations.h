@@ -3,10 +3,10 @@
 
 typedef struct Nssmaria_configurations {
   char dbhost[1024];
-  char dbport[1024];
+  char dbname[1024];
   char dbuser[1024];
   char dbpass[1024];
-  char dbname[1024];
+  char dbport[1024];
 
   // "password" SQL queries
   // get user by name
