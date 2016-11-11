@@ -20,5 +20,4 @@ set_target_properties(nss-maria PROPERTIES
 # to the source code
 configure_file (
   "configuration.h.in"
-  "configuration.h"
 )
