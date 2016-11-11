@@ -1,7 +1,3 @@
-#define NSSMARIACONFIG "/etc/libnss-maria.conf"
-#include <string.h>
-#include "configuration_helpers.h"
-
 typedef struct Nssmaria_configurations {
   char dbhost[1024];
   char dbport[1024];
@@ -38,6 +34,3 @@ typedef struct Nssmaria_configurations {
   char gidsbymem[8192];
 
 } Nssmaria_configuration;
-
-void nss_maria_initialize_config(Nssmaria_configuration *config);
-Nssmaria_configuration nss_maria_read_config_from_file(char *path);

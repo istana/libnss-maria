@@ -1,4 +1,4 @@
-#include "configuration.h"
+#include "nssmaria_libconfig.h"
 
 void nss_maria_initialize_config(Nssmaria_configuration *config) {
   strncpy(config->dbhost, "localhost", 1023);
@@ -13,9 +13,11 @@ void nss_maria_initialize_config(Nssmaria_configuration *config) {
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
 }
 
-Nssmaria_configuration nss_maria_read_config_from_file(char *path) {
-  Nssmaria_configuration settings;
-  nss_maria_initialize_config(&settings);
-  nss_maria_populate_config_from_file(path, &settings);
-  return settings;
+void nss_maria_load_setting(config_t libconfig_object, char *destination, const char *selector) {
+  // is freed by libconfig
+  const char *buffer = malloc(1024 * sizeof(char));
+
+  if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
+    strncpy(destination, buffer, 1023);
+  };
 }

@@ -1,10 +1,10 @@
-void nss_maria_load_setting(config_t libconfig_object, char *destination, const char *selector) {
-  // is freed by libconfig
-  const char *buffer = malloc(1024 * sizeof(char));
+#include "nssmaria_libconfig.h"
 
-  if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
-    strncpy(destination, buffer, 1023);
-  };
+Nssmaria_configuration nss_maria_read_config_from_file(char *path) {
+  Nssmaria_configuration settings;
+  nss_maria_initialize_config(&settings);
+  nss_maria_populate_config_from_file(path, &settings);
+  return settings;
 }
 
 int nss_maria_populate_config_from_file(char *libconfig_filepath, Nssmaria_configuration *nss_config) {
