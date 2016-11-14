@@ -23,18 +23,9 @@ enum nss_status
 };*/
  
 enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd, char *buffer, size_t buflen, int *errnop) {
-
   Nssmaria_configuration settings = nss_maria_read_configuration_from_file("./test/sample/sos-sso/libnss-maria.conf");
-
-	if(!mysql_thread_safe()) { LOG_ERROR("environment is NOT threadsafe!") }
-
-	MYSQL *mysql_handle = mysql_init(NULL);
-	if(mysql_handle == NULL) { LOG_ERROR("cannot initialize mysql") }
-
-  MYSQL *connection = mysql_real_connect(mysql_handle, settings.dbhost, settings.dbuser,
-    settings.dbpass, settings.dbname, atoi(settings.dbport), NULL, 0
-  );
-  if(connection == NULL) { LOG_MYSQL_ERROR("could not connect to the database", mysql_handle) }
+  MYSQL *connection = nss_maria_db_connect(settings);
+  MYSQL_STMT *statement = nss_maria_initialize_statement(connection);
 
   MYSQL_STMT *statement = mysql_stmt_init(connection);
   if(statement == NULL) {
