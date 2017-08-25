@@ -35,7 +35,7 @@ make VERBOSE=1
 
 ### Run tests
 
-`make tests`
+`make test`
 
 but to see the output from unit testing library (to see what failed):
 
