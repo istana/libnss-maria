@@ -3,6 +3,5 @@ rm -rf Debug
 mkdir Debug
 cd Debug
 cmake -D CMAKE_BUILD_TYPE=Debug ..
-make VERBOSE=1
-ctest --verbose
+make VERBOSE=1 && ctest --verbose
 cd ..

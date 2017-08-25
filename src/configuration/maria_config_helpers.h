@@ -7,6 +7,7 @@
 #include <string.h>
 #include <errno.h>
 #include "maria_config.h"
+#include "../logger/maria_logger.h"
 
 void maria_initialize_config(Maria_config *config);
 void maria_load_setting(config_t libconfig_object, char *destination, const char *selector);

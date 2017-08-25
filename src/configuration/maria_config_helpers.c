@@ -16,18 +16,22 @@ void maria_initialize_config(Maria_config *config) {
 void maria_load_setting(config_t libconfig_object, char *destination, const char *selector) {
   // is freed by libconfig
   const char *buffer = malloc(1024 * sizeof(char));
+  char message[256];
 
   if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
     strncpy(destination, buffer, 1023);
-  };
-  // TODO: else
+  } else {
+    sprintf("cannot load setting from selector=%s", selector);
+    maria_log(message);
+  }
 }
 
 int maria_set_config_from_file(char *path, Maria_config *config) {
   FILE* libconfig_stream = fopen(path, "r");
+  char message[256];
 
   if(libconfig_stream != NULL) {
-    // parse libconfig file
+    // parse configuration file with libconfig
     config_t libconfig_object;
     config_init(&libconfig_object);
 
@@ -55,18 +59,20 @@ int maria_set_config_from_file(char *path, Maria_config *config) {
       config_destroy (&libconfig_object);
       return 0;
     } else {
-//      nss_maria_log("error found in file %s, message: %s on line: %i",
-/*        libconfig_filepath,
+      sprintf(message, "error found in file %s, message: %s, line: %i",
+        path,
         config_error_text(&libconfig_object),
         config_error_line(&libconfig_object)
-      );*/
+      );
+
+      maria_log(message);
       config_destroy(&libconfig_object);
+      fclose(libconfig_stream);
       return 1;
     }
   } else {
-//    nss_maria_log("Opening file : Failed\n");
-//    nss_maria_log("Error no is : %d\n", errno);
-//    nss_maria_log("Error description is : %s\n", strerror(errno));
+    sprintf(message, "opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
+    maria_log(message);
     return 1;
   }
 
