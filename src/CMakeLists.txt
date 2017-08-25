@@ -2,7 +2,12 @@ cmake_minimum_required (VERSION 2.8)
 #set (PROJECT_SOURCE_DIR src)
 #set (PROJECT_BINARY_DIR src)
 
-add_library(nss-maria SHARED "configuration/maria_config.c" "configuration/maria_config_helpers.c" "libnss-maria.c")
+add_library(nss-maria SHARED
+  "configuration/maria_config.c"
+  "configuration/maria_config_helpers.c"
+  "logger/maria_logger.c"
+  "libnss-maria.c"
+)
 
 # The version number.
 # soname (MAJOR) version must be 2
