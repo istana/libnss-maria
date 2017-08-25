@@ -1,7 +1,14 @@
-#ifndef NSSMARIA_CONFIGURATIONS_H
-#define NSSMARIA_CONFIGURATIONS_H
+/*
+the configuration file uses libconfig library (syntax), i.e. is nginx-like
+TODO: config.h and config_helpers.h are tangled bidirectionally even though
+  config_helpers should not call config.h at all
+*/
 
-typedef struct Nssmaria_configurations {
+#ifndef MARIA_CONFIG_H
+#define MARIA_CONFIG_H
+//#include "maria_config_helpers.h"
+
+typedef struct Maria_configs {
   char dbhost[1024];
   char dbname[1024];
   char dbuser[1024];
@@ -36,6 +43,8 @@ typedef struct Nssmaria_configurations {
   // not in glibc - get groups by user name
   char gidsbymem[8192];
 
-} Nssmaria_configuration;
+} Maria_config;
 
-#endif /* NSSMARIA_CONFIGURATIONS_H */
+//Maria_config maria_read_config_file(char *path);
+
+#endif

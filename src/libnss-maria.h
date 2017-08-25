@@ -4,7 +4,7 @@
 #include <shadow.h>
 #include <mysql/mysql.h>
 #include <stdio.h>
-#include "controllers/nssmaria_libconfig.h"
+//#include "maria_config.h"
 
 // password, pwd.h
 enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd,

@@ -23,6 +23,7 @@ enum nss_status
 };*/
  
 enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd, char *buffer, size_t buflen, int *errnop) {
+/*
   Nssmaria_configuration settings = nss_maria_read_configuration_from_file("./test/sample/sos-sso/libnss-maria.conf");
   MYSQL *connection = nss_maria_db_connect(settings);
   MYSQL_STMT *statement = nss_maria_initialize_statement(connection);
@@ -55,7 +56,7 @@ enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd, char
     LOG_MYSQL_STATEMENT_ERROR("cannot execute query", statement, mysql_handle);
   }
 
-  /* Get the number of affected rows */
+  // Get the number of affected rows
   uint affected_rows = mysql_stmt_affected_rows(statement);
   fprintf(stdout, " total affected rows(insert 1): %lu\n",
                   (unsigned long) affected_rows);
@@ -64,6 +65,6 @@ enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd, char
 
   mysql_stmt_close(statement);
   mysql_close(mysql_handle);
-
+*/
   return 0;
 }
