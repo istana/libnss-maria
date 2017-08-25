@@ -19,6 +19,7 @@ apt-get install cmake libssl-dev libc6-dev zlib1g-dev libconfig-dev libmysqlclie
 
 ```
 mkdir Debug
+cd Debug
 cmake -D CMAKE_BUILD_TYPE=Debug ..
 make VERBOSE=1
 ```
@@ -27,6 +28,7 @@ make VERBOSE=1
 
 ```
 mkdir Release
+cd Release
 cmake -D CMAKE_BUILD_TYPE=Release ..
 make VERBOSE=1
 ```
@@ -39,6 +41,20 @@ but to see the output from unit testing library (to see what failed):
 
 `ctest --verbose`
 
+## Architecture
+
+
+```
+naming service switch handler
+**********************************
+SQL Queries Dispatcher
+**********************************
+Configuration file parser
+**********************************
+Logger
+```
+
+items on lower layer are used by items on a higher layer, items on same layer are independent from each other
 
 ## Philosophy and Design
 
@@ -74,4 +90,4 @@ I've chosen libconfig, because:
 
 ## Author + License
 
-Written by Ivan Stana, 2015-2016. Released under these licenses: GNU GPL v3, LGPL v3 and MIT. I appreciate new testers, developers and users.
+Written by Ivan Stana, 2015-2017. Released under these licenses: GNU GPL v3, LGPL v3 and MIT. I appreciate new testers, developers and users.
