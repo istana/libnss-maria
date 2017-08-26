@@ -20,10 +20,14 @@ void maria_load_setting(config_t libconfig_object, char *destination, const char
 
   if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
     strncpy(destination, buffer, 1023);
-  } else {
-    sprintf("cannot load setting from selector=%s", selector);
+  }
+
+  /* only for debug build
+   else {
+    sprintf(message, "cannot load setting from selector=%s", selector);
     maria_log(message);
   }
+  */
 }
 
 int maria_set_config_from_file(char *path, Maria_config *config) {
