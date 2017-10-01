@@ -21,3 +21,6 @@ set_target_properties(nss-maria PROPERTIES
   VERSION ${nss-maria_VERSION}
   SOVERSION ${nss-maria_VERSION_MAJOR}
 )
+
+add_executable(config_db_settings "util/config_db_settings.c")
+target_link_libraries(config_db_settings nss-maria config)
