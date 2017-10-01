@@ -3,3 +3,15 @@ services:
   sys:
     build: .
     image: ubuntu:rolling
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    links:
+      - database
+  database:
+    build:
+      dockerfile: Dockerfile-mariadb
+      context: .
+    image: library/mariadb
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD='true'
