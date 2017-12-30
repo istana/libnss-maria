@@ -1,3 +1,3 @@
 #include <syslog.h>
 
-void maria_log(char *message);
+void maria_log(const char *message);
