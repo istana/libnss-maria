@@ -6,14 +6,6 @@
 #include <stdio.h>
 //#include "maria_config.h"
 
-// password, pwd.h
-enum nss_status _nss_maria_getpwnam_r(const char *name, struct passwd *pwd,
-		char *buffer, size_t buflen, int *errnop);
-
-enum nss_status _nss_maria_getpwuid_r(uid_t uid, struct passwd *pwd,
-		char *buffer, size_t buflen, int *errnop);
-
-enum nss_status _nss_maria_getpwent_r(struct passwd *result, char *buffer, size_t buflen, int *errnop);
 
 // groups, from grp.h
 enum nss_status _nss_maria_getgrnam_r(const char *name, struct group *grp,

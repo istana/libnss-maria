@@ -2,11 +2,17 @@ cmake_minimum_required (VERSION 2.8)
 #set (PROJECT_SOURCE_DIR src)
 #set (PROJECT_BINARY_DIR src)
 
+
+
+#add_library(nss-maria SHARED
+#  "configuration/maria_config.c"
+#  "configuration/maria_config_helpers.c"
+#  "logger/maria_logger.c"
+#  "libnss-maria.c"
+#)
+
 add_library(nss-maria SHARED
-  "configuration/maria_config.c"
-  "configuration/maria_config_helpers.c"
-  "logger/maria_logger.c"
-  "libnss-maria.c"
+  "nss/passwd.c"
 )
 
 # The version number.
@@ -22,5 +28,5 @@ set_target_properties(nss-maria PROPERTIES
   SOVERSION ${nss-maria_VERSION_MAJOR}
 )
 
-add_executable(config_db_settings "util/config_db_settings.c")
-target_link_libraries(config_db_settings nss-maria config)
+#add_executable(config_db_settings "util/config_db_settings.c")
+#target_link_libraries(config_db_settings nss-maria config)
