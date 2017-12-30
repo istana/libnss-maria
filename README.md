@@ -91,3 +91,12 @@ I've chosen libconfig, because:
 ## Author + License
 
 Written by Ivan Stana, 2015-2017. Released under these licenses: GNU GPL v3, LGPL v3 and MIT. I appreciate new testers, developers and users.
+
+
+## Debug
+
+https://github.com/Snaipe/Criterion/issues/206
+
+Save this as criterion.gdb and start gdb with gdb ./yourtest -x criterion.gdb.
+
+Then, from the gdb prompt, just call run, list children with info inferiors, switch inferiors with inferior <n>, and debug just as usual.
