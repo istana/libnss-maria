@@ -1,3 +1,5 @@
+#ifndef MARIA_NSS_PASSWD_H
+#define MARIA_NSS_PASSWD_H
 #include <nss.h>
 #include <pwd.h>
 
@@ -37,3 +39,5 @@ enum nss_status _nss_mysql_getpwent_r (
   size_t buflen,
   int *errnop
 );
+
+#endif

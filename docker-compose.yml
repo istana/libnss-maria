@@ -1,7 +1,10 @@
 version: '3'
 services:
   sys:
-    image: ubuntu:rolling
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    image: phusion/baseimage
     stdin_open: true
     tty: true
     command: /bin/bash
