@@ -2,6 +2,9 @@ version: '3'
 services:
   sys:
     image: ubuntu:rolling
+    stdin_open: true
+    tty: true
+    command: /bin/bash
     links:
       - database
   database:
