@@ -8,7 +8,7 @@ add_library(nss-maria SHARED
   "logger/maria_logger.c"
   "nss/passwd.c"
 )
-
+target_link_libraries(nss-maria pthread)
 # soname (MAJOR) version must be 2 (probably relates to glibc version, i.e. 2.26).
 set (nss-maria_VERSION_MAJOR 2)
 set (nss-maria_VERSION_MINOR 1)
