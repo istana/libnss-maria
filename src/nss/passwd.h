@@ -33,11 +33,13 @@ enum nss_status _nss_maria_getpwuid_r (
   int *h_errnop
 );
 
-enum nss_status _nss_mysql_getpwent_r (
+enum nss_status _nss_maria_getpwent_r (
   struct passwd *result,
   char *buffer,
   size_t buflen,
   int *errnop
 );
+
+
 
 #endif
