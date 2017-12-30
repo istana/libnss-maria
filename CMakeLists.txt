@@ -26,11 +26,11 @@ message("CMAKE_CXX_FLAGS_DEBUG is ${CMAKE_CXX_FLAGS_DEBUG}")
 message("CMAKE_CXX_FLAGS_RELEASE is ${CMAKE_CXX_FLAGS_RELEASE}")
 
 add_subdirectory(src)
-#add_subdirectory(test)
+add_subdirectory(test)
 
 # this needs to be here and not in test/CMakeLists.txt
-#enable_testing()
-#add_test(config_helpers_test test/maria_config_helpers_test)
-#add_test(config_test test/maria_config_test)
-#add_test(logger_test test/maria_logger_test)
+enable_testing()
+add_test(config_helpers_test test/maria_config_helpers_test)
+add_test(config_test test/maria_config_test)
+add_test(logger_test test/maria_logger_test)
 #add_test(integration_nss_test test/integration/nss_module)
