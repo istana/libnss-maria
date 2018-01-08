@@ -90,7 +90,7 @@ I've chosen libconfig, because:
 
 ## Author + License
 
-Written by Ivan Stana, 2015-2018. Released under these licenses: GNU GPL v3. I appreciate new testers, developers and users.
+Written by Ivan Stana, 2015-2018. Released under GNU GPL v3. I appreciate new testers, developers and users.
 
 Copyright (C) 2015-2018  Ivan Stana
 
