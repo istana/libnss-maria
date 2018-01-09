@@ -84,7 +84,7 @@ I've chosen libconfig, because:
 - configuration - DONE
 - prepared statements (it's so hard) - WIP
 - more examples - NOT STARTED
-- log errors to systlog - NOT STARTED
+- log errors to syslog - DONE
 - optimize via macros - NOT STARTED
 - remove printf() and debugs && try it with valgrind - NOT STARTED
 
