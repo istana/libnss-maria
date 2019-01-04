@@ -1,7 +1,15 @@
 #!/bin/sh
-cd ..
-rm -rf Debug
-mkdir Debug
+REAL_PATH=`realpath -e -m $0`
+SCRIPTS_DIR=`dirname $REAL_PATH`
+
+echo SCRIPTS $SCRIPTS_DIR
+DEBUG_BUILD=${SCRIPTS_DIR}/../Debug
+
+rm -rf $DEBUG_BUILD
+mkdir $DEBUG_BUILD
 sleep 1
-docker exec -it libnssmaria_build_1 sh -c 'cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose'
-cd scripts
+
+docker exec -it libnss-maria_build_1 sh -c 'cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose'
+
+# go to scripts directory, ugly, but well..
+cd $SCRIPTS_DIR
