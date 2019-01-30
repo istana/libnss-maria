@@ -13,3 +13,10 @@ docker exec -it libnss-maria_build_1 sh -c 'cd /home/libnss-maria/Debug && cmake
 
 # go to scripts directory, ugly, but well..
 cd $SCRIPTS_DIR
+
+docker exec -it libnss-maria_sys_1 sh -c 'cp /home/libnss-maria/Debug/src/libnss-maria.so.2.1.0 /usr/lib/x86_64-linux-gnu/'
+docker exec -it libnss-maria_sys_1 sh -c 'cp /home/libnss-maria/examples/sos-sso/nsswitch.conf /etc'
+docker exec -it libnss-maria_sys_1 sh -c 'cp /home/libnss-maria/examples/sos-sso/libnss-maria.conf /etc'
+docker exec -it libnss-maria_sys_1 sh -c 'cp /home/libnss-maria/examples/sos-sso/libnss-maria-root.conf /etc'
+
+docker exec -it libnss-maria_sys_1 sh -c 'getent passwd katarina || echo "No user found"'

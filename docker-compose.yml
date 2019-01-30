@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile.run
     image: phusion/baseimage
+    volumes:
+      - .:/home/libnss-maria
     stdin_open: true
     tty: true
     command: /bin/bash
