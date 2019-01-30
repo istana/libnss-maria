@@ -2,6 +2,7 @@
 #define MARIA_NSS_PASSWD_H
 #include <nss.h>
 #include <pwd.h>
+#include <sys/types.h>
 
 /*
 struct passwd {
