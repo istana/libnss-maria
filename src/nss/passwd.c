@@ -5,6 +5,30 @@
 #include "passwd.h"
 #include "../logger/maria_logger.h"
 
+#ifdef NDEBUG
+  #define debug_print maria_log("debug disabled");
+#else
+  #define debug_print(msg) \
+        do { \
+          fprintf( \
+            stderr, \
+            "%s:%d:%s(): " msg "\n", \
+            __FILE__, \
+            __LINE__, \
+            __func__ \
+          ); \
+        } while (0); \
+        do { \
+          char message[1024] = ""; \
+          sprintf(message, \
+            "%s:%d:%s(): " msg "\n", \
+            __FILE__, \
+            __LINE__, \
+            __func__ \
+          ); \
+          maria_log(message); \
+        } while (0);
+#endif
 //pthread_key_t last_uid;
 //thread_local long long int last_uid = -1;
 
@@ -17,7 +41,7 @@ enum nss_status _nss_maria_getpwnam_r (
   int *errnop,
   int *h_errnop
 ) {
-  maria_log("_nss_maria_getpwnam_r called!");
+  debug_print("_nss_maria_getpwnam_r called!");
   /*
   char *name = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
