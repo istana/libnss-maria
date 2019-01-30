@@ -40,6 +40,4 @@ enum nss_status _nss_maria_getpwent_r (
   int *errnop
 );
 
-
-
 #endif

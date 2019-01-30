@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <pthread.h>
+//#include <pthread.h>
 #include "passwd.h"
 #include "../logger/maria_logger.h"
 
-pthread_key_t last_uid;
+//pthread_key_t last_uid;
 //thread_local long long int last_uid = -1;
 
 // shouldn't use malloc at all, but put everything from passwd into *buffer variable
@@ -17,6 +17,8 @@ enum nss_status _nss_maria_getpwnam_r (
   int *errnop,
   int *h_errnop
 ) {
+  maria_log("_nss_maria_getpwnam_r called!");
+  /*
   char *name = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
   char *gecos = malloc(sizeof(char) * 256);
@@ -36,10 +38,11 @@ enum nss_status _nss_maria_getpwnam_r (
   result_buf->pw_gecos = gecos;
   result_buf->pw_dir = dir;
   result_buf->pw_shell = shell;
+  */
 
   return NSS_STATUS_SUCCESS;
 }
-
+/*
 enum nss_status _nss_maria_getpwuid_r (
   uid_t uid,
   struct passwd *result_buf,
@@ -157,3 +160,4 @@ enum nss_status _nss_maria_endpwent (void) {
 enum nss_status _nss_maria_setpwent (void) {
   return NSS_STATUS_SUCCESS;
 }
+*/
