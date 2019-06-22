@@ -6,9 +6,9 @@ file(COPY "${CMAKE_SOURCE_DIR}/test/fixtures" DESTINATION ".")
 
 # cmake --help-policy CMP0015
 cmake_policy(SET CMP0015 NEW)
-# add vendorized "criterion" to path
-include_directories(vendor/criterion-v2.3.2/include)
-link_directories(vendor/criterion-v2.3.2/lib)
+
+include_directories(SYSTEM vendor/criterion-v2.3.3/include)
+link_directories(vendor/criterion-v2.3.3/lib)
 
 add_executable(maria_config_helpers_test "configuration/maria_config_helpers_test.c")
 add_executable(maria_config_test "configuration/maria_config_test.c")
