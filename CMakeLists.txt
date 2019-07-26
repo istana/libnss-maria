@@ -1,9 +1,10 @@
 cmake_minimum_required (VERSION 3.0)
 project (nss-maria)
 
+# -Wdeclaration-after-statement;
 set(ENV{COMPILE_OPTIONS} "\
 -pipe;-pedantic;-Wall;-Wextra;-Wshadow;-Wno-missing-field-initializers;\
--Wno-unused-parameter;-Wold-style-definition;-Wdeclaration-after-statement;\
+-Wno-unused-parameter;-Wold-style-definition;\
 -Wmissing-declarations;\
 -Wmissing-prototypes;-Wstrict-prototypes;-Wredundant-decls;-Wmissing-noreturn;\
 -Wpointer-arith;\
@@ -30,4 +31,4 @@ enable_testing()
 add_test(config_helpers_test test/maria_config_helpers_test)
 add_test(config_test test/maria_config_test)
 add_test(logger_test test/maria_logger_test)
-add_test(integration_nss_test test/integration/nss_module)
+#add_test(integration_nss_test test/integration/nss_module)
