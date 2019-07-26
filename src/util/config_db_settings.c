@@ -3,15 +3,17 @@
 #include "../configuration/maria_config.h"
 
 int main(int argc, char *argv[]) {
+  Maria_config *config;
+
   if(argc == 1) {
     puts("this program extracts database settings from config file and prints them");
     puts("please supply a path to config file");
     return 1;
   }
 
-  Maria_config config = maria_read_config_file(argv[1]);
+  config = maria_read_config_file(argv[1]);
 
-  printf("%s\n", config.dbname);
-  printf("%s\n", config.dbuser);
-  printf("%s\n", config.dbpass);
+  printf("%s\n", config->dbname);
+  printf("%s\n", config->dbuser);
+  printf("%s\n", config->dbpass);
 }
