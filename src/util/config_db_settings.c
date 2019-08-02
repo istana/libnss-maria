@@ -11,9 +11,13 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  config = maria_read_config_file(argv[1]);
+  config = malloc(sizeof(*config));
+  maria_read_config_file(config, argv[1]);
 
   printf("%s\n", config->dbname);
   printf("%s\n", config->dbuser);
   printf("%s\n", config->dbpass);
+
+  free(config);
+  return 0;
 }

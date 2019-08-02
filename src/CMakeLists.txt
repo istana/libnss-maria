@@ -6,7 +6,7 @@ add_library(nss-maria SHARED
   "configuration/maria_config.c"
   "configuration/maria_config_helpers.c"
   "logger/maria_logger.c"
-#  "nss/passwd.c"
+  "nss/passwd.c"
 )
 target_link_libraries(nss-maria mariadb)
 
