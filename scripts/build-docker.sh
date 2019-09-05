@@ -14,15 +14,17 @@ rm -rf $DEBUG_BUILD
 mkdir $DEBUG_BUILD
 sleep 1
 
-docker exec -it libnss-maria_build_1 sh -c 'cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose'
+docker exec -it libnss-maria_sys_1 sh -c 'cd /home/libnss-maria/Debug \
+&& cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose'
 
 # go to scripts directory, ugly, but well..
 cd $SCRIPTS_DIR
 
-dostuff 'cp /home/libnss-maria/Debug/src/libnss-maria.so.2.1.0 /usr/lib/x86_64-linux-gnu/libnss_maria.so'
-dostuff 'cp /home/libnss-maria/Debug/src/libnss-maria.so.2.1.0 /usr/lib/libnss_maria.so.2'
-dostuff 'cp /home/libnss-maria/Debug/src/libnss-maria.so.2.1.0 /usr/lib/libnss_maria.so.2.0.0'
-dostuff 'cp /home/libnss-maria/Debug/src/libnss-maria.so.2.1.0 /usr/lib/libnss_maria.so.2.1.0'
+# /lib is symbolic link to /usr/lib
+dostuff 'cp /home/libnss-maria/Debug/src/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2.0.0'
+dostuff 'ln -s /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so'
+dostuff 'ln -s /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2'
+dostuff 'chmod 644 /lib/libnss_maria.so.2.0.0'
 
 dostuff 'cp /home/libnss-maria/examples/sos-sso/nsswitch.conf /etc'
 dostuff 'cp /home/libnss-maria/examples/sos-sso/libnss-maria.conf /etc'

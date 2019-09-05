@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.run
-    image: phusion/baseimage
+    image: debian:buster
     volumes:
       - .:/home/libnss-maria
     stdin_open: true
@@ -16,13 +16,3 @@ services:
     image: library/mariadb
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD='true'
-  build:
-    build:
-      context: .
-      dockerfile: Dockerfile.build
-    image: ubuntu:rolling
-    volumes:
-      - .:/home/libnss-maria
-    stdin_open: true
-    tty: true
-    command: /bin/bash
