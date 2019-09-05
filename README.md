@@ -96,9 +96,9 @@ I've chosen libconfig, because:
 
 ## Author + License
 
-Written by Ivan Stana, 2015-2018. Released under GNU GPL v3. I appreciate new testers, developers and users.
+Written by Ivan Stana, 2015-2019. Released under GNU GPL v3 and later.
 
-Copyright (C) 2015-2018  Ivan Stana
+Copyright (C) 2015-2019  Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -112,6 +112,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+I appreciate new testers, developers and users.
 
 ## Debug
 
