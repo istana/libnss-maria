@@ -1,0 +1,9 @@
+on Debian 9, old libnss_mysql works like this:
+
+/usr/lib/libnss_mysql.so.2
+/usr/lib/libnss_mysql.so.2.0.0
+/usr/lib/libnss_mysql.so.2.1.0
+
+lrwxrwxrwx  1 root root   21 Aug 29  2017 libnss_mysql.so.2 -> libnss_mysql.so.2.0.0
+-rwxr-xr-x  1 root root 137K Aug 29  2017 libnss_mysql.so.2.0.0
+lrwxrwxrwx  1 root root   21 Aug 29  2017 libnss_mysql.so.2.1.0 -> libnss_mysql.so.2.0.0
