@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <mariadb/mysql.h>
+#include <mysql.h>
 #include "passwd.h"
 #include "../debug.h"
 #include "../configuration/maria_config.h"
