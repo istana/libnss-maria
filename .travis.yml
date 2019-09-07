@@ -1,20 +1,13 @@
 dist: disco
+sudo: required
 language: c
 compiler:
   - gcc
   - clang
-addons:
-  apt:
-    packages:
-      - cmake
-      - libssl-dev
-      - libc6-dev
-      - zlib1g-dev
-      - libconfig-dev
-      - libmysqlclient-dev
-      - mysql-client
 script:
   - mkdir Release
   - cd Release
   - cmake -D CMAKE_BUILD_TYPE=Release ..
   - make && ctest --verbose
+before_install:
+  - sudo apt-get install libmysqlclient-dev cmake libssl-dev libc6-dev zlib1g-dev libconfig-dev libmysqlclient-dev
