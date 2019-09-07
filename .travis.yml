@@ -12,6 +12,7 @@ addons:
       - zlib1g-dev
       - libconfig-dev
       - libmysqlclient-dev
+      - mysql-client
 script:
   - mkdir Release
   - cd Release
