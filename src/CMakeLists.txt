@@ -23,7 +23,7 @@ set_target_properties(nss_maria PROPERTIES
   SOVERSION ${nss_maria_VERSION_MAJOR}
 )
 
-include_directories(${MARMYSQL_INCLUDE_DIRS})
+include_directories(SYSTEM ${MARMYSQL_INCLUDE_DIRS})
 target_link_libraries(nss_maria config ${MARMYSQL_LDFLAGS})
 
 add_executable(config_db_settings "util/config_db_settings.c")
