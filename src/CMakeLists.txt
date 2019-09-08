@@ -11,6 +11,8 @@ add_library(nss_maria SHARED
   "configuration/maria_config_helpers.c"
   "logger/maria_logger.c"
   "nss/passwd.c"
+  "nss/group.c"
+  "nss/shadow.c"
 )
 
 # soname (MAJOR) version must be 2 (probably relates to glibc version, i.e. 2.26).

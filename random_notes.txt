@@ -7,3 +7,36 @@ on Debian 9, old libnss_mysql works like this:
 lrwxrwxrwx  1 root root   21 Aug 29  2017 libnss_mysql.so.2 -> libnss_mysql.so.2.0.0
 -rwxr-xr-x  1 root root 137K Aug 29  2017 libnss_mysql.so.2.0.0
 lrwxrwxrwx  1 root root   21 Aug 29  2017 libnss_mysql.so.2.1.0 -> libnss_mysql.so.2.0.0
+
+/*
+struct passwd {
+  char    *pw_name;      // username
+  char    *pw_passwd;    // user password
+  uid_t    pw_uid;       // user ID
+  gid_t    pw_gid;       // group ID
+  char    *pw_gecos;     // user information
+  char    *pw_dir;       // home directory
+  char    *pw_shell;     // shell program
+};
+*/
+
+enum nss_status
+{
+  NSS_STATUS_TRYAGAIN = -2,
+  NSS_STATUS_UNAVAIL,
+  NSS_STATUS_NOTFOUND,
+  NSS_STATUS_SUCCESS,
+  NSS_STATUS_RETURN
+};
+
+#define LOG_MYSQL_ERROR(message,mysql_handle) puts(message);\
+printf("server information: %s\n", mysql_get_server_info(mysql_handle));\
+printf("error number: %u, error: %s\n", mysql_errno(mysql_handle), mysql_error(mysql_handle));\
+return NSS_STATUS_UNAVAIL;
+
+#define LOG_MYSQL_STATEMENT_ERROR(message,stmt,handle) puts(message);\
+printf("server information: %s\n", mysql_get_server_info(mysql_handle));\
+printf("error number: %u, error: %s\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));\
+return NSS_STATUS_UNAVAIL;
+
+#define LOG_ERROR(message) puts(message); return NSS_STATUS_UNAVAIL;

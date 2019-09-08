@@ -1,20 +1,14 @@
 #ifndef MARIA_NSS_PASSWD_H
 #define MARIA_NSS_PASSWD_H
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <mysql.h>
 #include <nss.h>
 #include <pwd.h>
 #include <sys/types.h>
-
-/*
-struct passwd {
-  char    *pw_name;      // username
-  char    *pw_passwd;    // user password
-  uid_t    pw_uid;       // user ID
-  gid_t    pw_gid;       // group ID
-  char    *pw_gecos;     // user information
-  char    *pw_dir;       // home directory
-  char    *pw_shell;     // shell program
-};
-*/
+#include "../logger/maria_logger.h"
+#include "../configuration/maria_config.h"
 
 enum nss_status _nss_maria_getpwnam_r (
   const char *name,

@@ -1,11 +1,5 @@
 #define STRING_SIZE 255
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <mysql.h>
-#include "passwd.h"
-#include "../debug.h"
-#include "../configuration/maria_config.h"
+#include "./passwd.h"
 
 /*
 MYSQL mariadb_connect(Maria_config settings) {
@@ -93,10 +87,6 @@ enum nss_status _nss_maria_getpwnam_r (
   char *gecos = malloc(sizeof(char) * 256);
   char *homedir = malloc(sizeof(char) * 256);
   char *shell = malloc(sizeof(char) * 256);
-
-  char *msg;
-  sprintf(msg, "name: %s", name);
-  maria_log(msg);
 
   strncpy(name, row[0], 255);
   strncpy(password, row[1], 255);
