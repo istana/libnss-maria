@@ -39,6 +39,16 @@ enum nss_status _nss_maria_getpwnam_r (
   debug_print("_nss_maria_getpwnam_r called!");
   Maria_config *settings = malloc(sizeof(*settings));
   maria_read_config_file(settings, "/etc/libnss-maria.conf");
+  debug_print_var("_nss_maria_getpwnam_r database settings-dbhost:%s;dbname:%s;\
+dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
+    settings->dbhost,
+    settings->dbname,
+    settings->dbuser,
+    settings->dbpass,
+    settings->dbport,
+    settings->getpwnam
+  );
+
   const char *query = "SELECT name FROM users";
 
   MYSQL *conn = mysql_init(NULL);
@@ -52,15 +62,14 @@ enum nss_status _nss_maria_getpwnam_r (
     "",
     0
   ) == NULL) {
-    maria_log("cannot connect to the database");
+    debug_print("_nss_maria_getpwnam_r cannot connect to the database");
 
     free(settings);
     return NSS_STATUS_TRYAGAIN;
   }
 
   if (mysql_real_query(conn, query, strlen(query)) != 0) {
-    maria_log("cannot execute getpwnam mariadb query");
-
+    debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
     free(settings);
     return NSS_STATUS_UNAVAIL;
   }
@@ -68,8 +77,7 @@ enum nss_status _nss_maria_getpwnam_r (
   MYSQL_RES *result = mysql_store_result(conn);
 
   if(result == NULL) {
-    maria_log("cannot get result from getpwnam mariadb query");
-
+    debug_print("_nss_maria_getpwnam_r cannot get result from query");
     free(settings);
     return NSS_STATUS_UNAVAIL;
   }
@@ -77,6 +85,7 @@ enum nss_status _nss_maria_getpwnam_r (
   MYSQL_ROW row = mysql_fetch_row(result);
 
   if (row == NULL) {
+    debug_print("_nss_maria_getpwnam_r no result found");
     free(settings);
     mysql_free_result(result);
     return NSS_STATUS_NOTFOUND;
