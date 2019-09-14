@@ -40,4 +40,8 @@ void maria_log(const char *message, ...);
     } while (0);
 #endif
 
+#define log_mysql_error(mysql_handle) \
+  maria_log("server information: %s\n", mysql_get_server_info(mysql_handle));\
+  maria_log("error number: %u, error: %s\n", mysql_errno(mysql_handle), mysql_error(mysql_handle));
+
 #endif

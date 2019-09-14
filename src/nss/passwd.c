@@ -49,9 +49,14 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->getpwnam
   );
 
-  const char *query = "SELECT name FROM users";
+  const char *query = "SELECT username FROM users";
 
   MYSQL *conn = mysql_init(NULL);
+  if(!conn) {
+    debug_print("mysql init failed, out of memory");
+    return NSS_STATUS_UNAVAIL;
+  }
+
   if(mysql_real_connect(
     conn,
     settings->dbhost,
@@ -59,7 +64,7 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->dbpass,
     settings->dbname,
     settings->dbport,
-    "",
+    NULL,
     0
   ) == NULL) {
     debug_print("_nss_maria_getpwnam_r cannot connect to the database");
@@ -70,6 +75,7 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
 
   if (mysql_real_query(conn, query, strlen(query)) != 0) {
     debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
+    log_mysql_error(conn);
     free(settings);
     return NSS_STATUS_UNAVAIL;
   }
@@ -90,6 +96,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     mysql_free_result(result);
     return NSS_STATUS_NOTFOUND;
   }
+
+  debug_print("wohoohooo");
 
   char *name = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
