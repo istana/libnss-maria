@@ -44,4 +44,8 @@ void maria_log(const char *message, ...);
   maria_log("server information: %s\n", mysql_get_server_info(mysql_handle));\
   maria_log("error number: %u, error: %s\n", mysql_errno(mysql_handle), mysql_error(mysql_handle));
 
+#define log_mysql_stmt_error(mysql, stmt) \
+  maria_log("server information: %s\n", mysql_get_server_info(mysql));\
+  maria_log("error number: %u, error: %s\n", mysql_errno(mysql), mysql_error(mysql));\
+  maria_log("error number: %u, error: %s\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
 #endif
