@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if ! [ -x "$(command -v realpath)" ]; then
+  echo 'Error: realpath is not installed or not executable. Install it with coreutils package.' >&2
+  exit 1
+fi
+
 function dostuff {
   vagrant ssh -c "$1"
 }
@@ -20,7 +25,7 @@ dostuff 'cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. \
 # go to scripts directory, ugly, but well..
 cd $SCRIPTS_DIR &&
 
-dostuff 'sudo rm /lib/libnss_maria.so*' &&
+dostuff 'sudo rm /lib/libnss_maria.so*'
 dostuff 'sudo cp /home/libnss-maria/Debug/src/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2.0.0' &&
 dostuff 'sudo ln -s /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so' &&
 dostuff 'sudo ln -s /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2' &&
