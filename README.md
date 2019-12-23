@@ -6,10 +6,27 @@ Replacement for old libnss-mysql as naming service library in Linux.
 
 You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database.
 
+## Local Setup
+
+`brew install coreutils`
+
 ## Build && Test in Docker
 
 `docker-compose up` <-- this starts docker containers for build and test at once  
 `./scripts/build-docker.sh` <-- compiles a debug build and the result is in `./Debug/src` directory on host and in build container
+
+## Build && Test in Vagrant
+
+```bash
+brew cask install vagrant
+brew cask install virtualbox
+vagrant plugin install vagrant-vbguest
+
+vagrant up
+./scripts/build-vagrant.sh
+```
+
+The result is in `./Debug/src` directory.
 
 ## Build && Test
 
