@@ -30,11 +30,15 @@ maria_user="getent passwd katarina"
 maria_user_listing="getent passwd | grep katarina"
 maria_user_id="getent passwd 8000"
 maria_user_shadow_name="getent shadow katarina"
+maria_group="getent group clan"
+maria_group_id="getent group 9000"
 
 run_test "${existing_user}"
 run_test "${maria_user}"
 run_test "${maria_user_listing}"
 run_test "${maria_user_id}"
 run_test "${maria_user_shadow_name}"
+run_test "${maria_group}"
+run_test "${maria_group_id}"
 
 exit 0;

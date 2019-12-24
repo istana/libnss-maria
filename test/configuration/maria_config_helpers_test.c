@@ -67,10 +67,10 @@ Test(maria_config_helpers, initialize_config_getgrnam) {
   cr_expect_str_eq(config.getgrnam, "");
 }
 
-Test(maria_config_helpers, initialize_config_getgrid) {
+Test(maria_config_helpers, initialize_config_getgrgid) {
   Maria_config config;
   maria_initialize_config(&config);
-  cr_expect_str_eq(config.getgrid, "");
+  cr_expect_str_eq(config.getgrgid, "");
 }
 
 Test(maria_config_helpers, initialize_config_getgrent) {
@@ -166,10 +166,10 @@ Test(maria_config_helpers, maria_set_config_from_file_getgrnam) {
   cr_expect_str_eq(config.getgrnam, "getgrnam test");
 }
 
-Test(maria_config_helpers, maria_set_config_from_file_getgrid) {
+Test(maria_config_helpers, maria_set_config_from_file_getgrgid) {
   Maria_config config;
   maria_set_config_from_file("./test/fixtures/libnss-maria.conf", &config);
-  cr_expect_str_eq(config.getgrid, "getgrid test");
+  cr_expect_str_eq(config.getgrgid, "getgrgid test");
 }
 
 Test(maria_config_helpers, maria_set_config_from_file_getgrent) {

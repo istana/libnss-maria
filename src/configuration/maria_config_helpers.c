@@ -9,7 +9,7 @@ void maria_initialize_config(Maria_config *config) {
 
   config->getpwnam[0] = config->getpwuid[0] = config->getpwent[0] = '\0';
   config->getspnam[0] = config->getspent[0] = '\0';
-  config->getgrnam[0] = config->getgrid[0] = config->getgrent[0] = '\0';
+  config->getgrnam[0] = config->getgrgid[0] = config->getgrent[0] = '\0';
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
 }
 
@@ -58,7 +58,7 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       maria_load_string_setting(libconfig_object, config->getspent, "nss_queries.getspent");
 
       maria_load_string_setting(libconfig_object, config->getgrnam, "nss_queries.getgrnam");
-      maria_load_string_setting(libconfig_object, config->getgrid, "nss_queries.getgrid");
+      maria_load_string_setting(libconfig_object, config->getgrgid, "nss_queries.getgrgid");
       maria_load_string_setting(libconfig_object, config->getgrent, "nss_queries.getgrent");
 
       maria_load_string_setting(libconfig_object, config->memsbygid, "nss_queries.memsbygid");

@@ -30,7 +30,7 @@ typedef struct Maria_configs {
   // get group by name
   char getgrnam[8192];
   // get group by id
-  char getgrid[8192];
+  char getgrgid[8192];
   // get groups
   char getgrent[8192];
 
