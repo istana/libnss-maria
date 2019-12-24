@@ -57,11 +57,10 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return NSS_STATUS_UNAVAIL;
   }
 
-  const char *query = "SELECT username FROM users";
-
   MYSQL *conn = mysql_init(NULL);
   if(!conn) {
     debug_print("mysql init failed, out of memory");
+    free(settings);
     return NSS_STATUS_UNAVAIL;
   }
 
@@ -76,7 +75,6 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     0
   ) == NULL) {
     debug_print("_nss_maria_getpwnam_r cannot connect to the database");
-
     free(settings);
     return NSS_STATUS_TRYAGAIN;
   }
@@ -90,6 +88,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
     log_mysql_error(conn);
     free(settings);
+    free(name_sanitized);
+    free(final_query);
     return NSS_STATUS_UNAVAIL;
   }
 
@@ -98,6 +98,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   if(result == NULL) {
     debug_print("_nss_maria_getpwnam_r cannot get result from query");
     free(settings);
+    free(name_sanitized);
+    free(final_query);
     return NSS_STATUS_UNAVAIL;
   }
 
@@ -106,11 +108,11 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   if (row == NULL) {
     debug_print("_nss_maria_getpwnam_r no result found");
     free(settings);
+    free(name_sanitized);
+    free(final_query);
     mysql_free_result(result);
     return NSS_STATUS_NOTFOUND;
   }
-
-  debug_print("wohoohooo");
 
   char *xname = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
@@ -133,6 +135,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   result_buf->pw_shell = shell;
 
   free(settings);
+  free(name_sanitized);
+  free(final_query);
   mysql_free_result(result);
   return NSS_STATUS_SUCCESS;
 }

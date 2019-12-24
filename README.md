@@ -105,17 +105,18 @@ I've chosen libconfig, because:
 
 - cmake build setup - DONE
 - configuration - DONE
-- prepared statements (it's so hard) - WIP
-- more examples - NOT STARTED
+- ~prepared statements (it's so hard) - STRETCH GOAL~
+- string with real_escape - WIP
+- more examples - DONE
 - log errors to syslog - DONE
 - optimize via macros - NOT STARTED
-- remove printf() and debugs && try it with valgrind - NOT STARTED
+- try it with valgrind - NOT STARTED
 
 ## Author + License
 
-Written by Ivan Stana, 2015-2019. Released under GNU GPL v3 and later.
+Written by Ivan Stana, 2015-2020. Released under GNU GPL v3 and later.
 
-Copyright (C) 2015-2019  Ivan Stana
+Copyright (C) 2015-2020  Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

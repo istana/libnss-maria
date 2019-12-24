@@ -14,4 +14,6 @@ GRANT SELECT (`username`,`password`,`lstchg`,`min`,`max`,`warn`,`inact`,`expire`
   ON `sos-sso-production`.`users` TO 'nss-maria-root'@'localhost';
 
 
+GRANT ALL PRIVILEGES ON `sos-sso-production`.* TO 'nss-maria-user'@'localhost';
+
 FLUSH PRIVILEGES;
