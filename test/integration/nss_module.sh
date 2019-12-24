@@ -18,6 +18,8 @@ echo -e "\nSetup done...\n"
 existing_user="getent passwd root"
 maria_user="getent passwd katarina"
 maria_user_listing="getent passwd | grep katarina"
+maria_user_id="getent passwd 8000"
+maria_user_shadow_name="getent shadow katarina"
 
 run_command "${existing_user}"
 
@@ -47,8 +49,6 @@ else
   echo "$maria_user_listing TEST SUCCESS"
 fi
 
-maria_user_id="getent passwd 8000"
-
 echo -e "\n"
 
 run_command "${maria_user_id}"
@@ -57,6 +57,16 @@ if [ "$?" -gt 0 ]; then
   echo "$maria_user_id TEST FAIL"
 else
   echo "$maria_user_id TEST SUCCESS"
+fi
+
+echo -e "\n"
+
+run_command "${maria_user_shadow_name}"
+
+if [ "$?" -gt 0 ]; then
+  echo "$maria_user_shadow_name TEST FAIL"
+else
+  echo "$maria_user_shadow_name TEST SUCCESS"
 fi
 
 exit 0;
