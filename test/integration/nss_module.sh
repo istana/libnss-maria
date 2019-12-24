@@ -4,6 +4,16 @@ function run_command {
   vagrant ssh -c "$1"
 }
 
+function run_test {
+  run_command "$1"
+
+  if [ "$?" -gt 0 ]; then
+    echo "$1 TEST FAIL"
+  else
+    echo "$1 TEST SUCCESS"
+  fi 
+}
+
 run_command "cat /home/libnss-maria/examples/sos-sso/sql/1-db-and-users.sql | \
 sudo mysql -u root" &&
 run_command "cat /home/libnss-maria/examples/sos-sso/sql/2-data-structures.sql | \
@@ -21,52 +31,10 @@ maria_user_listing="getent passwd | grep katarina"
 maria_user_id="getent passwd 8000"
 maria_user_shadow_name="getent shadow katarina"
 
-run_command "${existing_user}"
-
-if [ "$?" -gt 0 ]; then
-  echo "sanity check: $existing_user TEST FAIL"
-else
-  echo "sanity check: $existing_user TEST SUCCESS"
-fi
-
-echo -e "\n"
-
-run_command "${maria_user}"
-
-if [ "$?" -gt 0 ]; then
-  echo "$maria_user TEST FAIL"
-else
-  echo "$maria_user TEST SUCCESS"
-fi
-
-echo -e "\n"
-
-run_command "${maria_user_listing}"
-
-if [ "$?" -gt 0 ]; then
-  echo "$maria_user_listing TEST FAIL"
-else
-  echo "$maria_user_listing TEST SUCCESS"
-fi
-
-echo -e "\n"
-
-run_command "${maria_user_id}"
-
-if [ "$?" -gt 0 ]; then
-  echo "$maria_user_id TEST FAIL"
-else
-  echo "$maria_user_id TEST SUCCESS"
-fi
-
-echo -e "\n"
-
-run_command "${maria_user_shadow_name}"
-
-if [ "$?" -gt 0 ]; then
-  echo "$maria_user_shadow_name TEST FAIL"
-else
-  echo "$maria_user_shadow_name TEST SUCCESS"
-fi
+run_test "${existing_user}"
+run_test "${maria_user}"
+run_test "${maria_user_listing}"
+run_test "${maria_user_id}"
+run_test "${maria_user_shadow_name}"
 
 exit 0;
