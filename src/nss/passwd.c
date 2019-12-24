@@ -140,7 +140,7 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   mysql_free_result(result);
   return NSS_STATUS_SUCCESS;
 }
-/*
+
 enum nss_status _nss_maria_getpwuid_r (
   uid_t uid,
   struct passwd *result_buf,
@@ -149,29 +149,117 @@ enum nss_status _nss_maria_getpwuid_r (
   int *errnop,
   int *h_errnop
 ) {
-  char *name = malloc(sizeof(char) * 256);
+  debug_print("_nss_maria_getpwuid_r called!");
+  Maria_config *settings = malloc(sizeof(*settings));
+  maria_read_config_file(settings, "/etc/libnss-maria.conf");
+  debug_print_var("_nss_maria_getpwuid_r database settings-dbhost:%s;dbname:%s;\
+dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
+    settings->dbhost,
+    settings->dbname,
+    settings->dbuser,
+    settings->dbpass,
+    settings->dbport,
+    settings->getpwnam
+  );
+
+  const char *placeholder = memchr(settings->getpwuid, '?', strlen(settings->getpwuid));
+
+  if(!placeholder) {
+    debug_print("_nss_maria_getpwuid_r placeholder not found in database query");
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  MYSQL *conn = mysql_init(NULL);
+  if(!conn) {
+    debug_print("mysql init failed, out of memory");
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if(mysql_real_connect(
+    conn,
+    settings->dbhost,
+    settings->dbuser,
+    settings->dbpass,
+    settings->dbname,
+    settings->dbport,
+    NULL,
+    0
+  ) == NULL) {
+    debug_print("_nss_maria_getpwuid_r cannot connect to the database");
+    free(settings);
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+
+  // TODO: should return error when longer than entered
+  char uid_as_string[256];
+  snprintf(uid_as_string, 255, "%d", uid);
+
+  char *name_sanitized = malloc((sizeof(char) * strlen(uid_as_string) * 2) + 1);
+  mysql_real_escape_string(conn, name_sanitized, uid_as_string, strlen(uid_as_string));
+  char *final_query = str_replace(settings->getpwuid, "?", name_sanitized);
+  debug_print_var(final_query);
+
+  if (mysql_real_query(conn, final_query, strlen(final_query)) != 0) {
+    debug_print("_nss_maria_getpwuid_r cannot execute getpwnam mariadb query");
+    log_mysql_error(conn);
+    free(settings);
+    free(name_sanitized);
+    free(final_query);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  MYSQL_RES *result = mysql_store_result(conn);
+
+  if(result == NULL) {
+    debug_print("_nss_maria_getpwuid_r cannot get result from query");
+    free(settings);
+    free(name_sanitized);
+    free(final_query);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  MYSQL_ROW row = mysql_fetch_row(result);
+
+  if (row == NULL) {
+    debug_print("_nss_maria_getpwuid_r no result found");
+    free(settings);
+    free(name_sanitized);
+    free(final_query);
+    mysql_free_result(result);
+    return NSS_STATUS_NOTFOUND;
+  }
+
+  char *xname = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
   char *gecos = malloc(sizeof(char) * 256);
-  char *dir = malloc(sizeof(char) * 256);
+  char *homedir = malloc(sizeof(char) * 256);
   char *shell = malloc(sizeof(char) * 256);
 
-  strncpy(name, "testuser", 255);
-  strncpy(password, "x", 255);
-  strncpy(gecos, "Unprivileged User UID,", 255);
-  strncpy(dir, "/var/empty,", 255);
-  strncpy(shell, "/usr/bin/false", 255);
+  strncpy(xname, row[0], 255);
+  strncpy(password, row[1], 255);
+  strncpy(gecos, row[4], 255);
+  strncpy(homedir, row[5], 255);
+  strncpy(shell, row[6], 255);
 
-  result_buf->pw_name = name;
+  result_buf->pw_name = xname;
   result_buf->pw_passwd = password;
-  result_buf->pw_uid = 12345;
-  result_buf->pw_gid = 6789;
+  result_buf->pw_uid = strtoul(row[2], NULL, 10);
+  result_buf->pw_gid = strtoul(row[3], NULL, 10);
   result_buf->pw_gecos = gecos;
-  result_buf->pw_dir = dir;
+  result_buf->pw_dir = homedir;
   result_buf->pw_shell = shell;
 
+  free(settings);
+  free(name_sanitized);
+  free(final_query);
+  mysql_free_result(result);
   return NSS_STATUS_SUCCESS;
 }
 
+/*
 enum nss_status _nss_maria_getpwent_r (
   struct passwd *result_buf,
   char *buffer,

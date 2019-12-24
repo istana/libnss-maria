@@ -37,4 +37,5 @@ if [[ $? -eq 0 && -z $COMPILE_ONLY ]]; then
   dostuff 'sudo cp /home/libnss-maria/examples/sos-sso/libnss-maria-root.conf /etc' &&
 
   dostuff 'getent passwd katarina || echo "No user found"'
+  dostuff 'getent passwd 8000 || echo "No user found"'
 fi

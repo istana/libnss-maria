@@ -47,4 +47,16 @@ else
   echo "$maria_user_listing TEST SUCCESS"
 fi
 
+maria_user_id="getent passwd 8000"
+
+echo -e "\n"
+
+run_command "${maria_user_id}"
+
+if [ "$?" -gt 0 ]; then
+  echo "$maria_user_id TEST FAIL"
+else
+  echo "$maria_user_id TEST SUCCESS"
+fi
+
 exit 0;
