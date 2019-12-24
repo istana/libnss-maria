@@ -29,14 +29,53 @@ enum nss_status
   NSS_STATUS_RETURN
 };
 
-#define LOG_MYSQL_ERROR(message,mysql_handle) puts(message);\
-printf("server information: %s\n", mysql_get_server_info(mysql_handle));\
-printf("error number: %u, error: %s\n", mysql_errno(mysql_handle), mysql_error(mysql_handle));\
-return NSS_STATUS_UNAVAIL;
 
-#define LOG_MYSQL_STATEMENT_ERROR(message,stmt,handle) puts(message);\
-printf("server information: %s\n", mysql_get_server_info(mysql_handle));\
-printf("error number: %u, error: %s\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));\
-return NSS_STATUS_UNAVAIL;
 
-#define LOG_ERROR(message) puts(message); return NSS_STATUS_UNAVAIL;
+
+  MYSQL_STMT *stmt_conn = mysql_stmt_init(conn);
+
+  if(!stmt_conn) {
+    debug_print("mysql prepared statements init failed, out of memory");
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if(mysql_stmt_prepare(stmt_conn, query, strlen(query))) {
+    debug_print("mysql cannot prepare query for prepared statements");
+    log_mysql_stmt_error(conn, stmt_conn);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if(mysql_stmt_param_count(stmt_conn) != 1) {
+    debug_print("expected one parameter marker (?) in the query");
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  MYSQL_BIND bind[1];
+  memset(bind, 0, sizeof(bind));
+
+  bind[0].buffer_type = MYSQL_TYPE_STRING;
+  bind[0].buffer = name;
+  bind[0].buffer_length = strlen(name);
+  bind[0].is_null = 0;
+  //bind[0].length = strlen(name);
+
+  if (mysql_stmt_bind_result(stmt_conn, bind)) {
+    debug_print("cannot bind result");
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if (mysql_stmt_execute(stmt_conn) != 0) {
+    debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
+    log_mysql_error(conn);
+    log_mysql_stmt_error(conn, stmt_conn);
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if (mysql_stmt_store_result(stmt_conn) != 0) {
+    debug_print("_nss_maria_getpwnam_r cannot store getpwnam mariadb query");
+    log_mysql_error(conn);
+    log_mysql_stmt_error(conn, stmt_conn);
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }

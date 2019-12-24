@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include "../logger/maria_logger.h"
 #include "../configuration/maria_config.h"
+#include "../str_replace.h"
 
 enum nss_status _nss_maria_getpwnam_r (
   const char *name,

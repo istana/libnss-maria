@@ -29,7 +29,7 @@ void maria_db_disconnect(MYSQL *connection) {
 
 // shouldn't use malloc at all, but put everything from passwd into *buffer variable
 enum nss_status _nss_maria_getpwnam_r (
-  const char *xname,
+  const char *name,
   struct passwd *result_buf,
   char *buffer,
   size_t buflen,
@@ -48,6 +48,14 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->dbport,
     settings->getpwnam
   );
+
+  const char *placeholder = memchr(settings->getpwnam, '?', strlen(settings->getpwnam));
+
+  if(!placeholder) {
+    debug_print("_nss_maria_getpwnam_r placeholder not found in database query");
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
 
   const char *query = "SELECT username FROM users";
 
@@ -73,7 +81,12 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return NSS_STATUS_TRYAGAIN;
   }
 
-  if (mysql_real_query(conn, query, strlen(query)) != 0) {
+  char *name_sanitized = malloc((sizeof(char) * strlen(name) * 2) + 1);
+  mysql_real_escape_string(conn, name_sanitized, name, strlen(name));
+  char *final_query = str_replace(settings->getpwnam, "?", name_sanitized);
+  debug_print_var(final_query);
+
+  if (mysql_real_query(conn, final_query, strlen(final_query)) != 0) {
     debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
     log_mysql_error(conn);
     free(settings);
@@ -99,19 +112,19 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
 
   debug_print("wohoohooo");
 
-  char *name = malloc(sizeof(char) * 256);
+  char *xname = malloc(sizeof(char) * 256);
   char *password = malloc(sizeof(char) * 256);
   char *gecos = malloc(sizeof(char) * 256);
   char *homedir = malloc(sizeof(char) * 256);
   char *shell = malloc(sizeof(char) * 256);
 
-  strncpy(name, row[0], 255);
+  strncpy(xname, row[0], 255);
   strncpy(password, row[1], 255);
   strncpy(gecos, row[4], 255);
   strncpy(homedir, row[5], 255);
   strncpy(shell, row[6], 255);
 
-  result_buf->pw_name = name;
+  result_buf->pw_name = xname;
   result_buf->pw_passwd = password;
   result_buf->pw_uid = strtoul(row[2], NULL, 10);
   result_buf->pw_gid = strtoul(row[3], NULL, 10);
