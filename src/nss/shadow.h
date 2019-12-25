@@ -10,6 +10,8 @@
 #include "../logger/maria_logger.h"
 #include "../configuration/maria_config.h"
 #include "../str_replace.h"
+#include "../mariadb/query.h"
+#include "./result_handler.h"
 
 enum nss_status _nss_maria_setspent (void);
 enum nss_status _nss_maria_endspent (void);

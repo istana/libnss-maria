@@ -1,9 +1,8 @@
 #include "./passwd.h"
 
-// shouldn't use malloc at all, but put everything from passwd into *buffer variable
 enum nss_status _nss_maria_getpwnam_r (
   const char *name,
-  struct passwd *result_buf,
+  struct passwd *passwd_result,
   char *buffer,
   size_t buflen,
   int *errnop,
@@ -52,35 +51,17 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return row_status;
   }
 
-  char *xname = malloc(sizeof(char) * 256);
-  char *password = malloc(sizeof(char) * 256);
-  char *gecos = malloc(sizeof(char) * 256);
-  char *homedir = malloc(sizeof(char) * 256);
-  char *shell = malloc(sizeof(char) * 256);
-
-  strncpy(xname, row[0], 255);
-  strncpy(password, row[1], 255);
-  strncpy(gecos, row[4], 255);
-  strncpy(homedir, row[5], 255);
-  strncpy(shell, row[6], 255);
-
-  result_buf->pw_name = xname;
-  result_buf->pw_passwd = password;
-  result_buf->pw_uid = strtoul(row[2], NULL, 10);
-  result_buf->pw_gid = strtoul(row[3], NULL, 10);
-  result_buf->pw_gecos = gecos;
-  result_buf->pw_dir = homedir;
-  result_buf->pw_shell = shell;
+  enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
 
   free(settings);
   mysql_free_result(result);
   mysql_close(conn);
-  return NSS_STATUS_SUCCESS;
+  return result_status;
 }
 
 enum nss_status _nss_maria_getpwuid_r (
   uid_t uid,
-  struct passwd *result_buf,
+  struct passwd *passwd_result,
   char *buffer,
   size_t buflen,
   int *errnop,
@@ -134,30 +115,12 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return row_status;
   }
 
-  char *xname = malloc(sizeof(char) * 256);
-  char *password = malloc(sizeof(char) * 256);
-  char *gecos = malloc(sizeof(char) * 256);
-  char *homedir = malloc(sizeof(char) * 256);
-  char *shell = malloc(sizeof(char) * 256);
-
-  strncpy(xname, row[0], 255);
-  strncpy(password, row[1], 255);
-  strncpy(gecos, row[4], 255);
-  strncpy(homedir, row[5], 255);
-  strncpy(shell, row[6], 255);
-
-  result_buf->pw_name = xname;
-  result_buf->pw_passwd = password;
-  result_buf->pw_uid = strtoul(row[2], NULL, 10);
-  result_buf->pw_gid = strtoul(row[3], NULL, 10);
-  result_buf->pw_gecos = gecos;
-  result_buf->pw_dir = homedir;
-  result_buf->pw_shell = shell;
+  enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
 
   free(settings);
   mysql_free_result(result);
   mysql_close(conn);
-  return NSS_STATUS_SUCCESS;
+  return result_status;
 }
 
 /*

@@ -37,6 +37,9 @@ run
 info locals
 info args
 
+
+můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace řetězce pro 4 bajty a podobně pro 8, případně si můžeš pro ostatní případy vyhodit chybu a zarazit kompilaci
+19:58 > snprintf() writes at most `size` bytes (including the terminating null byte ('\0'))
 #error "text chyby"
 
 

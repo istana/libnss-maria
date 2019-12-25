@@ -11,6 +11,7 @@
 #include "../configuration/maria_config.h"
 #include "../str_replace.h"
 #include "../mariadb/query.h"
+#include "./result_handler.h"
 
 enum nss_status _nss_maria_getpwnam_r (
   const char *name,

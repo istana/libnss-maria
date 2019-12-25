@@ -12,6 +12,7 @@ add_library(nss_maria SHARED
   "logger/maria_logger.c"
   "nss/passwd.c"
   "nss/group.c"
+  "nss/result_handler.c"
   "nss/shadow.c"
   "str_replace.c"
   "mariadb/query.c"
