@@ -1,11 +1,7 @@
 #!/bin/bash
 
-function run_command {
-  vagrant ssh -c "$1"
-}
-
 function run_test {
-  run_command "$1"
+  $1
 
   if [ "$?" -gt 0 ]; then
     echo "$1 TEST FAIL"
@@ -14,14 +10,14 @@ function run_test {
   fi 
 }
 
-run_command "cat /home/libnss-maria/examples/sos-sso/sql/1-db-and-users.sql | \
-sudo mysql -u root" &&
-run_command "cat /home/libnss-maria/examples/sos-sso/sql/2-data-structures.sql | \
-sudo mysql -u root sos-sso-production" &&
-run_command "cat /home/libnss-maria/examples/sos-sso/sql/3-privileges.sql | \
-sudo mysql -u root sos-sso-production" &&
-run_command "cat /home/libnss-maria/examples/sos-sso/sql/4-data.sql | \
-sudo mysql -u root sos-sso-production"
+cat /home/libnss-maria/examples/sos-sso/sql/1-db-and-users.sql | \
+sudo mysql -u root &&
+cat /home/libnss-maria/examples/sos-sso/sql/2-data-structures.sql | \
+sudo mysql -u root sos-sso-production &&
+cat /home/libnss-maria/examples/sos-sso/sql/3-privileges.sql | \
+sudo mysql -u root sos-sso-production &&
+cat /home/libnss-maria/examples/sos-sso/sql/4-data.sql | \
+sudo mysql -u root sos-sso-production
 
 echo -e "\nSetup done...\n"
 
