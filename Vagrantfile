@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev
+    apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
     apt-get install -y syslog-ng mariadb-client libconfig9 mariadb-server
   SHELL
 end

@@ -16,5 +16,5 @@ if [[ $? -eq 0 && -z $COMPILE_ONLY ]]; then
   sudo cp /home/libnss-maria/examples/sos-sso/libnss-maria.conf /etc &&
   sudo cp /home/libnss-maria/examples/sos-sso/libnss-maria-root.conf /etc
 
-  ${HOME_PATH}/test/integration/nss_module.sh
+  ${HOME_PATH}/test/integration/nss_module.bats
 fi
