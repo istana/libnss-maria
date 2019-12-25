@@ -66,3 +66,27 @@ enum nss_status copy_db_row_to_shadow(MYSQL_ROW row, struct spwd *shadow_result,
 
   return NSS_STATUS_SUCCESS;
 }
+
+enum nss_status copy_db_row_to_group(MYSQL_ROW row, struct group *group_result, char *buffer, size_t buflen, int *errnop) {
+  size_t groupname_l = strlen(row[0]);
+  size_t password_l = strlen(row[1]);
+
+  if (groupname_l + password_l + 2 > buflen) {
+    *errnop = ERANGE;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  memset(buffer, 0, buflen);
+
+  char *groupname_buf = buffer;
+  char *password_buf = buffer + groupname_l + 1;
+
+  strncpy(groupname_buf, row[0], groupname_l);
+  strncpy(password_buf, row[1], password_l);
+
+  group_result->gr_name = groupname_buf;
+  group_result->gr_passwd = password_buf;
+  group_result->gr_gid = strtoul(row[2], NULL, 10);
+
+  return NSS_STATUS_SUCCESS;
+}
