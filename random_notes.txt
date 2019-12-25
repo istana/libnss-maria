@@ -30,6 +30,14 @@ enum nss_status
 };
 
 
+gdb --args getent passwd katarina
+break passwd.c:39
+break query.c:60
+run
+info locals
+info args
+
+#error "text chyby"
 
 
   MYSQL_STMT *stmt_conn = mysql_stmt_init(conn);
@@ -79,3 +87,9 @@ enum nss_status
     free(settings);
     return NSS_STATUS_UNAVAIL;
   }
+
+
+
+## far far in the future
+
+NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.

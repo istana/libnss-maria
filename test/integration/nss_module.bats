@@ -29,7 +29,7 @@ setup() {
 @test "doesn't find unknown user in passwd database by name" {
   run getent passwd eliza
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"_nss_maria_getpwnam_r no result found"* ]]
+  [[ "$output" == *"no result found"* ]]
 }
 
 @test "finds known user in passwd database by id" {
@@ -41,7 +41,7 @@ setup() {
 @test "doesn't find unknown user in passwd database by id" {
   run getent passwd 8020
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"_nss_maria_getpwuid_r no result found"* ]]
+  [[ "$output" == *"no result found"* ]]
 }
 
 ## shadow
@@ -56,7 +56,7 @@ setup() {
 @test "doesn't find unknown user in shadow database by name" {
   run getent shadow eliza
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"_nss_maria_getspnam_r no result found"* ]]
+  [[ "$output" == *"no result found"* ]]
 }
 
 ## groups
@@ -65,7 +65,7 @@ setup() {
 @test "finds known group in group database by name" {
   run getent group immortals
   [[ $status -eq 0 ]]
-  [[ $output == *"immortals:x:9000:"* ]]
+  [[ $output == *"immortals:x:9000:katarina"* ]]
 }
 
 @test "doesn't find unknown group in group database by name" {
@@ -77,11 +77,21 @@ setup() {
 @test "finds known group in group database by id" {
   run getent group 9000
   [[ $status -eq 0 ]]
-  [[ $output == *"immortals:x:9000:"* ]]
+  [[ $output == *"immortals:x:9000:katarina"* ]]
 }
 
 @test "doesn't find unknown group in group database by id" {
   run getent group 9025
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"_nss_maria_getgrgid_r no result found"* ]]
+}
+
+@test "returns all users belonging to a group, primary and secondary mambers" {
+  run getent group 'final fantasy 15'
+  [[ $status -eq 0 ]]
+  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,cochobo"* ]]
+
+  run getent group 9001
+  [[ $status -eq 0 ]]
+  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,cochobo"* ]]
 }

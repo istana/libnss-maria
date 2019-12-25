@@ -1,31 +1,4 @@
-#define STRING_SIZE 255
 #include "./passwd.h"
-
-/*
-MYSQL mariadb_connect(Maria_config settings) {
-  MYSQL *connection = mysql_init(NULL);
-  MYSQL real_connection = mysql_real_connect(
-    connection,
-    settings.dbhost,
-    settings.dbuser,
-    settings.dbpass,
-    settings.dbname,
-    settings.dbport,
-    "",
-    0
-  );
-
-  if (real_connection == NULL) {
-    maria_log("cannot connect to the database");
-  }
-
-  return real_connection;
-}
-
-void maria_db_disconnect(MYSQL *connection) {
-  mysql_close(connection);
-}
-*/
 
 // shouldn't use malloc at all, but put everything from passwd into *buffer variable
 enum nss_status _nss_maria_getpwnam_r (
@@ -37,6 +10,7 @@ enum nss_status _nss_maria_getpwnam_r (
   int *h_errnop
 ) {
   debug_print("_nss_maria_getpwnam_r called!");
+
   Maria_config *settings = malloc(sizeof(*settings));
   maria_read_config_file(settings, "/etc/libnss-maria.conf");
   debug_print_var("_nss_maria_getpwnam_r database settings-dbhost:%s;dbname:%s;\
@@ -48,70 +22,34 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->dbport,
     settings->getpwnam
   );
+  MYSQL *conn;
+  MYSQL_RES *result;
+  MYSQL_ROW row;
 
-  const char *placeholder = memchr(settings->getpwnam, '?', strlen(settings->getpwnam));
+  enum nss_status status = maria_query_with_param(
+    "_nss_maria_getpwnam_r",
+    settings->getpwnam,
+    name,
+    settings,
+    &conn,
+    &result,
+    errnop
+  );
 
-  if(!placeholder) {
-    debug_print("_nss_maria_getpwnam_r placeholder not found in database query");
+  if (status != NSS_STATUS_SUCCESS) {
     free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL *conn = mysql_init(NULL);
-  if(!conn) {
-    debug_print("mysql init failed, out of memory");
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  if(mysql_real_connect(
-    conn,
-    settings->dbhost,
-    settings->dbuser,
-    settings->dbpass,
-    settings->dbname,
-    settings->dbport,
-    NULL,
-    0
-  ) == NULL) {
-    debug_print("_nss_maria_getpwnam_r cannot connect to the database");
-    free(settings);
-    return NSS_STATUS_TRYAGAIN;
-  }
-
-  char *name_sanitized = malloc((sizeof(char) * strlen(name) * 2) + 1);
-  mysql_real_escape_string(conn, name_sanitized, name, strlen(name));
-  char *final_query = str_replace(settings->getpwnam, "?", name_sanitized);
-  debug_print_var(final_query);
-
-  if (mysql_real_query(conn, final_query, strlen(final_query)) != 0) {
-    debug_print("_nss_maria_getpwnam_r cannot execute getpwnam mariadb query");
-    log_mysql_error(conn);
-    free(settings);
-    free(name_sanitized);
-    free(final_query);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL_RES *result = mysql_store_result(conn);
-
-  if(result == NULL) {
-    debug_print("_nss_maria_getpwnam_r cannot get result from query");
-    free(settings);
-    free(name_sanitized);
-    free(final_query);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL_ROW row = mysql_fetch_row(result);
-
-  if (row == NULL) {
-    debug_print("_nss_maria_getpwnam_r no result found");
-    free(settings);
-    free(name_sanitized);
-    free(final_query);
     mysql_free_result(result);
-    return NSS_STATUS_NOTFOUND;
+    mysql_close(conn);
+    return status;
+  }
+
+  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+
+  if (row_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return row_status;
   }
 
   char *xname = malloc(sizeof(char) * 256);
@@ -135,9 +73,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   result_buf->pw_shell = shell;
 
   free(settings);
-  free(name_sanitized);
-  free(final_query);
   mysql_free_result(result);
+  mysql_close(conn);
   return NSS_STATUS_SUCCESS;
 }
 
@@ -150,6 +87,7 @@ enum nss_status _nss_maria_getpwuid_r (
   int *h_errnop
 ) {
   debug_print("_nss_maria_getpwuid_r called!");
+
   Maria_config *settings = malloc(sizeof(*settings));
   maria_read_config_file(settings, "/etc/libnss-maria.conf");
   debug_print_var("_nss_maria_getpwuid_r database settings-dbhost:%s;dbname:%s;\
@@ -162,74 +100,38 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->getpwnam
   );
 
-  const char *placeholder = memchr(settings->getpwuid, '?', strlen(settings->getpwuid));
-
-  if(!placeholder) {
-    debug_print("_nss_maria_getpwuid_r placeholder not found in database query");
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL *conn = mysql_init(NULL);
-  if(!conn) {
-    debug_print("mysql init failed, out of memory");
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  if(mysql_real_connect(
-    conn,
-    settings->dbhost,
-    settings->dbuser,
-    settings->dbpass,
-    settings->dbname,
-    settings->dbport,
-    NULL,
-    0
-  ) == NULL) {
-    debug_print("_nss_maria_getpwuid_r cannot connect to the database");
-    free(settings);
-    return NSS_STATUS_TRYAGAIN;
-  }
-
-
   // TODO: should return error when longer than entered
   char uid_as_string[256];
   snprintf(uid_as_string, 255, "%d", uid);
 
-  char *name_sanitized = malloc((sizeof(char) * strlen(uid_as_string) * 2) + 1);
-  mysql_real_escape_string(conn, name_sanitized, uid_as_string, strlen(uid_as_string));
-  char *final_query = str_replace(settings->getpwuid, "?", name_sanitized);
-  debug_print_var(final_query);
+  MYSQL *conn;
+  MYSQL_RES *result;
+  MYSQL_ROW row;
 
-  if (mysql_real_query(conn, final_query, strlen(final_query)) != 0) {
-    debug_print("_nss_maria_getpwuid_r cannot execute getpwnam mariadb query");
-    log_mysql_error(conn);
+  enum nss_status status = maria_query_with_param(
+    "_nss_maria_getpwuid_r",
+    settings->getpwuid,
+    uid_as_string,
+    settings,
+    &conn,
+    &result,
+    errnop
+  );
+
+  if (status != NSS_STATUS_SUCCESS) {
     free(settings);
-    free(name_sanitized);
-    free(final_query);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL_RES *result = mysql_store_result(conn);
-
-  if(result == NULL) {
-    debug_print("_nss_maria_getpwuid_r cannot get result from query");
-    free(settings);
-    free(name_sanitized);
-    free(final_query);
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL_ROW row = mysql_fetch_row(result);
-
-  if (row == NULL) {
-    debug_print("_nss_maria_getpwuid_r no result found");
-    free(settings);
-    free(name_sanitized);
-    free(final_query);
     mysql_free_result(result);
-    return NSS_STATUS_NOTFOUND;
+    mysql_close(conn);
+    return status;
+  }
+
+  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+
+  if (row_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return row_status;
   }
 
   char *xname = malloc(sizeof(char) * 256);
@@ -253,9 +155,8 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   result_buf->pw_shell = shell;
 
   free(settings);
-  free(name_sanitized);
-  free(final_query);
   mysql_free_result(result);
+  mysql_close(conn);
   return NSS_STATUS_SUCCESS;
 }
 

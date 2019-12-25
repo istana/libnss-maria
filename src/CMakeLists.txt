@@ -14,6 +14,7 @@ add_library(nss_maria SHARED
   "nss/group.c"
   "nss/shadow.c"
   "str_replace.c"
+  "mariadb/query.c"
 )
 
 # soname (MAJOR) version must be 2 (probably relates to glibc version, i.e. 2.26).
