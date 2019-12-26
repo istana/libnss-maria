@@ -65,6 +65,27 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       maria_load_string_setting(libconfig_object, config->gidsbymem, "nss_queries.gidsbymem");
 
       config_destroy (&libconfig_object);
+
+      debug_print_var("settings dbhost:%s;dbname:%s;\
+dbuser:%s;dbpass:%s;dbport:%lld;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
+getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
+        config->dbhost,
+        config->dbname,
+        config->dbuser,
+        config->dbpass,
+        config->dbport,
+        config->getpwnam,
+        config->getpwuid,
+        config->getpwent,
+        config->getspnam,
+        config->getspent,
+        config->getgrnam,
+        config->getgrgid,
+        config->getgrent,
+        config->memsbygid,
+        config->gidsbymem
+      );
+
       return 0;
     } else {
       sprintf(message, "error found in file %s, message: %s, line: %i",

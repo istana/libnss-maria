@@ -11,16 +11,12 @@ enum nss_status _nss_maria_getpwnam_r (
   debug_print("_nss_maria_getpwnam_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  maria_read_config_file(settings, "/etc/libnss-maria.conf");
-  debug_print_var("_nss_maria_getpwnam_r database settings-dbhost:%s;dbname:%s;\
-dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
-    settings->dbhost,
-    settings->dbname,
-    settings->dbuser,
-    settings->dbpass,
-    settings->dbport,
-    settings->getpwnam
-  );
+  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
+    free(settings);
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
   MYSQL *conn;
   MYSQL_RES *result;
   MYSQL_ROW row;
@@ -70,16 +66,11 @@ enum nss_status _nss_maria_getpwuid_r (
   debug_print("_nss_maria_getpwuid_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  maria_read_config_file(settings, "/etc/libnss-maria.conf");
-  debug_print_var("_nss_maria_getpwuid_r database settings-dbhost:%s;dbname:%s;\
-dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
-    settings->dbhost,
-    settings->dbname,
-    settings->dbuser,
-    settings->dbpass,
-    settings->dbport,
-    settings->getpwnam
-  );
+  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
+    free(settings);
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
 
   // TODO: should return error when longer than entered
   char uid_as_string[256];

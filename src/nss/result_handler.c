@@ -158,15 +158,10 @@ enum nss_status copy_gids(
   int *errnop
 ) {
   gid_t *group_slots = *gids;
-  // TODO: consider reallocating like libnss-pgsql does
-  for(long int i = *start_index; i < *gids_size; i++) {
-    group_slots[i] = -1;
-  }
-
   long int available_gids = *gids_size - *start_index;
 
   my_ulonglong rows_len = mysql_num_rows(result);
-  // NOTE: not sure if it works for **gids
+  // TODO: consider reallocating like libnss-pgsql does
   if (limit > available_gids || (long int)rows_len > available_gids) {
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
@@ -181,7 +176,8 @@ enum nss_status copy_gids(
     }
 
     group_slots[i] = strtoul(row[0], NULL, 10);
+    *start_index += 1;
   }
 
   return NSS_STATUS_SUCCESS;
-};
+}

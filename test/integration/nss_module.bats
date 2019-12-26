@@ -94,3 +94,9 @@ setup() {
   [[ $status -eq 0 ]]
   [[ $output == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
 }
+
+@test "finds all groups for a user" {
+  run groups chocobo
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"final fantasy 7 final fantasy 15"* ]]
+}
