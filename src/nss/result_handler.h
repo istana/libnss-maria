@@ -29,4 +29,12 @@ enum nss_status copy_group_members_to_group(
   size_t *occupied_buffer,
   int *errnop
 );
+enum nss_status copy_gids(
+  MYSQL_RES *result,
+  long int *start_index,
+  long int *gids_size,
+  gid_t **gids,
+  long int limit,
+  int *errnop
+);
 #endif

@@ -33,9 +33,12 @@ enum nss_status
 gdb --args getent passwd katarina
 break passwd.c:39
 break query.c:60
+break group.c:229
 run
 info locals
 info args
+(gdb) p **gids@*gids_size
+$5 = {9002, 21845, 0, 0, 1903393133, 1932420204, 7037807, 0, 48, 0}
 
 
 můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace řetězce pro 4 bajty a podobně pro 8, případně si můžeš pro ostatní případy vyhodit chybu a zarazit kompilaci
@@ -95,7 +98,6 @@ můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace ře
 
 ## far far in the future
 
-NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.
-
-
+- NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.
 - NSS_SUCCESS should set errno to 0
+- nss_maria_initgroups_dyn / gidsbymem propagate limit param to db query

@@ -127,6 +127,7 @@ enum nss_status copy_group_members_to_group(
     MYSQL_ROW row = mysql_fetch_row(members_query_result);
 
     if (row == NULL) {
+      *errnop = EAGAIN;
       return NSS_STATUS_TRYAGAIN;
     }
 
@@ -147,3 +148,40 @@ enum nss_status copy_group_members_to_group(
 
   return NSS_STATUS_SUCCESS;
 }
+
+enum nss_status copy_gids(
+  MYSQL_RES *result,
+  long int *start_index,
+  long int *gids_size,
+  gid_t **gids,
+  long int limit,
+  int *errnop
+) {
+  gid_t *group_slots = *gids;
+  // TODO: consider reallocating like libnss-pgsql does
+  for(long int i = *start_index; i < *gids_size; i++) {
+    group_slots[i] = -1;
+  }
+
+  long int available_gids = *gids_size - *start_index;
+
+  my_ulonglong rows_len = mysql_num_rows(result);
+  // NOTE: not sure if it works for **gids
+  if (limit > available_gids || (long int)rows_len > available_gids) {
+    *errnop = ERANGE;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  for(long int i = *start_index; i < *gids_size; i++) {
+    MYSQL_ROW row = mysql_fetch_row(result);
+
+    if (row == NULL) {
+      *errnop = EAGAIN;
+      return NSS_STATUS_TRYAGAIN;
+    }
+
+    group_slots[i] = strtoul(row[0], NULL, 10);
+  }
+
+  return NSS_STATUS_SUCCESS;
+};

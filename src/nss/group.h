@@ -39,11 +39,11 @@ enum nss_status _nss_maria_getgrgid_r (
   int *h_errnop
 );
 enum nss_status _nss_maria_initgroups_dyn (
-  const char *user,
-  gid_t group,
-  long int *start,
-  long int *size,
-  gid_t **groupsp,
+  const char *username,
+  gid_t gid,
+  long int *start_index,
+  long int *gids_size,
+  gid_t **gids,
   long int limit,
   int *errnop,
   int *h_errnop
