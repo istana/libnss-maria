@@ -13,6 +13,20 @@
 
 enum nss_status copy_db_row_to_passwd(MYSQL_ROW row, struct passwd *passwd_result, char *buffer, size_t buflen, int *errnop);
 enum nss_status copy_db_row_to_shadow(MYSQL_ROW row, struct spwd *shadow_result, char *buffer, size_t buflen, int *errnop);
-enum nss_status copy_db_row_to_group(MYSQL_ROW row, struct group *group_result, char *buffer, size_t buflen, int *errnop);
-
+enum nss_status copy_db_row_to_group(
+  MYSQL_ROW row,
+  struct group *group_result,
+  char *buffer,
+  size_t buflen,
+  size_t *occupied_buffer,
+  int *errnop
+);
+enum nss_status copy_group_members_to_group(
+  MYSQL_RES *members_query_result,
+  struct group *group_result,
+  char *buffer,
+  size_t buflen,
+  size_t *occupied_buffer,
+  int *errnop
+);
 #endif

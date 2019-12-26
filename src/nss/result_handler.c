@@ -67,7 +67,14 @@ enum nss_status copy_db_row_to_shadow(MYSQL_ROW row, struct spwd *shadow_result,
   return NSS_STATUS_SUCCESS;
 }
 
-enum nss_status copy_db_row_to_group(MYSQL_ROW row, struct group *group_result, char *buffer, size_t buflen, int *errnop) {
+enum nss_status copy_db_row_to_group(
+  MYSQL_ROW row,
+  struct group *group_result,
+  char *buffer,
+  size_t buflen,
+  size_t *occupied_buffer,
+  int *errnop
+) {
   size_t groupname_l = strlen(row[0]);
   size_t password_l = strlen(row[1]);
 
@@ -83,10 +90,60 @@ enum nss_status copy_db_row_to_group(MYSQL_ROW row, struct group *group_result, 
 
   strncpy(groupname_buf, row[0], groupname_l);
   strncpy(password_buf, row[1], password_l);
+  *occupied_buffer = groupname_l + password_l + 2;
 
   group_result->gr_name = groupname_buf;
   group_result->gr_passwd = password_buf;
   group_result->gr_gid = strtoul(row[2], NULL, 10);
+
+  return NSS_STATUS_SUCCESS;
+}
+
+enum nss_status copy_group_members_to_group(
+  MYSQL_RES *members_query_result,
+  struct group *group_result,
+  char *buffer,
+  size_t buflen,
+  size_t *occupied_buffer,
+  int *errnop
+) {
+  // buffer: [...occupied, [char* for each member](rows.length+1), [members](rows.length)]
+  memset(&(buffer[*occupied_buffer]), 0, buflen - *occupied_buffer);
+
+  my_ulonglong rows_len = mysql_num_rows(members_query_result);
+  
+  // array of pointers to strings (members)
+  char **ptr_array = (char**)&(buffer[*occupied_buffer]);
+  int ptr_size = sizeof(char*) * (rows_len + 1);
+  
+  if (*occupied_buffer + ptr_size > buflen) {
+    *errnop = ERANGE;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  *occupied_buffer += ptr_size;
+
+  for(my_ulonglong i = 0; i < rows_len; i++) {
+    MYSQL_ROW row = mysql_fetch_row(members_query_result);
+
+    if (row == NULL) {
+      return NSS_STATUS_TRYAGAIN;
+    }
+
+    char *name = row[0];
+    size_t name_l = strlen(name);
+
+    if (*occupied_buffer + name_l + 1 > buflen) {
+      *errnop = ERANGE;
+      return NSS_STATUS_TRYAGAIN;
+    }
+
+    strncpy(&(buffer[*occupied_buffer]), name, name_l);
+    ptr_array[i] = &(buffer[*occupied_buffer]);
+    *occupied_buffer += name_l + 1;
+  }
+
+  group_result->gr_mem = (char **)ptr_array;
 
   return NSS_STATUS_SUCCESS;
 }

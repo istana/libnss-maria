@@ -44,7 +44,9 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
   );
   MYSQL *conn;
   MYSQL_RES *result;
+  MYSQL_RES *group_members_result;
   MYSQL_ROW row;
+  size_t occupied_buffer = 0;
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_getgrnam_r",
@@ -72,7 +74,43 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return row_status;
   }
 
-  enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, errnop);
+  enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
+
+  if (result_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return result_status;
+  }
+
+  // TODO: should return error when longer than entered
+  char gid_as_string[256];
+  snprintf(gid_as_string, 255, "%d", group_result->gr_gid);
+  enum nss_status group_members_status = maria_query_with_param(
+    "_nss_maria_getgrnam_r",
+    settings->memsbygid,
+    gid_as_string,
+    settings,
+    &conn,
+    &group_members_result,
+    errnop
+  );
+
+  if (group_members_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return group_members_status;
+  }
+
+  enum nss_status group_members_copy_status = copy_group_members_to_group(group_members_result, group_result, buffer, buflen, &occupied_buffer, errnop);
+
+  if (group_members_copy_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(group_members_result);
+    mysql_close(conn);
+    return group_members_copy_status;
+  }
 
   free(settings);
   mysql_free_result(result);
@@ -90,9 +128,13 @@ enum nss_status _nss_maria_getgrgid_r (
 ) {
   debug_print("_nss_maria_getgrgid_r called!");
 
+  // TODO: should return error when longer than entered
+  char gid_as_string[256];
+  snprintf(gid_as_string, 255, "%d", gid);
+
   Maria_config *settings = malloc(sizeof(*settings));
   maria_read_config_file(settings, "/etc/libnss-maria.conf");
-  debug_print_var("_nss_maria_getgrgid_r database settings-dbhost:%s;dbname:%s;\
+  debug_print_var("_nss_maria_getpwnam_r database settings-dbhost:%s;dbname:%s;\
 dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->dbhost,
     settings->dbname,
@@ -101,14 +143,11 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     settings->dbport,
     settings->getpwnam
   );
-
-  // TODO: should return error when longer than entered
-  char gid_as_string[256];
-  snprintf(gid_as_string, 255, "%d", gid);
-
   MYSQL *conn;
   MYSQL_RES *result;
+  MYSQL_RES *group_members_result;
   MYSQL_ROW row;
+  size_t occupied_buffer = 0;
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_getgrgid_r",
@@ -136,7 +175,40 @@ dbuser:%s;dbpass:%s;dbport:%lld;getpwnam_query:%s",
     return row_status;
   }
 
-  enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, errnop);
+  enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
+
+  if (result_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return result_status;
+  }
+
+  enum nss_status group_members_status = maria_query_with_param(
+    "_nss_maria_getgrnam_r",
+    settings->memsbygid,
+    gid_as_string,
+    settings,
+    &conn,
+    &group_members_result,
+    errnop
+  );
+
+  if (group_members_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(result);
+    mysql_close(conn);
+    return group_members_status;
+  }
+
+  enum nss_status group_members_copy_status = copy_group_members_to_group(group_members_result, group_result, buffer, buflen, &occupied_buffer, errnop);
+
+  if (group_members_copy_status != NSS_STATUS_SUCCESS) {
+    free(settings);
+    mysql_free_result(group_members_result);
+    mysql_close(conn);
+    return group_members_copy_status;
+  }
 
   free(settings);
   mysql_free_result(result);

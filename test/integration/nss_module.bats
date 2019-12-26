@@ -60,13 +60,11 @@ setup() {
 }
 
 ## groups
-## TODO: members of the group
 
 @test "finds known group in group database by name" {
   run getent group immortals
   [[ $status -eq 0 ]]
-#  [[ $output == *"immortals:x:9000:katarina"* ]]
-  [[ $output == *"immortals:x:9000:"* ]]
+  [[ $output == *"immortals:xxx*group_hashed_password*xxx:9000:katarina"* ]]
 }
 
 @test "doesn't find unknown group in group database by name" {
@@ -78,7 +76,7 @@ setup() {
 @test "finds known group in group database by id" {
   run getent group 9000
   [[ $status -eq 0 ]]
-  [[ $output == *"immortals:x:9000:"* ]]
+  [[ $output == *"immortals:xxx*group_hashed_password*xxx:9000:katarina"* ]]
 }
 
 @test "doesn't find unknown group in group database by id" {
@@ -87,12 +85,12 @@ setup() {
   [[ "$output" == *"no result found"* ]]
 }
 
-#@test "returns all users belonging to a group, primary and secondary mambers" {
-#  run getent group 'final fantasy 15'
-#  [[ $status -eq 0 ]]
-#  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,cochobo"* ]]
+@test "returns all users belonging to a group, primary and secondary mambers" {
+  run getent group 'final fantasy 15'
+  [[ $status -eq 0 ]]
+  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
 
-#  run getent group 9001
-#  [[ $status -eq 0 ]]
-#  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,cochobo"* ]]
-#}
+  run getent group 9001
+  [[ $status -eq 0 ]]
+  [[ $output == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
+}

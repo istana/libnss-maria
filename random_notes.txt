@@ -96,3 +96,6 @@ můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace ře
 ## far far in the future
 
 NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.
+
+
+- NSS_SUCCESS should set errno to 0
