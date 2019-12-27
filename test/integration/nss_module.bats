@@ -14,37 +14,37 @@ setup() {
 }
 
 ## passwd
-@test "finds root in passwd database" {
+@test "finds root passwd entry" {
   run getent passwd root
   [[ $status -eq 0 ]]
   [[ $output == "root:x:0:0:root:/root:/bin/bash" ]]
 }
 
-@test "finds known user in passwd database by name" {
+@test "finds known user passwd entry by name" {
   run getent passwd katarina
   [[ $status -eq 0 ]]
   [[ $output == *"katarina:x:8000:9000:Katarina Freya,501,,,,:/home/katarina:/bin/bash"* ]]
 }
 
-@test "doesn't find unknown user in passwd database by name" {
+@test "doesn't find unknown user passwd entry by name" {
   run getent passwd eliza
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"no result found"* ]]
 }
 
-@test "finds known user in passwd database by id" {
+@test "finds known user passwd entry by ID" {
   run getent passwd 8000
   [[ $status -eq 0 ]]
   [[ $output == *"katarina:x:8000:9000:Katarina Freya,501,,,,:/home/katarina:/bin/bash"* ]]
 }
 
-@test "doesn't find unknown user in passwd database by id" {
+@test "doesn't find unknown user passwd entry by ID" {
   run getent passwd 8020
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"no result found"* ]]
 }
 
-@test "finds all users from database" {
+@test "finds all user passwd entries" {
   run getent passwd
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"katarina:x:8000:9000:Katarina Freya,501,,,,:/home/katarina:/bin/bash"* ]]
@@ -56,17 +56,26 @@ setup() {
 
 ## shadow
 
-@test "finds known user in shadow database by name" {
+@test "finds known user shadow entry by name" {
   run getent shadow katarina
   [[ $status -eq 0 ]]
-  echo $output > /dev/stderr
   [[ $output == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
 }
 
-@test "doesn't find unknown user in shadow database by name" {
+@test "doesn't find unknown user shadow entry by name" {
   run getent shadow eliza
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"no result found"* ]]
+}
+
+@test "finds all user shadow entries" {
+  run sudo getent shadow
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
+  [[ "$output" == *"noctis:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"cindy:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"cloud:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"chocobo:x:1:0:9999:30:0::0"* ]]
 }
 
 ## groups

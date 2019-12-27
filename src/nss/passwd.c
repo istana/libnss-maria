@@ -123,6 +123,8 @@ enum nss_status _nss_maria_getpwent_r (
   size_t buflen,
   int *errnop
 ) {
+  maria_log("_nss_maria_getpwent called!");
+
   MYSQL_ROW row;
   enum nss_status row_status = maria_get_first_row(&passwd_dbconn, &passwd_dbresult, &row, errnop);
   if (row_status != NSS_STATUS_SUCCESS) {
@@ -133,6 +135,8 @@ enum nss_status _nss_maria_getpwent_r (
 }
 
 enum nss_status _nss_maria_setpwent (void) {
+  maria_log("_nss_maria_setpwent called!");
+
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
   if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
@@ -154,6 +158,8 @@ enum nss_status _nss_maria_setpwent (void) {
 }
 
 enum nss_status _nss_maria_endpwent (void) {
+  maria_log("_nss_maria_endpwent called!");
+
   mysql_free_result(passwd_dbresult);
   mysql_close(passwd_dbconn);
   return NSS_STATUS_SUCCESS;
