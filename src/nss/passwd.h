@@ -7,6 +7,7 @@
 #include <nss.h>
 #include <pwd.h>
 #include <sys/types.h>
+#include <threads.h>
 #include "../logger/maria_logger.h"
 #include "../configuration/maria_config.h"
 #include "../str_replace.h"
@@ -31,6 +32,8 @@ enum nss_status _nss_maria_getpwuid_r (
   int *h_errnop
 );
 
+enum nss_status _nss_maria_setpwent (void);
+
 enum nss_status _nss_maria_getpwent_r (
   struct passwd *result,
   char *buffer,
@@ -38,4 +41,5 @@ enum nss_status _nss_maria_getpwent_r (
   int *errnop
 );
 
+enum nss_status _nss_maria_endpwent (void);
 #endif

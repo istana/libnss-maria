@@ -69,6 +69,55 @@ enum nss_status maria_query_with_param(
   return NSS_STATUS_SUCCESS;
 }
 
+enum nss_status maria_query_no_param(
+  const char *caller,
+  char *query,
+  Maria_config *settings,
+  MYSQL **conn,
+  MYSQL_RES **result,
+  int *errnop
+) {
+  *conn = mysql_init(NULL);
+  if(!*conn) {
+    debug_print("mysql init failed, out of memory");
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  if(mysql_real_connect(
+    *conn,
+    settings->dbhost,
+    settings->dbuser,
+    settings->dbpass,
+    settings->dbname,
+    settings->dbport,
+    NULL,
+    0
+  ) == NULL) {
+    debug_print("cannot connect to the database");
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  }
+  
+  if (mysql_real_query(*conn, query, strlen(query)) != 0) {
+    debug_print("cannot execute mariadb query");
+    log_mysql_error(*conn);
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  *result = mysql_store_result(*conn);
+
+  if(*result == NULL) {
+    debug_print("cannot get result from query");
+    log_mysql_error(*conn);
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  return NSS_STATUS_SUCCESS;
+}
+
 enum nss_status maria_get_first_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop) {
   *row = mysql_fetch_row(*result);
 

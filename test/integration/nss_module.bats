@@ -44,6 +44,16 @@ setup() {
   [[ "$output" == *"no result found"* ]]
 }
 
+@test "finds all users from database" {
+  run getent passwd
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"katarina:x:8000:9000:Katarina Freya,501,,,,:/home/katarina:/bin/bash"* ]]
+  [[ "$output" == *"noctis:x:8001:9001::/home/noctis:/usr/bin/rssh"* ]]
+  [[ "$output" == *"cindy:x:8002:9001::/home/cindy:/usr/bin/rssh"* ]]
+  [[ "$output" == *"cloud:x:8003:9002::/home/cloud:/usr/bin/rssh"* ]]
+  [[ "$output" == *"chocobo:x:8004:9002::/home/chocobo:/usr/bin/rssh"* ]]
+}
+
 ## shadow
 
 @test "finds known user in shadow database by name" {
