@@ -41,7 +41,7 @@ enum nss_status _nss_maria_getpwnam_r (
     return status;
   }
 
-  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+  enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
     free(settings);
@@ -100,7 +100,7 @@ enum nss_status _nss_maria_getpwuid_r (
     return status;
   }
 
-  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+  enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
     free(settings);
@@ -126,7 +126,7 @@ enum nss_status _nss_maria_getpwent_r (
   maria_log("_nss_maria_getpwent called!");
 
   MYSQL_ROW row;
-  enum nss_status row_status = maria_get_first_row(&passwd_dbconn, &passwd_dbresult, &row, errnop);
+  enum nss_status row_status = maria_get_row(&passwd_dbconn, &passwd_dbresult, &row, errnop);
   if (row_status != NSS_STATUS_SUCCESS) {
     return row_status;
   }

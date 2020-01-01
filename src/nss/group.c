@@ -44,7 +44,7 @@ enum nss_status _nss_maria_getgrnam_r (
     return status;
   }
 
-  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+  enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
     free(settings);
@@ -135,7 +135,7 @@ enum nss_status _nss_maria_getgrgid_r (
     return status;
   }
 
-  enum nss_status row_status = maria_get_first_row(&conn, &result, &row, errnop);
+  enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
     free(settings);
@@ -238,7 +238,7 @@ enum nss_status _nss_maria_getgrent_r (
   MYSQL_ROW row;
   size_t occupied_buffer = 0;
 
-  enum nss_status row_status = maria_get_first_row(&group_dbconn, &group_dbresult, &row, errnop);
+  enum nss_status row_status = maria_get_row(&group_dbconn, &group_dbresult, &row, errnop);
   if (row_status != NSS_STATUS_SUCCESS) {
     return row_status;
   }

@@ -31,5 +31,5 @@ enum nss_status maria_query_no_param(
   MYSQL_RES **result,
   int *errnop
 );
-enum nss_status maria_get_first_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop);
+enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop);
 #endif

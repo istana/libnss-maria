@@ -103,48 +103,26 @@ enum nss_status maria_query_no_param(
   MYSQL_RES **result,
   int *errnop
 ) {
-  *conn = mysql_init(NULL);
-  if(!*conn) {
-    debug_print("mysql init failed, out of memory");
-    *errnop = EAGAIN;
-    return NSS_STATUS_TRYAGAIN;
+  enum nss_status conn_status;
+  enum nss_status query_status;
+  enum nss_status result_status;
+
+  if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+    return conn_status;
   }
 
-  if(mysql_real_connect(
-    *conn,
-    settings->dbhost,
-    settings->dbuser,
-    settings->dbpass,
-    settings->dbname,
-    settings->dbport,
-    NULL,
-    0
-  ) == NULL) {
-    debug_print("cannot connect to the database");
-    *errnop = EAGAIN;
-    return NSS_STATUS_TRYAGAIN;
-  }
-  
-  if (mysql_real_query(*conn, query, strlen(query)) != 0) {
-    debug_print("cannot execute mariadb query");
-    log_mysql_error(*conn);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+  if((query_status = maria_do_query(*conn, query, errnop)) != NSS_STATUS_SUCCESS) {
+    return query_status;
+  };
 
-  *result = mysql_store_result(*conn);
-
-  if(*result == NULL) {
-    debug_print("cannot get result from query");
-    log_mysql_error(*conn);
-    *errnop = EAGAIN;
-    return NSS_STATUS_TRYAGAIN;
-  }
+  if((result_status = maria_get_result(*conn, result, errnop)) != NSS_STATUS_SUCCESS) {
+    return result_status;
+  };
 
   return NSS_STATUS_SUCCESS;
 }
 
-enum nss_status maria_get_first_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop) {
+enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop) {
   *row = mysql_fetch_row(*result);
 
   if (*row == NULL) {
