@@ -6,6 +6,26 @@ Replacement for old libnss-mysql as naming service library in Linux.
 
 You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database.
 
+Library works.
+
+## TODO
+
+- the support for unix socket
+- more robust cleanup procedure
+- fix warnings about const char
+- prepare production build + properly separate log levels
+- fix travis, set up Debian/Ubuntu/RHEL+MySQL/MariaDB
+- code quality analyzer in addition to strict compiler checks
+
+### Works
+
+- cmake build setup
+- configuration
+- ~prepared statements~ / use real_escape_string
+- string with real_escape
+- more examples
+- log errors to syslog
+
 ## Local Setup
 
 `brew install coreutils`
@@ -95,22 +115,6 @@ I've chosen libconfig, because:
 - cannot found well maintained INI parser for linux, not sure about multiline strings
 - libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
 - libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
-
-
-## TODO
-
-- the support for unix socket
-
-### Parts
-
-- cmake build setup - DONE
-- configuration - DONE
-- ~prepared statements (it's so hard) - STRETCH GOAL~
-- string with real_escape - WIP
-- more examples - DONE
-- log errors to syslog - DONE
-- optimize via macros - NOT STARTED
-- try it with valgrind - NOT STARTED
 
 ## Author + License
 

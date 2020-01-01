@@ -235,15 +235,56 @@ enum nss_status _nss_maria_getgrent_r (
 ) {
   maria_log("_nss_maria_getgrent_r called!");
 
+  Maria_config *settings = malloc(sizeof(*settings));
+  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  enum nss_status row_status;
+  enum nss_status copy_status;
+  enum nss_status members_status;
+  enum nss_status members_copy_status;
+  MYSQL_RES *group_members_result;
   MYSQL_ROW row;
   size_t occupied_buffer = 0;
 
-  enum nss_status row_status = maria_get_row(&group_dbconn, &group_dbresult, &row, errnop);
-  if (row_status != NSS_STATUS_SUCCESS) {
+  if((row_status = maria_get_row(&group_dbconn, &group_dbresult, &row, errnop)) != NSS_STATUS_SUCCESS) {
     return row_status;
   }
 
-  return copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
+  if((copy_status = copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop)) != NSS_STATUS_SUCCESS) {
+    return copy_status;
+  }
+
+  // TODO: should return error when longer than entered
+  char gid_as_string[256];
+  snprintf(gid_as_string, 255, "%d", group_result->gr_gid);
+
+  if((members_status = maria_query_with_param(
+    "_nss_maria_getgrnam_r",
+    settings->memsbygid,
+    gid_as_string,
+    settings,
+    &group_dbconn,
+    &group_members_result,
+    errnop
+  )) != NSS_STATUS_SUCCESS) {
+    return members_status;
+  }
+
+  if((members_copy_status = copy_group_members_to_group(
+    group_members_result,
+    group_result,
+    buffer,
+    buflen,
+    &occupied_buffer,
+    errnop
+  )) != NSS_STATUS_SUCCESS) {
+    return members_copy_status;
+  }
+
+  return NSS_STATUS_SUCCESS;
 }
 
 enum nss_status _nss_maria_setgrent (void) {

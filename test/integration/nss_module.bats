@@ -121,11 +121,9 @@ setup() {
 }
 
 @test "finds all groups entries" {
-  run getent groups
+  run getent group
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
-  [[ "$output" == *"noctis:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"cindy:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"cloud:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"chocobo:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"immortals:xxx*group_hashed_password*xxx:9000:katarina"* ]]
+  [[ "$output" == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
+  [[ "$output" == *"final fantasy 7:x:9002:cloud,chocobo"* ]]
 }
