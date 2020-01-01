@@ -5,6 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-char *str_replace(char *orig, char *rep, char *with);
+char *str_replace(const char *orig, const char *rep, const char *with);
 
 #endif

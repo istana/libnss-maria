@@ -1,9 +1,9 @@
 #include "str_replace.h"
 
 // You must free the result if result is non-NULL.
-char *str_replace(char *orig, char *rep, char *with) {
+char *str_replace(const char *orig, const char *rep, const char *with) {
     char *result; // the return string
-    char *ins;    // the next insert point
+    const char *ins;    // the next insert point
     char *tmp;    // varies
     int len_rep;  // length of rep (the string to remove)
     int len_with; // length of with (the string to replace rep with)

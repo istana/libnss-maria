@@ -26,7 +26,7 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
   return NSS_STATUS_SUCCESS;
 }
 
-enum nss_status maria_do_query(MYSQL *conn, char *query, int *errnop) {
+enum nss_status maria_do_query(MYSQL *conn, const char *query, int *errnop) {
   if (mysql_real_query(conn, query, strlen(query)) != 0) {
     debug_print("cannot execute mariadb query");
     log_mysql_error(conn);
@@ -52,8 +52,8 @@ enum nss_status maria_get_result(MYSQL *conn, MYSQL_RES **result, int *errnop) {
 
 enum nss_status maria_query_with_param(
   const char *caller,
-  char *query,
-  char *param,
+  const char *query,
+  const char *param,
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
@@ -97,7 +97,7 @@ enum nss_status maria_query_with_param(
 
 enum nss_status maria_query_no_param(
   const char *caller,
-  char *query,
+  const char *query,
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,

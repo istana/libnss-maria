@@ -12,12 +12,12 @@
 #include "../mariadb/query.h"
 
 enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop);
-enum nss_status maria_do_query(MYSQL *conn, char *query, int *errnop);
+enum nss_status maria_do_query(MYSQL *conn, const char *query, int *errnop);
 enum nss_status maria_get_result(MYSQL *conn, MYSQL_RES **result, int *errnop);
 enum nss_status maria_query_with_param(
   const char *caller,
-  char *query,
-  char *param,
+  const char *query,
+  const char *param,
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
@@ -25,7 +25,7 @@ enum nss_status maria_query_with_param(
 );
 enum nss_status maria_query_no_param(
   const char *caller,
-  char *query,
+  const char *query,
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,

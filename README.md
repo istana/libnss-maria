@@ -10,11 +10,16 @@ Library works.
 
 ## TODO
 
-- the support for unix socket
-- more robust cleanup procedure
 - fix warnings about const char
+- performance test
 - prepare production build + properly separate log levels
 - fix travis, set up Debian/Ubuntu/RHEL+MySQL/MariaDB
+- logo
+- v1 version
+- announce
+- deb + rpm packages + universal package managers too
+- more robust cleanup procedure
+- the support for unix socket
 - code quality analyzer in addition to strict compiler checks
 
 ### Works
