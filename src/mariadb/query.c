@@ -1,22 +1,6 @@
 #include "./query.h"
 
-enum nss_status maria_query_with_param(
-  const char *caller,
-  char *query,
-  char *param,
-  Maria_config *settings,
-  MYSQL **conn,
-  MYSQL_RES **result,
-  int *errnop
-) {
-  const char *placeholder = memchr(query, '?', strlen(query));
-
-  if(!placeholder) {
-    debug_print("placeholder not found in database query");
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
-
+enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop) {
   *conn = mysql_init(NULL);
   if(!*conn) {
     debug_print("mysql init failed, out of memory");
@@ -38,31 +22,73 @@ enum nss_status maria_query_with_param(
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;
   }
-  
+
+  return NSS_STATUS_SUCCESS;
+}
+
+enum nss_status maria_do_query(MYSQL *conn, char *query, int *errnop) {
+  if (mysql_real_query(conn, query, strlen(query)) != 0) {
+    debug_print("cannot execute mariadb query");
+    log_mysql_error(conn);
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  return NSS_STATUS_SUCCESS;
+}
+
+enum nss_status maria_get_result(MYSQL *conn, MYSQL_RES **result, int *errnop) {
+  *result = mysql_store_result(conn);
+
+  if(*result == NULL) {
+    debug_print("cannot get result from query");
+    log_mysql_error(conn);
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
+  return NSS_STATUS_SUCCESS;
+}
+
+enum nss_status maria_query_with_param(
+  const char *caller,
+  char *query,
+  char *param,
+  Maria_config *settings,
+  MYSQL **conn,
+  MYSQL_RES **result,
+  int *errnop
+) {
+  enum nss_status conn_status;
+  enum nss_status query_status;
+  enum nss_status result_status;
+
+  if(!memchr(query, '?', strlen(query))) {
+    debug_print("placeholder not found in database query");
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+    return conn_status;
+  }
+
   char *param_sanitized = malloc((sizeof(char) * strlen(param) * 2) + 1);
   mysql_real_escape_string(*conn, param_sanitized, param, strlen(param));
   char *final_query = str_replace(query, "?", param_sanitized);
   debug_print_var(final_query);
 
-  if (mysql_real_query(*conn, final_query, strlen(final_query)) != 0) {
-    debug_print("cannot execute mariadb query");
-    log_mysql_error(*conn);
+  if((query_status = maria_do_query(*conn, final_query, errnop)) != NSS_STATUS_SUCCESS) {
     free(param_sanitized);
     free(final_query);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+    return query_status;
+  };
 
-  *result = mysql_store_result(*conn);
-
-  if(*result == NULL) {
-    debug_print("cannot get result from query");
-    log_mysql_error(*conn);
+  if((result_status = maria_get_result(*conn, result, errnop)) != NSS_STATUS_SUCCESS) {
     free(param_sanitized);
     free(final_query);
-    *errnop = EAGAIN;
-    return NSS_STATUS_TRYAGAIN;
-  }
+    return result_status;
+  };
 
   free(param_sanitized);
   free(final_query);

@@ -7,21 +7,13 @@
 #include <nss.h>
 #include <grp.h>
 #include <sys/types.h>
+#include <threads.h>
 #include "../logger/maria_logger.h"
 #include "../configuration/maria_config.h"
 #include "../str_replace.h"
 #include "../mariadb/query.h"
 #include "./result_handler.h"
 
-enum nss_status _nss_maria_setgrent (void);
-enum nss_status _nss_maria_endgrent (void);
-enum nss_status _nss_maria_getgrent_r (
-  struct group *result,
-  char *buffer,
-  size_t buflen,
-  int *errnop,
-  int *h_errnop
-);
 enum nss_status _nss_maria_getgrnam_r (
   const char *name,
   struct group *result,
@@ -48,5 +40,13 @@ enum nss_status _nss_maria_initgroups_dyn (
   int *errnop,
   int *h_errnop
 );
-
+enum nss_status _nss_maria_getgrent_r (
+  struct group *result,
+  char *buffer,
+  size_t buflen,
+  int *errnop,
+  int *h_errnop
+);
+enum nss_status _nss_maria_setgrent (void);
+enum nss_status _nss_maria_endgrent (void);
 #endif

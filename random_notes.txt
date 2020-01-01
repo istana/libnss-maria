@@ -40,6 +40,11 @@ info args
 (gdb) p **gids@*gids_size
 $5 = {9002, 21845, 0, 0, 1903393133, 1932420204, 7037807, 0, 48, 0}
 break group.c:234
+break result_handler.c:94
+
+Program received signal SIGSEGV, Segmentation fault.
+__m128i_shift_right (offset=15, value=<error reading variable: Cannot access memory at address 0x687361685f707560>) at ../sysdeps/x86_64/multiarch/varshift.h:27
+27  ../sysdeps/x86_64/multiarch/varshift.h: No such file or directory.
 
 můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace řetězce pro 4 bajty a podobně pro 8, případně si můžeš pro ostatní případy vyhodit chybu a zarazit kompilaci
 19:58 > snprintf() writes at most `size` bytes (including the terminating null byte ('\0'))
@@ -99,5 +104,5 @@ můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace ře
 ## far far in the future
 
 - NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.
-- NSS_SUCCESS should set errno to 0
+- ~NSS_SUCCESS should set errno to 0~ - spec says you never should set errno when it's successful
 - nss_maria_initgroups_dyn / gidsbymem propagate limit param to db query

@@ -22,7 +22,6 @@ enum nss_status _nss_maria_getpwnam_r (
   int *errnop,
   int *h_errnop
 );
-
 enum nss_status _nss_maria_getpwuid_r (
   uid_t uid,
   struct passwd *result_buf,
@@ -31,15 +30,12 @@ enum nss_status _nss_maria_getpwuid_r (
   int *errnop,
   int *h_errnop
 );
-
-enum nss_status _nss_maria_setpwent (void);
-
 enum nss_status _nss_maria_getpwent_r (
   struct passwd *result,
   char *buffer,
   size_t buflen,
   int *errnop
 );
-
+enum nss_status _nss_maria_setpwent (void);
 enum nss_status _nss_maria_endpwent (void);
 #endif

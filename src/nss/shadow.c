@@ -98,8 +98,6 @@ enum nss_status _nss_maria_setspent (void) {
   return status;
 }
 
-
-
 enum nss_status _nss_maria_endspent (void) {
   maria_log("_nss_maria_endspent called!");
 

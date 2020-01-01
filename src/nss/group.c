@@ -1,25 +1,8 @@
 #include "./group.h"
 
-enum nss_status _nss_maria_setgrent (void) {
-  maria_log("_nss_maria_setgrent called!");
-  return NSS_STATUS_NOTFOUND;
-}
-
-enum nss_status _nss_maria_endgrent (void) {
-  maria_log("_nss_maria_endgrent called!");
-  return NSS_STATUS_NOTFOUND;
-}
-
-enum nss_status _nss_maria_getgrent_r (
-  struct group *result,
-  char *buffer,
-  size_t buflen,
-  int *errnop,
-  int *h_errnop
-) {
-  maria_log("_nss_maria_getgrent_r called!");
-  return NSS_STATUS_NOTFOUND;
-}
+thread_local MYSQL *group_dbconn;
+thread_local MYSQL_RES *group_dbresult;
+thread_local MYSQL_ROW_OFFSET *group_cursor;
 
 enum nss_status _nss_maria_getgrnam_r (
   const char *name,
@@ -241,4 +224,55 @@ enum nss_status _nss_maria_initgroups_dyn (
   mysql_free_result(result);
   mysql_close(conn);
   return gids_copy_status;
+}
+
+enum nss_status _nss_maria_getgrent_r (
+  struct group *group_result,
+  char *buffer,
+  size_t buflen,
+  int *errnop,
+  int *h_errnop
+) {
+  maria_log("_nss_maria_getgrent_r called!");
+
+  MYSQL_ROW row;
+  size_t occupied_buffer = 0;
+
+  enum nss_status row_status = maria_get_first_row(&group_dbconn, &group_dbresult, &row, errnop);
+  if (row_status != NSS_STATUS_SUCCESS) {
+    return row_status;
+  }
+
+  return copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
+}
+
+enum nss_status _nss_maria_setgrent (void) {
+  maria_log("_nss_maria_setgrent called!");
+
+  int err;
+  Maria_config *settings = malloc(sizeof(*settings));
+  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
+    free(settings);
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  enum nss_status status = maria_query_no_param(
+    "_nss_maria_setspent",
+    settings->getgrent,
+    settings,
+    &group_dbconn,
+    &group_dbresult,
+    &err
+  );
+
+  free(settings);
+  return status;
+}
+
+enum nss_status _nss_maria_endgrent (void) {
+  maria_log("_nss_maria_endgrent called!");
+
+  mysql_free_result(group_dbresult);
+  mysql_close(group_dbconn);
+  return NSS_STATUS_SUCCESS;
 }

@@ -92,19 +92,19 @@ setup() {
   [[ "$output" == *"no result found"* ]]
 }
 
-@test "finds known group in group database by id" {
+@test "finds known group in group database by ID" {
   run getent group 9000
   [[ $status -eq 0 ]]
   [[ $output == *"immortals:xxx*group_hashed_password*xxx:9000:katarina"* ]]
 }
 
-@test "doesn't find unknown group in group database by id" {
+@test "doesn't find unknown group in group database by ID" {
   run getent group 9025
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"no result found"* ]]
 }
 
-@test "returns all users belonging to a group, primary and secondary mambers" {
+@test "finds all users belonging to a group, primary and secondary members" {
   run getent group 'final fantasy 15'
   [[ $status -eq 0 ]]
   [[ $output == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
@@ -114,8 +114,18 @@ setup() {
   [[ $output == *"final fantasy 15:x:9001:noctis,cindy,chocobo"* ]]
 }
 
-@test "finds all groups for a user" {
+@test "finds all groups a user belongs to" {
   run groups chocobo
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"final fantasy 7 final fantasy 15"* ]]
+}
+
+@test "finds all groups entries" {
+  run getent groups
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
+  [[ "$output" == *"noctis:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"cindy:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"cloud:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *"chocobo:x:1:0:9999:30:0::0"* ]]
 }
