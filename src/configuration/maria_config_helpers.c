@@ -16,28 +16,22 @@ void maria_initialize_config(Maria_config *config) {
 void maria_load_string_setting(config_t libconfig_object, char *destination, const char *selector) {
   // is freed by libconfig
   const char *buffer = malloc(1024 * sizeof(char));
-  char message[256];
 
   if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
     strncpy(destination, buffer, 1023);
   } else {
-    sprintf(message, "cannot load setting from selector=%s", selector);
-    maria_log(message);
+    debug_print_var("cannot load setting from selector=%s", selector);
   }
 }
 
 void maria_load_int64_setting(config_t libconfig_object, long long *destination, const char *selector) {
-  char message[256];
-
   if(config_lookup_int64(&libconfig_object, selector, destination) == CONFIG_FALSE) {
-    sprintf(message, "cannot load setting from selector=%s", selector);
-    maria_log(message);
+    debug_print_var("cannot load setting from selector=%s", selector);
   }
 }
 
 int maria_set_config_from_file(const char *path, Maria_config *config) {
   FILE* libconfig_stream = fopen(path, "r");
-  char message[256];
 
   if(libconfig_stream != NULL) {
     config_t libconfig_object;
@@ -88,20 +82,18 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
 
       return 0;
     } else {
-      sprintf(message, "error found in file %s, message: %s, line: %i",
+      maria_log("error found in file %s, message: %s, line: %i",
         path,
         config_error_text(&libconfig_object),
         config_error_line(&libconfig_object)
       );
 
-      maria_log(message);
       config_destroy(&libconfig_object);
       fclose(libconfig_stream);
       return 1;
     }
   } else {
-    sprintf(message, "opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
-    maria_log(message);
+    maria_log("opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
     return 1;
   }
 

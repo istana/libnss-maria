@@ -1,9 +1,17 @@
 #!/bin/bash
 HOME_PATH="/home/libnss-maria"
-rm -rf "$HOME_PATH/Debug"
-mkdir "$HOME_PATH/Debug"
 
-cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose
+if [[ -z $PRODUCTION ]]; then
+  rm -rf "$HOME_PATH/Debug"
+  mkdir "$HOME_PATH/Debug"
+
+  cd /home/libnss-maria/Debug && cmake -D CMAKE_BUILD_TYPE=Debug .. && make && ctest --verbose
+else
+  rm -rf "$HOME_PATH/Release"
+  mkdir "$HOME_PATH/Release"
+
+  cd /home/libnss-maria/Release && cmake -D CMAKE_BUILD_TYPE=Release .. && make && ctest --verbose
+fi
 
 if [[ $? -eq 0 && -z $COMPILE_ONLY ]]; then
   sudo rm /lib/libnss_maria.so*

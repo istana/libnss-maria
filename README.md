@@ -8,12 +8,19 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 Library works.
 
+## Features
+
+- cmake build system
+- libconfig for configuration
+- uses direct queries and real_escape_string
+- uses threads.c from C11
+
 ## TODO
 
-- fix warnings about const char
 - performance test
 - prepare production build + properly separate log levels
 - fix travis, set up Debian/Ubuntu/RHEL+MySQL/MariaDB
+- permissions separation for pwd/grp and spw
 - logo
 - v1 version
 - announce
@@ -21,15 +28,7 @@ Library works.
 - more robust cleanup procedure
 - the support for unix socket
 - code quality analyzer in addition to strict compiler checks
-
-### Works
-
-- cmake build setup
-- configuration
-- ~prepared statements~ / use real_escape_string
-- string with real_escape
-- more examples
-- log errors to syslog
+- more unit tests
 
 ## Local Setup
 
@@ -121,7 +120,7 @@ I've chosen libconfig, because:
 - libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
 - libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
 
-## Author + License
+## License
 
 Written by Ivan Stana, 2015-2020. Released under GNU GPL v3 and later.
 
@@ -140,7 +139,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-I appreciate new testers, developers and users.
+### Other Software Included
+
+- https://github.com/Snaipe/Criterion used as unit test framework (MIT)
+- https://stackoverflow.com/questions/779875/what-is-the-function-to-replace-string-in-c - for string replace function (CC4 BY)
+
+## Related Software
+
+- https://github.com/gmjosack/nss_debug
+- https://github.com/Cellebyte/libnss-mysql-bg-1.5
+- https://github.com/jandd/libnss-pgsql
+
+Thanks for the inspiration and help.
 
 ## Debug
 

@@ -65,7 +65,7 @@ enum nss_status _nss_maria_getspent_r (
   int *errnop,
   int *h_errnop
 ) {
-  maria_log("_nss_maria_getspent_r called!");
+  debug_print("_nss_maria_getspent_r called!");
 
   MYSQL_ROW row;
   enum nss_status row_status = maria_get_row(&shadow_dbconn, &shadow_dbresult, &row, errnop);
@@ -76,7 +76,7 @@ enum nss_status _nss_maria_getspent_r (
   return copy_db_row_to_shadow(row, shadow_result, buffer, buflen, errnop);
 }
 enum nss_status _nss_maria_setspent (void) {
-  maria_log("_nss_maria_setspent called!");
+  debug_print("_nss_maria_setspent called!");
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
@@ -99,7 +99,7 @@ enum nss_status _nss_maria_setspent (void) {
 }
 
 enum nss_status _nss_maria_endspent (void) {
-  maria_log("_nss_maria_endspent called!");
+  debug_print("_nss_maria_endspent called!");
 
   mysql_free_result(shadow_dbresult);
   mysql_close(shadow_dbconn);

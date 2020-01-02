@@ -3,7 +3,7 @@
 enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop) {
   *conn = mysql_init(NULL);
   if(!*conn) {
-    debug_print("mysql init failed, out of memory");
+    maria_log("mysql init failed, out of memory");
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -18,7 +18,7 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
     NULL,
     0
   ) == NULL) {
-    debug_print("cannot connect to the database");
+    maria_log("cannot connect to the database");
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -28,7 +28,7 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
 
 enum nss_status maria_do_query(MYSQL *conn, const char *query, int *errnop) {
   if (mysql_real_query(conn, query, strlen(query)) != 0) {
-    debug_print("cannot execute mariadb query");
+    maria_log("cannot execute mariadb query");
     log_mysql_error(conn);
     *errnop = ENOENT;
     return NSS_STATUS_UNAVAIL;
@@ -41,7 +41,7 @@ enum nss_status maria_get_result(MYSQL *conn, MYSQL_RES **result, int *errnop) {
   *result = mysql_store_result(conn);
 
   if(*result == NULL) {
-    debug_print("cannot get result from query");
+    maria_log("cannot get result from query");
     log_mysql_error(conn);
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;
@@ -64,7 +64,7 @@ enum nss_status maria_query_with_param(
   enum nss_status result_status;
 
   if(!memchr(query, '?', strlen(query))) {
-    debug_print("placeholder not found in database query");
+    maria_log("placeholder not found in database query, %s", caller);
     *errnop = ENOENT;
     return NSS_STATUS_UNAVAIL;
   }

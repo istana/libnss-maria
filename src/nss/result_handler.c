@@ -161,7 +161,6 @@ enum nss_status copy_gids(
   long int available_gids = *gids_size - *start_index;
 
   my_ulonglong rows_len = mysql_num_rows(result);
-  // TODO: consider reallocating like libnss-pgsql does
   if (limit > available_gids || (long int)rows_len > available_gids) {
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;

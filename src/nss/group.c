@@ -233,7 +233,7 @@ enum nss_status _nss_maria_getgrent_r (
   int *errnop,
   int *h_errnop
 ) {
-  maria_log("_nss_maria_getgrent_r called!");
+  debug_print("_nss_maria_getgrent_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
   if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
@@ -288,7 +288,7 @@ enum nss_status _nss_maria_getgrent_r (
 }
 
 enum nss_status _nss_maria_setgrent (void) {
-  maria_log("_nss_maria_setgrent called!");
+  debug_print("_nss_maria_setgrent called!");
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
@@ -311,7 +311,7 @@ enum nss_status _nss_maria_setgrent (void) {
 }
 
 enum nss_status _nss_maria_endgrent (void) {
-  maria_log("_nss_maria_endgrent called!");
+  debug_print("_nss_maria_endgrent called!");
 
   mysql_free_result(group_dbresult);
   mysql_close(group_dbconn);
