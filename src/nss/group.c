@@ -1,8 +1,7 @@
 #include "./group.h"
 
-thread_local MYSQL *group_dbconn;
-thread_local MYSQL_RES *group_dbresult;
-thread_local MYSQL_ROW_OFFSET *group_cursor;
+thread_local MYSQL *group_dbconn = NULL;
+thread_local MYSQL_RES *group_dbresult = NULL;
 
 enum nss_status _nss_maria_getgrnam_r (
   const char *name,
@@ -15,15 +14,11 @@ enum nss_status _nss_maria_getgrnam_r (
   debug_print("_nss_maria_getgrnam_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(errnop);
 
-  MYSQL *conn;
-  MYSQL_RES *result;
-  MYSQL_RES *group_members_result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
+  MYSQL_RES *group_members_result = NULL;
   MYSQL_ROW row;
   size_t occupied_buffer = 0;
 
@@ -38,27 +33,21 @@ enum nss_status _nss_maria_getgrnam_r (
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return row_status;
   }
 
   enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
 
   if (result_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return result_status;
   }
 
@@ -76,18 +65,15 @@ enum nss_status _nss_maria_getgrnam_r (
   );
 
   if (group_members_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    if(group_members_result != NULL) mysql_free_result(group_members_result);
+    CLEANUP();
     return group_members_status;
   }
 
   enum nss_status group_members_copy_status = copy_group_members_to_group(group_members_result, group_result, buffer, buflen, &occupied_buffer, errnop);
 
-  free(settings);
   mysql_free_result(group_members_result);
-  mysql_free_result(result);
-  mysql_close(conn);
+  CLEANUP();
   return group_members_copy_status;
 }
 
@@ -106,15 +92,11 @@ enum nss_status _nss_maria_getgrgid_r (
   snprintf(gid_as_string, 255, "%d", gid);
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(errnop);
 
-  MYSQL *conn;
-  MYSQL_RES *result;
-  MYSQL_RES *group_members_result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
+  MYSQL_RES *group_members_result = NULL;
   MYSQL_ROW row;
   size_t occupied_buffer = 0;
 
@@ -129,27 +111,21 @@ enum nss_status _nss_maria_getgrgid_r (
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return row_status;
   }
 
   enum nss_status result_status = copy_db_row_to_group(row, group_result, buffer, buflen, &occupied_buffer, errnop);
 
   if (result_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return result_status;
   }
 
@@ -164,18 +140,15 @@ enum nss_status _nss_maria_getgrgid_r (
   );
 
   if (group_members_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    if(group_members_result != NULL) mysql_free_result(group_members_result);
+    CLEANUP();
     return group_members_status;
   }
 
   enum nss_status group_members_copy_status = copy_group_members_to_group(group_members_result, group_result, buffer, buflen, &occupied_buffer, errnop);
 
-  free(settings);
-  mysql_free_result(group_members_result);
-  mysql_free_result(result);
-  mysql_close(conn);
+  if(group_members_result != NULL) mysql_free_result(group_members_result);
+  CLEANUP();
   return group_members_copy_status;
 }
 
@@ -192,14 +165,10 @@ enum nss_status _nss_maria_initgroups_dyn (
   debug_print("_nss_maria_initgroups_dyn called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(errnop);
 
-  MYSQL *conn;
-  MYSQL_RES *result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_initgroups_dyn",
@@ -212,17 +181,13 @@ enum nss_status _nss_maria_initgroups_dyn (
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status gids_copy_status = copy_gids(result, start_index, gids_size, gids, limit, errnop);
 
-  free(settings);
-  mysql_free_result(result);
-  mysql_close(conn);
+  CLEANUP();
   return gids_copy_status;
 }
 
@@ -236,16 +201,13 @@ enum nss_status _nss_maria_getgrent_r (
   debug_print("_nss_maria_getgrent_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(errnop);
 
   enum nss_status row_status;
   enum nss_status copy_status;
   enum nss_status members_status;
   enum nss_status members_copy_status;
-  MYSQL_RES *group_members_result;
+  MYSQL_RES *group_members_result = NULL;
   MYSQL_ROW row;
   size_t occupied_buffer = 0;
 
@@ -270,21 +232,23 @@ enum nss_status _nss_maria_getgrent_r (
     &group_members_result,
     errnop
   )) != NSS_STATUS_SUCCESS) {
+    if(group_members_result != NULL) mysql_free_result(group_members_result);
+    free(settings);
     return members_status;
   }
 
-  if((members_copy_status = copy_group_members_to_group(
+  members_copy_status = copy_group_members_to_group(
     group_members_result,
     group_result,
     buffer,
     buflen,
     &occupied_buffer,
     errnop
-  )) != NSS_STATUS_SUCCESS) {
-    return members_copy_status;
-  }
+  );
 
-  return NSS_STATUS_SUCCESS;
+  if(group_members_result != NULL) mysql_free_result(group_members_result);
+  free(settings);
+  return members_copy_status;
 }
 
 enum nss_status _nss_maria_setgrent (void) {
@@ -292,10 +256,7 @@ enum nss_status _nss_maria_setgrent (void) {
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(&err);
 
   enum nss_status status = maria_query_no_param(
     "_nss_maria_setspent",
@@ -313,7 +274,7 @@ enum nss_status _nss_maria_setgrent (void) {
 enum nss_status _nss_maria_endgrent (void) {
   debug_print("_nss_maria_endgrent called!");
 
-  mysql_free_result(group_dbresult);
-  mysql_close(group_dbconn);
+  if(group_dbresult != NULL) mysql_free_result(group_dbresult);
+  if(group_dbconn != NULL) mysql_close(group_dbconn);
   return NSS_STATUS_SUCCESS;
 }
