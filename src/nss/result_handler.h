@@ -37,4 +37,17 @@ enum nss_status copy_gids(
   long int limit,
   int *errnop
 );
+
+#define CLEANUP() \
+  if(settings != NULL) free(settings);\
+  if(result != NULL) mysql_free_result(result);\
+  if(conn != NULL) mysql_close(conn);
+
+#define READ_USER_CONFIG(errnop) \
+  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {\
+    free(settings);\
+    *errnop = ENOENT;\
+    return NSS_STATUS_UNAVAIL;\
+  }
+
 #endif

@@ -1,7 +1,7 @@
 #include "./shadow.h"
 
-thread_local MYSQL *shadow_dbconn;
-thread_local MYSQL_RES *shadow_dbresult;
+thread_local MYSQL *shadow_dbconn = NULL;
+thread_local MYSQL_RES *shadow_dbresult = NULL;
 
 enum nss_status _nss_maria_getspnam_r(
   const char *name,
@@ -14,15 +14,11 @@ enum nss_status _nss_maria_getspnam_r(
   debug_print("_nss_maria_getspnam_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL *conn;
-  MYSQL_RES *result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
   MYSQL_ROW row;
+
+  READ_USER_CONFIG(errnop);
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_getspnam_r",
@@ -35,26 +31,20 @@ enum nss_status _nss_maria_getspnam_r(
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return row_status;
   }
 
   enum nss_status result_status = copy_db_row_to_shadow(row, shadow_result, buffer, buflen, errnop);
 
-  free(settings);
-  mysql_free_result(result);
-  mysql_close(conn);
+  CLEANUP();
   return result_status;
 }
 
@@ -80,10 +70,7 @@ enum nss_status _nss_maria_setspent (void) {
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(&err);
 
   enum nss_status status = maria_query_no_param(
     "_nss_maria_setspent",
@@ -101,7 +88,7 @@ enum nss_status _nss_maria_setspent (void) {
 enum nss_status _nss_maria_endspent (void) {
   debug_print("_nss_maria_endspent called!");
 
-  mysql_free_result(shadow_dbresult);
-  mysql_close(shadow_dbconn);
+  if(shadow_dbresult != NULL) mysql_free_result(shadow_dbresult);
+  if(shadow_dbconn != NULL) mysql_close(shadow_dbconn);
   return NSS_STATUS_SUCCESS;
 }

@@ -1,7 +1,7 @@
 #include "./passwd.h"
 
-thread_local MYSQL *passwd_dbconn;
-thread_local MYSQL_RES *passwd_dbresult;
+thread_local MYSQL *passwd_dbconn = NULL;
+thread_local MYSQL_RES *passwd_dbresult = NULL;
 
 enum nss_status _nss_maria_getpwnam_r (
   const char *name,
@@ -14,15 +14,11 @@ enum nss_status _nss_maria_getpwnam_r (
   debug_print("_nss_maria_getpwnam_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
-
-  MYSQL *conn;
-  MYSQL_RES *result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
   MYSQL_ROW row;
+
+  READ_USER_CONFIG(errnop);
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_getpwnam_r",
@@ -35,26 +31,20 @@ enum nss_status _nss_maria_getpwnam_r (
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return row_status;
   }
 
   enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
 
-  free(settings);
-  mysql_free_result(result);
-  mysql_close(conn);
+  CLEANUP();
   return result_status;
 }
 
@@ -69,18 +59,14 @@ enum nss_status _nss_maria_getpwuid_r (
   debug_print("_nss_maria_getpwuid_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    *errnop = ENOENT;
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(errnop);
 
   // TODO: should return error when longer than entered
   char uid_as_string[256];
   snprintf(uid_as_string, 255, "%d", uid);
 
-  MYSQL *conn;
-  MYSQL_RES *result;
+  MYSQL *conn = NULL;
+  MYSQL_RES *result = NULL;
   MYSQL_ROW row;
 
   enum nss_status status = maria_query_with_param(
@@ -94,26 +80,20 @@ enum nss_status _nss_maria_getpwuid_r (
   );
 
   if (status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return status;
   }
 
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
-    free(settings);
-    mysql_free_result(result);
-    mysql_close(conn);
+    CLEANUP();
     return row_status;
   }
 
   enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
 
-  free(settings);
-  mysql_free_result(result);
-  mysql_close(conn);
+  CLEANUP();
   return result_status;
 }
 
@@ -139,10 +119,7 @@ enum nss_status _nss_maria_setpwent (void) {
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {
-    free(settings);
-    return NSS_STATUS_UNAVAIL;
-  }
+  READ_USER_CONFIG(&err);
 
   enum nss_status status = maria_query_no_param(
     "_nss_maria_setpwent",
@@ -160,7 +137,7 @@ enum nss_status _nss_maria_setpwent (void) {
 enum nss_status _nss_maria_endpwent (void) {
   debug_print("_nss_maria_endpwent called!");
 
-  mysql_free_result(passwd_dbresult);
-  mysql_close(passwd_dbconn);
+  if(passwd_dbresult != NULL) mysql_free_result(passwd_dbresult);
+  if(passwd_dbconn != NULL) mysql_close(passwd_dbconn);
   return NSS_STATUS_SUCCESS;
 }
