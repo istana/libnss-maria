@@ -139,7 +139,12 @@ enum nss_status copy_group_members_to_group(
       return NSS_STATUS_TRYAGAIN;
     }
 
-    strncpy(&(buffer[*occupied_buffer]), name, name_l);
+    // TODO: should work, but refactor
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wstringop-truncation"
+    #pragma GCC diagnostic ignored "-Wstringop-overflow"
+      strncpy(&(buffer[*occupied_buffer]), name, name_l);
+    #pragma GCC diagnostic pop
     ptr_array[i] = &(buffer[*occupied_buffer]);
     *occupied_buffer += name_l + 1;
   }
