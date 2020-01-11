@@ -29,7 +29,7 @@ setup() {
 @test "doesn't find unknown user passwd entry by name" {
   run getent passwd eliza
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"no result found"* ]]
+  [[ "$output" == *"no result found"* || "$output" == "" ]]
 }
 
 @test "finds known user passwd entry by ID" {
@@ -41,7 +41,7 @@ setup() {
 @test "doesn't find unknown user passwd entry by ID" {
   run getent passwd 8020
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"no result found"* ]]
+  [[ "$output" == *"no result found"* || "$output" == "" ]]
 }
 
 @test "finds all user passwd entries" {
@@ -65,7 +65,7 @@ setup() {
 @test "doesn't find unknown user shadow entry by name" {
   run getent shadow eliza
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"no result found"* ]]
+  [[ "$output" == *"no result found"* || "$output" == "" ]]
 }
 
 @test "finds all user shadow entries" {
@@ -89,7 +89,7 @@ setup() {
 @test "doesn't find unknown group in group database by name" {
   run getent group gods
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"no result found"* ]]
+  [[ "$output" == *"no result found"* || "$output" == "" ]]
 }
 
 @test "finds known group in group database by ID" {
@@ -101,7 +101,7 @@ setup() {
 @test "doesn't find unknown group in group database by ID" {
   run getent group 9025
   [[ "$status" -gt 0 ]]
-  [[ "$output" == *"no result found"* ]]
+  [[ "$output" == *"no result found"* || "$output" == "" ]]
 }
 
 @test "finds all users belonging to a group, primary and secondary members" {
