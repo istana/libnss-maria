@@ -1,4 +1,4 @@
-dist: disco
+dist: eoan
 sudo: required
 language: c
 compiler:
@@ -8,6 +8,8 @@ script:
   - mkdir Release
   - cd Release
   - cmake -D CMAKE_BUILD_TYPE=Release ..
-  - make && ctest --verbose
+  - make
+  - ctest --verbose
 before_install:
-  - sudo apt-get install libmariadb-dev cmake libssl-dev libc6-dev zlib1g-dev libconfig-dev
+  - sudo apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
+  - sudo apt-get install -y syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config

@@ -17,8 +17,6 @@ Library works.
 
 ## TODO
 
-- performance test
-- prepare production build + properly separate log levels
 - fix travis, set up Debian/Ubuntu/RHEL+MySQL/MariaDB
 - permissions separation for pwd/grp and spw
 - logo
