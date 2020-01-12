@@ -1,15 +1,14 @@
-dist: eoan
 sudo: required
 language: c
-compiler:
-  - gcc
-  - clang
+services:
+  - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+before_script:
+  - docker-compose up -d --build
+after_script:
+  - docker-compose down
 script:
-  - mkdir Release
-  - cd Release
-  - cmake -D CMAKE_BUILD_TYPE=Release ..
-  - make
-  - ctest --verbose
-before_install:
-  - sudo apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
-  - sudo apt-get install -y syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
+  - docker exec -it libnss-maria_sys_1 sh -c "./script/compile_in_vagrant.sh"

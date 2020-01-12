@@ -14,6 +14,8 @@ Library works.
 - libconfig for configuration
 - uses direct queries and real_escape_string
 - uses threads.c from C11
+- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+
+    might work or compile on older systems, but it's untested
 
 ## TODO
 
