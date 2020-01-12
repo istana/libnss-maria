@@ -2,14 +2,25 @@
 
 setup() {
   if [[ "$BATS_TEST_NUMBER" -eq 1 ]]; then
-    cat /home/libnss-maria/examples/sos-sso/sql/1-db-and-users.sql | \
-    sudo mysql -u root &&
-    cat /home/libnss-maria/examples/sos-sso/sql/2-data-structures.sql | \
-    sudo mysql -u root sos-sso-production &&
-    cat /home/libnss-maria/examples/sos-sso/sql/3-privileges.sql | \
-    sudo mysql -u root sos-sso-production &&
-    cat /home/libnss-maria/examples/sos-sso/sql/4-data.sql | \
-    sudo mysql -u root sos-sso-production
+    if [[ -z $DOCKER ]]; then
+      cat /home/libnss-maria/examples/sos-sso/sql/1-db.sql | \
+      sudo mysql -u root &&
+      cat /home/libnss-maria/examples/sos-sso/sql/2-users.sql | \
+      sudo mysql -u root &&
+      cat /home/libnss-maria/examples/sos-sso/sql/3-data-structures.sql | \
+      sudo mysql -u root sos-sso-production &&
+      cat /home/libnss-maria/examples/sos-sso/sql/4-privileges.sql | \
+      sudo mysql -u root sos-sso-production &&
+      cat /home/libnss-maria/examples/sos-sso/sql/5-data.sql | \
+      sudo mysql -u root sos-sso-production
+    else
+      cat /home/libnss-maria/examples/sos-sso/sql/1-db.sql | \
+      mysql -unss-maria-user -pIsabelle -hdatabase sos-sso-production &&
+      cat /home/libnss-maria/examples/sos-sso/sql/3-data-structures.sql | \
+      mysql -unss-maria-user -pIsabelle -hdatabase sos-sso-production &&
+      cat /home/libnss-maria/examples/sos-sso/sql/5-data.sql | \
+      mysql -unss-maria-user -pIsabelle -hdatabase sos-sso-production
+    fi
   fi
 }
 

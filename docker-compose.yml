@@ -6,13 +6,21 @@ services:
       dockerfile: Dockerfile
     image: debian:buster
     volumes:
-      - ${TRAVIS_BUILD_DIR}:/home/libnss-maria
+      - ${TRAVIS_BUILD_DIR:-.}:/home/libnss-maria
     stdin_open: true
     tty: true
     command: /bin/bash
     links:
       - database
+    environment:
+      - DOCKER=true
   database:
     image: library/mariadb
+    ports:
+      - '3306'
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD='true'
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_ROOT_HOST=sys
+      - MYSQL_USER=nss-maria-user
+      - MYSQL_PASSWORD=Isabelle
+      - MYSQL_DATABASE=sos-sso-production

@@ -28,7 +28,7 @@ Test(maria_config_helpers, initialize_config_dbpass) {
 Test(maria_config_helpers, initialize_config_dbport) {
   Maria_config config;
   maria_initialize_config(&config);
-  cr_expect_eq(config.dbport, 3309);
+  cr_expect_eq(config.dbport, 3306);
 }
 
 Test(maria_config_helpers, initialize_config_getpwnam) {
