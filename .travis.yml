@@ -11,4 +11,4 @@ before_script:
 after_script:
   - docker-compose down
 script:
-  - docker-compose exec sys sh -c "./script/compile_in_vagrant.sh"
+  - docker-compose exec sys sh -c "/home/libnss-maria/script/compile_in_vagrant.sh"
