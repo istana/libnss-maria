@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.11)
 include_directories("${CMAKE_SOURCE_DIR}/src")
 
 # copy test fixtures to build directory
