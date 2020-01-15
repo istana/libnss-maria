@@ -17,7 +17,6 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 ## TODO
 
-- travis: set up Debian/Ubuntu/RHEL+MySQL/MariaDB+FreeBSD
 - fix bug with too many users in a group
 - permissions separation for pwd/grp and spw
 - logo
@@ -27,6 +26,7 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - the support for unix socket
 - code quality analyzer in addition to strict compiler checks
 - more unit tests
+- figure how to run integration test in Docker without random errors
 
 ## Build && Test in Vagrant
 
