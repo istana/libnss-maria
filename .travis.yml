@@ -18,3 +18,4 @@ env:
   - DISTRO="ubuntu-lts"
   - DISTRO="centos"
   - DISTRO="fedora"
+  - DISTRO="archlinux"
