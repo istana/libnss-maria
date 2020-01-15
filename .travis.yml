@@ -15,3 +15,6 @@ script:
 env:
   - DISTRO="debian"
   - DISTRO="ubuntu"
+  - DISTRO="ubuntu-lts"
+  - DISTRO="centos"
+  - DISTRO="fedora"

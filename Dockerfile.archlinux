@@ -1,0 +1,3 @@
+FROM archlinux:latest
+RUN pacman -S -y gcc g++ make cmake mariadb libconfig syslog-ng bash-bats ruby python-pkgconfig
+RUN syslog-ng
