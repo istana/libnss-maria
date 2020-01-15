@@ -3,8 +3,7 @@ services:
   sys:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: debian:buster
+      dockerfile: Dockerfile.${DISTRO:-debian}
     volumes:
       - ${TRAVIS_BUILD_DIR:-.}:/home/libnss-maria
     stdin_open: true

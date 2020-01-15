@@ -12,3 +12,6 @@ after_script:
   - docker-compose down
 script:
   - docker-compose exec -e COMPILE_ONLY="1" -e PRODUCTION="1" sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
+env:
+  - DISTRO="debian"
+  - DISTRO="ubuntu"

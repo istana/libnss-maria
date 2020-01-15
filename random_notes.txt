@@ -106,3 +106,16 @@ můžeš udělat něco jako #if sizeof(uid_t) == 4 [nový řádek] deklarace ře
 - NSS_STATUS_NOTFOUND SUCCESS There are no entries. Use this to avoid returning errors for inactive services which may be enabled at a later time. This is not the same as the service being temporarily unavailable.
 - ~NSS_SUCCESS should set errno to 0~ - spec says you never should set errno when it's successful
 - nss_maria_initgroups_dyn / gidsbymem propagate limit param to db query
+
+
+docker-compose exec sys sh -c "/bin/bash"
+
+### Why weird configuration format?
+
+I've chosen libconfig, because:
+
+- JSON hasn't multiline strings
+- cannot found well maintained INI parser for linux, not sure about multiline strings
+- libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
+- libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
+

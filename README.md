@@ -4,9 +4,7 @@
 
 Replacement for old libnss-mysql as naming service library in Linux.
 
-You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database.
-
-Library works.
+You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database, `getent` shows users and groups.
 
 ## Features
 
@@ -14,30 +12,21 @@ Library works.
 - libconfig for configuration
 - uses direct queries and real_escape_string
 - uses threads.c from C11
-- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+
+- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+, mariadb-connector-c/mysql-client
     might work or compile on older systems, but it's untested
 
 ## TODO
 
-- fix travis, set up Debian/Ubuntu/RHEL+MySQL/MariaDB
+- travis: set up Debian/Ubuntu/RHEL+MySQL/MariaDB+FreeBSD
+- fix bug with too many users in a group
 - permissions separation for pwd/grp and spw
 - logo
 - v1 version
 - announce
 - deb + rpm packages + universal package managers too
-- more robust cleanup procedure
 - the support for unix socket
 - code quality analyzer in addition to strict compiler checks
 - more unit tests
-
-## Local Setup
-
-`brew install coreutils`
-
-## Build && Test in Docker
-
-`docker-compose up` <-- this starts docker containers for build and test at once  
-`./scripts/build-docker.sh` <-- compiles a debug build and the result is in `./Debug/src` directory on host and in build container
 
 ## Build && Test in Vagrant
 
@@ -48,81 +37,32 @@ vagrant plugin install vagrant-vbguest
 
 vagrant up
 ./scripts/build-vagrant.sh
+# or ./scripts/build-vagrant-production.sh
 ```
+
+The result is in `./Debug/src` or `./Release/src`directory.
+
+## Build && Test in Docker
+
+`docker-compose up`
+`./scripts/build-docker.sh`
 
 The result is in `./Debug/src` directory.
 
-## Build && Test
+## Build && Test on a Linux system
 
 Required libraries for building the library and test:
 
 ```
-apt-get install cmake libssl-dev libc6-dev zlib1g-dev libconfig-dev libmysqlclient-dev
+apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
+apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
+
+./script/build-debug.sh
 ```
 
-### Build
-
-```
-mkdir Debug
-cd Debug
-cmake -D CMAKE_BUILD_TYPE=Debug ..
-make VERBOSE=1
-```
-
-or run `./scripts/build-debug.sh`
-
-### Release build (optimizations, warnings treated as errors)
-
-```
-mkdir Release
-cd Release
-cmake -D CMAKE_BUILD_TYPE=Release ..
-make VERBOSE=1
-```
-
-### Run tests
-
-`make test`
-
-but to see the output from unit testing library (to see what failed):
-
-`ctest --verbose`
-
-## Architecture
-
-
-```
-naming service switch handler
-**********************************
-SQL Queries Dispatcher
-**********************************
-Configuration file parser
-**********************************
-Logger
-```
-
-items on lower layer are used by items on a higher layer, items on same layer are independent from each other
-
-## Philosophy and Design
-
-https://mariadb.com/kb/en/mariadb/mariadb-connector-c/
-
-The MariaDB Connector/C is used to connect applications developed in C/C++ to MariaDB and MySQL databases. MySQL Connector/C is LGPL licensed.
-
-Prior to version 2.1 the name for the library was MariaDB Client library for C.
-
-### Why weird configuration format?
-
-I've chosen libconfig, because:
-
-- JSON hasn't multiline strings
-- cannot found well maintained INI parser for linux, not sure about multiline strings
-- libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
-- libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
+Set `PRODUCTION` variable to any value to build production build.
 
 ## License
-
-Written by Ivan Stana, 2015-2020. Released under GNU GPL v3 and later.
 
 Copyright (C) 2015-2020  Ivan Stana
 
