@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="libnss-maria-logo.svg"
+   inkscape:version="1.0beta2 (2b71d25, 2019-12-03)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 105.83333 105.83333"
+   height="400"
+   width="400">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:window-height="789"
+     inkscape:window-width="1440"
+     units="px"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="173.83821"
+     inkscape:cx="382.29651"
+     inkscape:zoom="0.36388287"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <rect
+       y="-0.18211654"
+       x="0.29538894"
+       height="106.01549"
+       width="106.01549"
+       id="rect10"
+       style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:0.264583" />
+    <text
+       id="text14"
+       y="10.40758"
+       x="1.7083402"
+       style="font-style:normal;font-weight:normal;font-size:7.76111px;line-height:1.25;font-family:sans-serif;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="fill:#00ff00;stroke-width:0.264583"
+         y="10.40758"
+         x="1.7083402"
+         id="tspan12"
+         sodipodi:role="line">katarina:x:8000:</tspan><tspan
+         id="tspan36"
+         style="fill:#00ff00;stroke-width:0.264583"
+         y="20.108969"
+         x="1.7083402"
+         sodipodi:role="line">9000:Katarina Freya,501</tspan></text>
+    <text
+       id="text18"
+       y="35.919453"
+       x="103.33486"
+       style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;text-align:end;text-anchor:end;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="text-align:end;text-anchor:end;fill:#ffff00;stroke-width:0.264583"
+         y="35.919453"
+         x="103.33487"
+         id="tspan16"
+         sodipodi:role="line">katarina:$6$foo:2:5</tspan><tspan
+         id="tspan34"
+         style="text-align:end;text-anchor:end;fill:#ffff00;stroke-width:0.264583"
+         y="44.738903"
+         x="103.33486"
+         sodipodi:role="line">:1000:67:10</tspan></text>
+    <text
+       id="text22"
+       y="59.545715"
+       x="0.61539698"
+       style="font-style:normal;font-weight:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="fill:#ff00ff;stroke-width:0.264583"
+         y="59.545715"
+         x="0.61539698"
+         id="tspan20"
+         sodipodi:role="line">final fantasy 15:x:</tspan><tspan
+         id="tspan30"
+         style="fill:#ff00ff;stroke-width:0.264583"
+         y="71.892937"
+         x="0.61539698"
+         sodipodi:role="line">9001:noctis,cindy</tspan><tspan
+         id="tspan32"
+         style="fill:#ff00ff;stroke-width:0.264583"
+         y="84.240166"
+         x="0.61539698"
+         sodipodi:role="line">,chocobo</tspan></text>
+    <text
+       id="text26"
+       y="94.697121"
+       x="1.2751012"
+       style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="fill:#ff0000;stroke-width:0.264583"
+         y="94.697121"
+         x="1.2751012"
+         id="tspan24"
+         sodipodi:role="line">wheel daemon kmem sys</tspan><tspan
+         id="tspan28"
+         style="fill:#ff0000;stroke-width:0.264583"
+         y="103.51657"
+         x="1.2751012"
+         sodipodi:role="line">tty operator procview</tspan></text>
+  </g>
+</svg>

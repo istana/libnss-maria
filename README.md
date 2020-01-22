@@ -1,4 +1,11 @@
-# libnss-maria
+<style type="text/css">
+  img[alt="libnss-maria logo"] {
+    height: 64px;
+    width: 65px;
+  }
+</style>
+
+# ![libnss-maria logo](./libnss-maria-logo.svg) libnss-maria
 
 [![Build Status](https://travis-ci.org/istana/libnss-maria.svg?branch=master)](https://travis-ci.org/istana/libnss-maria)
 
@@ -19,7 +26,6 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 - fix bug with too many users in a group
 - permissions separation for pwd/grp and spw
-- logo
 - v1 version
 - announce
 - deb + rpm packages + universal package managers too
