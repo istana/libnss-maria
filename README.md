@@ -1,7 +1,7 @@
 <style type="text/css">
   img[alt="libnss-maria logo"] {
-    height: 64px;
-    width: 65px;
+    height: 96px;
+    width: 96px;
   }
 </style>
 
