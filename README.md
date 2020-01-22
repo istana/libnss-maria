@@ -1,11 +1,4 @@
-<style type="text/css">
-  img[alt="libnss-maria logo"] {
-    height: 96px;
-    width: 96px;
-  }
-</style>
-
-# ![libnss-maria logo](./libnss-maria-logo.svg) libnss-maria
+# <img src="./libnss-maria-logo.svg" width="96" height="96"> libnss-maria
 
 [![Build Status](https://travis-ci.org/istana/libnss-maria.svg?branch=master)](https://travis-ci.org/istana/libnss-maria)
 
