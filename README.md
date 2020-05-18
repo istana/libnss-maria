@@ -12,8 +12,9 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - libconfig for configuration
 - uses direct queries and real_escape_string
 - uses threads.c from C11
-- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+, mariadb-connector-c/mysql-client
-    might work or compile on older systems, but it's untested
+- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+, mariadb-connector-c/mysql-client.
+    Might work or compile on older systems, but it's untested
+- tested systems - Archlinux, ~~Centos~~ (should work, but it's broken in Docker + overlay driver), stable Debian, Fedora, latest Ubuntu, Ubuntu LTS
 
 ## TODO
 
