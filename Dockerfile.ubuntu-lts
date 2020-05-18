@@ -1,4 +1,5 @@
 FROM ubuntu:latest
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
 RUN apt-get install -y syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
