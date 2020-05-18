@@ -6,7 +6,7 @@ services:
 addons:
   apt:
     packages:
-      - docker-ce
+      - docker.io
 before_script:
   - docker-compose up -d --build
 after_script:
