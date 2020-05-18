@@ -91,6 +91,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Thanks for the inspiration and help.
 
+## Links
+
+- https://freshcode.club/projects/libnss-maria
+
 ## Debug
 
 https://github.com/Snaipe/Criterion/issues/206
