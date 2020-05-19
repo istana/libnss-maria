@@ -18,12 +18,13 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 ## TODO
 
-- fix bug with too many users in a group
 - permissions separation for pwd/grp and spw
+- TLS config options
 - v1 version
 - announce
 - deb + rpm packages + universal package managers too
 - the support for unix socket
+- fix bug with too many users in a group - not a bug, just buffer is too small (1k) for all group members and glibc won't retry with a larger one
 - code quality analyzer in addition to strict compiler checks
 - more unit tests
 - figure how to run integration test in Docker without random errors
