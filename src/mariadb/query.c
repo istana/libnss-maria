@@ -68,6 +68,7 @@ enum nss_status maria_query_with_param(
   int *errnop
 ) {
   enum nss_status conn_status;
+  enum nss_status reset_conn_status;
   enum nss_status query_status;
   enum nss_status result_status;
 
@@ -77,7 +78,11 @@ enum nss_status maria_query_with_param(
     return NSS_STATUS_UNAVAIL;
   }
 
-  if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+  if(*conn != NULL) {
+    if((reset_conn_status = maria_reset_connection(conn, errnop)) != NSS_STATUS_SUCCESS) {
+      return reset_conn_status;
+    }
+  } else if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
     return conn_status;
   }
 
@@ -112,10 +117,15 @@ enum nss_status maria_query_no_param(
   int *errnop
 ) {
   enum nss_status conn_status;
+  enum nss_status reset_conn_status;
   enum nss_status query_status;
   enum nss_status result_status;
 
-  if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+  if(*conn != NULL) {
+    if((reset_conn_status = maria_reset_connection(conn, errnop)) != NSS_STATUS_SUCCESS) {
+      return reset_conn_status;
+    }
+  } else if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
     return conn_status;
   }
 
@@ -137,6 +147,19 @@ enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, 
     debug_print("no result found");
     *errnop = ENOENT;
     return NSS_STATUS_NOTFOUND;
+  }
+
+  return NSS_STATUS_SUCCESS;
+}
+
+enum nss_status maria_reset_connection(MYSQL **conn, int *errnop) {
+  if(mysql_reset_connection(*conn) > 0) {
+    maria_log("issues resetting database connection");
+    log_mysql_error(*conn);
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  } else {
+    debug_print("db connection was reset");
   }
 
   return NSS_STATUS_SUCCESS;

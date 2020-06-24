@@ -71,7 +71,6 @@ enum nss_status _nss_maria_getgrnam_r (
   }
 
   enum nss_status group_members_copy_status = copy_group_members_to_group(group_members_result, group_result, buffer, buflen, &occupied_buffer, errnop);
-
   mysql_free_result(group_members_result);
   CLEANUP();
   return group_members_copy_status;

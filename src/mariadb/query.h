@@ -32,4 +32,5 @@ enum nss_status maria_query_no_param(
   int *errnop
 );
 enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop);
+enum nss_status maria_reset_connection(MYSQL **conn, int *errnop);
 #endif
