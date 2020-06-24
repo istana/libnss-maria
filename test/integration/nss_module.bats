@@ -25,12 +25,6 @@ setup() {
 }
 
 ## passwd
-@test "finds root passwd entry" {
-  run getent passwd root
-  [[ $status -eq 0 ]]
-  [[ $output == "root:x:0:0:root:/root:/bin/bash" ]]
-}
-
 @test "finds known user passwd entry by name" {
   run getent passwd katarina
   [[ $status -eq 0 ]]
@@ -66,7 +60,6 @@ setup() {
 }
 
 ## shadow
-
 @test "finds known user shadow entry by name" {
   run getent shadow katarina
   [[ $status -eq 0 ]]
@@ -80,7 +73,7 @@ setup() {
 }
 
 @test "finds all user shadow entries" {
-  run sudo getent shadow
+  run $SUDO_COMMAND getent shadow
   [[ "$status" -eq 0 ]]
   [[ "$output" == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
   [[ "$output" == *"noctis:x:1:0:9999:30:0::0"* ]]
@@ -90,7 +83,6 @@ setup() {
 }
 
 ## groups
-
 @test "finds known group in group database by name" {
   run getent group immortals
   [[ $status -eq 0 ]]
@@ -128,7 +120,8 @@ setup() {
 @test "finds all groups a user belongs to" {
   run groups chocobo
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"final fantasy 7 final fantasy 15"* ]]
+  [[ "$output" == *"final fantasy 7"* ]]
+  [[ "$output" == *"final fantasy 15"* ]]
 }
 
 @test "finds all groups entries" {
