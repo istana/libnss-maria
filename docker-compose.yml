@@ -13,6 +13,8 @@ services:
       - database
     environment:
       - DOCKER=true
+    depends_on:
+      - database
   database:
     image: library/mariadb
     ports:
