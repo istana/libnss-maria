@@ -8,19 +8,27 @@ addons:
     packages:
       - docker.io
 before_script:
-  - docker-compose pull
-  - docker-compose build
-  - docker-compose up -d
+  - if [[ $DISTRO = "unix_socket" ]]; then export DC_FILE="docker-compose-unix-socket.yml"; else export DC_FILE="docker-compose.yml"; fi
+  - if [[ $DISTRO = "centos" ]]; then export COMPILE_ONLY="1"; fi
+  - docker-compose -f $DC_FILE pull
+  - docker-compose -f $DC_FILE build
+  - docker-compose -f $DC_FILE up -d
   - docker ps
 after_script:
-  - docker-compose down
+  - docker-compose -f $DC_FILE down
 script:
-  - sleep 20
-  - docker-compose exec -e RELEASE="1" -e CONFIG_FILE="libnss-maria-docker.conf" sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
+  - |
+    if [[ $DISTRO = "unix_socket" ]]; then
+      docker-compose -f $DC_FILE exec -e RELEASE="1" -e CONFIG_FILE="libnss-maria.unix_socket.conf" sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
+    else
+      sleep 20
+      docker-compose -f $DC_FILE exec -e RELEASE="1" -e CONFIG_FILE="libnss-maria-docker.conf" -e COMPILE_ONLY=$COMPILE_ONLY sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
+    fi
 env:
+  - DISTRO="archlinux"
+  - DISTRO="centos"
   - DISTRO="debian"
+  - DISTRO="fedora"
   - DISTRO="ubuntu"
   - DISTRO="ubuntu-lts"
-  - DISTRO="centos"
-  - DISTRO="fedora"
-  - DISTRO="archlinux"
+  - DISTRO="unix_socket"

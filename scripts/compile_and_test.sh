@@ -9,15 +9,21 @@ else
   TARGET="Release"
 fi
 
-SUDO_COMMAND=$([[ -z $TEST_USE_SUDO ]] && echo "" || echo "sudo")
+SUDO_COMMAND=$([[ -z $TEST_USE_SUDO || $TEST_USE_SUDO = "0" ]] && echo "" || echo "sudo")
 CONFIG_FILE=${CONFIG_FILE:-libnss-maria.conf}
 
+echo "COMPILE_ONLY: $COMPILE_ONLY"
 echo "CONFIG_FILE: $CONFIG_FILE"
+echo "DC_FILE: $DC_FILE"
+echo "DOCKER: $DOCKER"
+echo "PREDEFINED_DB: $PREDEFINED_DB"
+echo "SUDO_COMMAND: $SUDO_COMMAND"
 
 rm -rf "$HOME_PATH/$TARGET"
 mkdir "$HOME_PATH/$TARGET"
 
 cd ${HOME_PATH}/${TARGET} && cmake -D CMAKE_BUILD_TYPE=${TARGET} .. && make && ctest --verbose
+ORIG_RETURN_CODE=$?
 
 if [[ $? -eq 0 && -z $COMPILE_ONLY ]]; then
   $SUDO_COMMAND rm /lib/libnss_maria.so*
@@ -38,4 +44,6 @@ if [[ $? -eq 0 && -z $COMPILE_ONLY ]]; then
   $SUDO_COMMAND cp -bf /home/libnss-maria/examples/sos-sso/libnss-maria-root.conf /etc
 
   ${HOME_PATH}/test/integration/nss_module.bats
+else
+  exit $ORIG_RETURN_CODE
 fi

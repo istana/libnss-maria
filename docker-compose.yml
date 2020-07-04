@@ -10,7 +10,7 @@ services:
     tty: true
     command: /bin/bash
     environment:
-      - DOCKER=true
+      - PREDEFINED_DB=true
     depends_on:
       - database
   database:

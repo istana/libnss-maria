@@ -25,6 +25,12 @@ Test(maria_config_helpers, initialize_config_dbpass) {
   cr_expect_str_eq(config.dbpass, "");
 }
 
+Test(maria_config_helpers, initialize_config_unix_socket) {
+  Maria_config config;
+  maria_initialize_config(&config);
+  cr_expect_str_eq(config.unix_socket, "");
+}
+
 Test(maria_config_helpers, initialize_config_dbport) {
   Maria_config config;
   maria_initialize_config(&config);
@@ -128,6 +134,12 @@ Test(maria_config_helpers, maria_set_config_from_file_dbport) {
   Maria_config config;
   maria_set_config_from_file("./test/fixtures/libnss-maria.conf", &config);
   cr_expect_eq(config.dbport, 9000);
+}
+
+Test(maria_config_helpers, maria_set_config_from_file_unix_socket) {
+  Maria_config config;
+  maria_set_config_from_file("./test/fixtures/libnss-maria.conf", &config);
+  cr_expect_str_eq(config.unix_socket, "/var/run/mysqld/mysqld.sock");
 }
 
 Test(maria_config_helpers, maria_set_config_from_file_getpwnam) {

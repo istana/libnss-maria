@@ -11,6 +11,7 @@ typedef struct Maria_configs {
   char dbuser[1024];
   char dbpass[1024];
   long long dbport;
+  char unix_socket[1024];
 
   // "password" SQL queries
   // get user by name

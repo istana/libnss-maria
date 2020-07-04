@@ -43,6 +43,7 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       maria_load_string_setting(libconfig_object, config->dbuser, "database_settings.username");
       maria_load_string_setting(libconfig_object, config->dbpass, "database_settings.password");
       maria_load_int64_setting(libconfig_object, &(config->dbport), "database_settings.port");
+      maria_load_string_setting(libconfig_object, config->unix_socket, "database_settings.unix_socket");
 
       maria_load_string_setting(libconfig_object, config->getpwnam, "nss_queries.getpwnam");
       maria_load_string_setting(libconfig_object, config->getpwuid, "nss_queries.getpwuid");
@@ -61,13 +62,14 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       config_destroy (&libconfig_object);
 
       debug_print_var("settings dbhost:%s;dbname:%s;\
-dbuser:%s;dbpass:%s;dbport:%lld;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
+dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
 getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
         config->dbhost,
         config->dbname,
         config->dbuser,
         config->dbpass,
         config->dbport,
+        config->unix_socket,
         config->getpwnam,
         config->getpwuid,
         config->getpwent,

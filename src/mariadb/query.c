@@ -15,16 +15,17 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
     settings->dbpass,
     settings->dbname,
     settings->dbport,
-    NULL,
+    settings->unix_socket,
     0
   ) == NULL) {
     maria_log("cannot connect to the database");
-    maria_log("settings;dbhost:%s;dbname:%s;dbuser:%s;dbpass:%s;dbport:%lld",
+    maria_log("settings;dbhost:%s;dbname:%s;dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s",
       settings->dbhost,
       settings->dbname,
       settings->dbuser,
       settings->dbpass,
-      settings->dbport
+      settings->dbport,
+      settings->unix_socket
     );
     log_mysql_error(*conn);
     *errnop = EAGAIN;

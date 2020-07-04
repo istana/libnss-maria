@@ -1,0 +1,11 @@
+version: '3'
+services:
+  sys:
+    build:
+      context: .
+      dockerfile: Dockerfile.unix_socket
+    volumes:
+      - ${TRAVIS_BUILD_DIR:-.}:/home/libnss-maria
+    stdin_open: true
+    tty: true
+    command: /bin/bash

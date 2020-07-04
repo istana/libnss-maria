@@ -15,6 +15,7 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+, mariadb-connector-c/mysql-client.
     Might work or compile on older systems, but it's untested
 - tested systems - Archlinux, Centos, Debian (buster/stable), Fedora, latest Ubuntu, Ubuntu LTS
+- both unix socket and host are supported
 
 ## TODO
 
@@ -23,7 +24,6 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - v1 version
 - announce
 - deb + rpm packages + universal package managers too
-- the support for unix socket
 - fix bug with too many users in a group - not a bug, just buffer is too small (1k) for all group members and glibc won't retry with a larger one
 - code quality analyzer in addition to strict compiler checks
 - more unit tests
