@@ -60,7 +60,7 @@ apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-conf
 ./script/build-debug.sh
 ```
 
-Set `PRODUCTION` variable to any value to build production build.
+Set `RELEASE` variable to any value to build a release build.
 
 ## License
 

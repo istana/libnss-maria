@@ -16,7 +16,7 @@ after_script:
   - docker-compose down
 script:
   - sleep 20
-  - docker-compose exec -e PRODUCTION="1" -e CONFIG_FILE="libnss-maria-docker.conf" sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
+  - docker-compose exec -e RELEASE="1" -e CONFIG_FILE="libnss-maria-docker.conf" sys sh -c "/home/libnss-maria/scripts/compile_and_test.sh"
 env:
   - DISTRO="debian"
   - DISTRO="ubuntu"
