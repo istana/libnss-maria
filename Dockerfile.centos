@@ -3,5 +3,5 @@ FROM centos:7
 RUN yum install -y epel-release
 RUN yum update -y
 RUN yum install -y gcc gcc-c++ make cmake mariadb-connector-c mariadb-connector-c-devel \
-libconfig libconfig-devel syslog-ng syslog-ng-devel mariadb-server ruby pkg-config bats
+libconfig libconfig-devel syslog-ng syslog-ng-devel ruby pkg-config bats
 RUN bash
