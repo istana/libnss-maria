@@ -3,7 +3,7 @@ if [[ -z $HOME_PATH ]]; then
   HOME_PATH="/home/libnss-maria"
 fi
 
-if [[ -z $PRODUCTION ]]; then
+if [[ -z $RELEASE ]]; then
   TARGET="Debug"
 else
   TARGET="Release"
