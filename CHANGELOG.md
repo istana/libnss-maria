@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Project logo
 - Run integration tests on CI
+- Unix socket support
 
 ### Changed
 - all queries resets a connection if the connection already exists (fixes aborted connections messages in groups queries)

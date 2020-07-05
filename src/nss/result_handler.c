@@ -139,7 +139,7 @@ enum nss_status copy_group_members_to_group(
       return NSS_STATUS_TRYAGAIN;
     }
 
-    // TODO: should work, but refactor
+    // TODO: fix warnings
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wstringop-truncation"
     #pragma GCC diagnostic ignored "-Wstringop-overflow"

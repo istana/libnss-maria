@@ -61,9 +61,14 @@ enum nss_status _nss_maria_getpwuid_r (
   Maria_config *settings = malloc(sizeof(*settings));
   READ_USER_CONFIG(errnop);
 
-  // TODO: should return error when longer than entered
-  char uid_as_string[256];
-  snprintf(uid_as_string, 255, "%d", uid);
+  if (sizeof(uid) > 16) {
+    maria_log("uid size is too high (more than 16 bytes)");
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  char uid_as_string[17];
+  snprintf(uid_as_string, 17, "%d", uid);
 
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;

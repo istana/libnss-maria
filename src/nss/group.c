@@ -51,9 +51,15 @@ enum nss_status _nss_maria_getgrnam_r (
     return result_status;
   }
 
-  // TODO: should return error when longer than entered
-  char gid_as_string[256];
-  snprintf(gid_as_string, 255, "%d", group_result->gr_gid);
+  if (sizeof(group_result->gr_gid) > 16) {
+    maria_log("gr_gid size is too high (more than 16 bytes)");
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  char gid_as_string[17];
+  snprintf(gid_as_string, 17, "%d", group_result->gr_gid);
+
   enum nss_status group_members_status = maria_query_with_param(
     "_nss_maria_getgrnam_r",
     settings->memsbygid,
@@ -86,9 +92,14 @@ enum nss_status _nss_maria_getgrgid_r (
 ) {
   debug_print("_nss_maria_getgrgid_r called!");
 
-  // TODO: should return error when longer than entered
-  char gid_as_string[256];
-  snprintf(gid_as_string, 255, "%d", gid);
+  if (sizeof(gid) > 16) {
+    maria_log("gid size is too high (more than 16 bytes)");
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  char gid_as_string[17];
+  snprintf(gid_as_string, 17, "%d", gid);
 
   Maria_config *settings = malloc(sizeof(*settings));
   READ_USER_CONFIG(errnop);
@@ -218,9 +229,14 @@ enum nss_status _nss_maria_getgrent_r (
     return copy_status;
   }
 
-  // TODO: should return error when longer than entered
-  char gid_as_string[256];
-  snprintf(gid_as_string, 255, "%d", group_result->gr_gid);
+  if (sizeof(group_result->gr_gid) > 16) {
+    maria_log("gr_gid size is too high (more than 16 bytes)");
+    *errnop = ENOENT;
+    return NSS_STATUS_UNAVAIL;
+  }
+
+  char gid_as_string[17];
+  snprintf(gid_as_string, 17, "%d", group_result->gr_gid);
 
   if((members_status = maria_query_with_param(
     "_nss_maria_getgrnam_r",
