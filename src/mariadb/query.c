@@ -1,6 +1,6 @@
 #include "./query.h"
 
-enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop) {
+enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop, int use_root_user) {
   *conn = mysql_init(NULL);
   if(!*conn) {
     maria_log("mysql init failed, out of memory");
@@ -11,19 +11,19 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
   if(mysql_real_connect(
     *conn,
     settings->dbhost,
-    settings->dbuser,
-    settings->dbpass,
+    use_root_user ? settings->dbrootuser : settings->dbuser,
+    use_root_user ? settings->dbrootpass : settings->dbpass,
     settings->dbname,
     settings->dbport,
     settings->unix_socket,
     0
   ) == NULL) {
     maria_log("cannot connect to the database");
-    maria_log("settings;dbhost:%s;dbname:%s;dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s",
+    maria_log("settings;dbhost:%s;dbname:%s;db(root)user:%s;db(root)pass:%s;dbport:%lld;unix_socket:%s",
       settings->dbhost,
       settings->dbname,
-      settings->dbuser,
-      settings->dbpass,
+      use_root_user ? settings->dbrootuser : settings->dbuser,
+      use_root_user ? settings->dbrootpass : settings->dbpass,
       settings->dbport,
       settings->unix_socket
     );
@@ -66,7 +66,8 @@ enum nss_status maria_query_with_param(
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
-  int *errnop
+  int *errnop,
+  int use_root_user
 ) {
   enum nss_status conn_status;
   enum nss_status reset_conn_status;
@@ -83,7 +84,7 @@ enum nss_status maria_query_with_param(
     if((reset_conn_status = maria_reset_connection(conn, errnop)) != NSS_STATUS_SUCCESS) {
       return reset_conn_status;
     }
-  } else if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+  } else if((conn_status = maria_init_db_conn(settings, conn, errnop, use_root_user)) != NSS_STATUS_SUCCESS) {
     return conn_status;
   }
 
@@ -115,7 +116,8 @@ enum nss_status maria_query_no_param(
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
-  int *errnop
+  int *errnop,
+  int use_root_user
 ) {
   enum nss_status conn_status;
   enum nss_status reset_conn_status;
@@ -126,7 +128,7 @@ enum nss_status maria_query_no_param(
     if((reset_conn_status = maria_reset_connection(conn, errnop)) != NSS_STATUS_SUCCESS) {
       return reset_conn_status;
     }
-  } else if((conn_status = maria_init_db_conn(settings, conn, errnop)) != NSS_STATUS_SUCCESS) {
+  } else if((conn_status = maria_init_db_conn(settings, conn, errnop, use_root_user)) != NSS_STATUS_SUCCESS) {
     return conn_status;
   }
 

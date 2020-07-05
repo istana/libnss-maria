@@ -14,12 +14,10 @@ services:
     depends_on:
       - database
   database:
-    image: library/mariadb
+    image: mariadb:latest
     ports:
       - '3306'
     environment:
       - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_ROOT_HOST=sys
-      - MYSQL_USER=nss-maria-user
-      - MYSQL_PASSWORD=Isabelle
-      - MYSQL_DATABASE=sos-sso-production
+      # doesn't work with MYSQL_ROOT_HOST=172.*.*.*, or sys
+      - MYSQL_ROOT_HOST=172.%

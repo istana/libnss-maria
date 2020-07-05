@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   }
 
   config = malloc(sizeof(*config));
-  maria_read_config_file(config, argv[1]);
+  maria_read_config(config, argv[1], argv[2]);
 
   printf("%s\n", config->dbname);
   printf("%s\n", config->dbuser);

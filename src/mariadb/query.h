@@ -11,7 +11,7 @@
 #include "../str_replace.h"
 #include "../mariadb/query.h"
 
-enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop);
+enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *errnop, int use_root_user);
 enum nss_status maria_do_query(MYSQL *conn, const char *query, int *errnop);
 enum nss_status maria_get_result(MYSQL *conn, MYSQL_RES **result, int *errnop);
 enum nss_status maria_query_with_param(
@@ -21,7 +21,8 @@ enum nss_status maria_query_with_param(
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
-  int *errnop
+  int *errnop,
+  int use_root_user
 );
 enum nss_status maria_query_no_param(
   const char *caller,
@@ -29,7 +30,8 @@ enum nss_status maria_query_no_param(
   Maria_config *settings,
   MYSQL **conn,
   MYSQL_RES **result,
-  int *errnop
+  int *errnop,
+  int use_root_user
 );
 enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, int *errnop);
 enum nss_status maria_reset_connection(MYSQL **conn, int *errnop);

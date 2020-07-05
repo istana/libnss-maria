@@ -29,7 +29,8 @@ enum nss_status _nss_maria_getgrnam_r (
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    0
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -67,7 +68,8 @@ enum nss_status _nss_maria_getgrnam_r (
     settings,
     &conn,
     &group_members_result,
-    errnop
+    errnop,
+    0
   );
 
   if (group_members_status != NSS_STATUS_SUCCESS) {
@@ -117,7 +119,8 @@ enum nss_status _nss_maria_getgrgid_r (
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    0
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -146,7 +149,8 @@ enum nss_status _nss_maria_getgrgid_r (
     settings,
     &conn,
     &group_members_result,
-    errnop
+    errnop,
+    0
   );
 
   if (group_members_status != NSS_STATUS_SUCCESS) {
@@ -187,7 +191,8 @@ enum nss_status _nss_maria_initgroups_dyn (
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    0
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -245,7 +250,8 @@ enum nss_status _nss_maria_getgrent_r (
     settings,
     &group_dbconn,
     &group_members_result,
-    errnop
+    errnop,
+    0
   )) != NSS_STATUS_SUCCESS) {
     if(group_members_result != NULL) mysql_free_result(group_members_result);
     free(settings);
@@ -279,7 +285,8 @@ enum nss_status _nss_maria_setgrent (void) {
     settings,
     &group_dbconn,
     &group_dbresult,
-    &err
+    &err,
+    0
   );
 
   free(settings);

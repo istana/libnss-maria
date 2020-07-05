@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project logo
 - Run integration tests on CI
 - Unix socket support
+- Privilege separation for password and groups queries and shadow. This is to avoid password hashes to leak to regular users
 
 ### Changed
 - all queries resets a connection if the connection already exists (fixes aborted connections messages in groups queries)

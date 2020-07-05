@@ -37,6 +37,18 @@ Test(maria_config_helpers, initialize_config_dbport) {
   cr_expect_eq(config.dbport, 3306);
 }
 
+Test(maria_config_helpers, initialize_config_dbrootuser) {
+  Maria_config config;
+  maria_initialize_config(&config);
+  cr_expect_str_eq(config.dbrootuser, "");
+}
+
+Test(maria_config_helpers, initialize_config_dbrootpass) {
+  Maria_config config;
+  maria_initialize_config(&config);
+  cr_expect_str_eq(config.dbrootpass, "");
+}
+
 Test(maria_config_helpers, initialize_config_getpwnam) {
   Maria_config config;
   maria_initialize_config(&config);
@@ -200,4 +212,25 @@ Test(maria_config_helpers, maria_set_config_from_file_gidsbymem) {
   Maria_config config;
   maria_set_config_from_file("./test/fixtures/libnss-maria.conf", &config);
   cr_expect_str_eq(config.gidsbymem, "gidsbymem test");
+}
+
+
+
+
+Test(maria_config_helpers, maria_set_root_config_from_file_success) {
+  Maria_config config;
+  int return_value = maria_set_root_config_from_file("./test/fixtures/libnss-maria-root.conf", &config);
+  cr_expect_eq(return_value, 0);
+}
+
+Test(maria_config_helpers, maria_set_root_config_from_file_dbrootuser) {
+  Maria_config config;
+  maria_set_root_config_from_file("./test/fixtures/libnss-maria-root.conf", &config);
+  cr_expect_str_eq(config.dbrootuser, "iamreckless");
+}
+
+Test(maria_config_helpers, maria_set_root_config_from_file_dbrootpass) {
+  Maria_config config;
+  maria_set_root_config_from_file("./test/fixtures/libnss-maria-root.conf", &config);
+  cr_expect_str_eq(config.dbrootpass, "Catherine");
 }

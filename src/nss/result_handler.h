@@ -44,7 +44,7 @@ enum nss_status copy_gids(
   if(conn != NULL) mysql_close(conn);
 
 #define READ_USER_CONFIG(errnop) \
-  if(maria_read_config_file(settings, "/etc/libnss-maria.conf") > 0) {\
+  if(maria_read_config(settings, "/etc/libnss-maria.conf", "/etc/libnss-maria-root.conf") > 0) {\
     free(settings);\
     *errnop = ENOENT;\
     return NSS_STATUS_UNAVAIL;\

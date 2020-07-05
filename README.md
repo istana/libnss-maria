@@ -19,7 +19,6 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 ## TODO
 
-- permissions separation for pwd/grp and spw
 - TLS config options
 - v1 version
 - announce
@@ -37,7 +36,7 @@ vagrant plugin install vagrant-vbguest
 
 vagrant up
 ./scripts/build-vagrant.sh
-# or ./scripts/build-vagrant-production.sh
+# or ./scripts/build-vagrant-release.sh
 ```
 
 The result is in `./Debug/src` or `./Release/src`directory.
@@ -61,6 +60,10 @@ apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-conf
 ```
 
 Set `RELEASE` variable to any value to build a release build.
+
+## Installation & Usage
+
+See `examples/sos-sso` and `script/compile_and_test.sh` to see how to set it up and use.
 
 ## License
 

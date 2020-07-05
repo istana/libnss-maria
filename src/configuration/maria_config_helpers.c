@@ -11,6 +11,7 @@ void maria_initialize_config(Maria_config *config) {
   config->getspnam[0] = config->getspent[0] = '\0';
   config->getgrnam[0] = config->getgrgid[0] = config->getgrent[0] = '\0';
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
+  config->dbrootuser[0] = config->dbrootpass[0] = '\0';
 }
 
 void maria_load_string_setting(config_t libconfig_object, char *destination, const char *selector) {
@@ -59,7 +60,7 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       maria_load_string_setting(libconfig_object, config->memsbygid, "nss_queries.memsbygid");
       maria_load_string_setting(libconfig_object, config->gidsbymem, "nss_queries.gidsbymem");
 
-      config_destroy (&libconfig_object);
+      config_destroy(&libconfig_object);
 
       debug_print_var("settings dbhost:%s;dbname:%s;\
 dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
@@ -81,6 +82,40 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
         config->memsbygid,
         config->gidsbymem
       );
+
+      return 0;
+    } else {
+      maria_log("error found in file %s, message: %s, line: %i",
+        path,
+        config_error_text(&libconfig_object),
+        config_error_line(&libconfig_object)
+      );
+
+      config_destroy(&libconfig_object);
+      fclose(libconfig_stream);
+      return 1;
+    }
+  } else {
+    maria_log("opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
+    return 1;
+  }
+
+  fclose(libconfig_stream);
+}
+
+int maria_set_root_config_from_file(const char *path, Maria_config *config) {
+  FILE* libconfig_stream = fopen(path, "r");
+
+  if(libconfig_stream != NULL) {
+    config_t libconfig_object;
+    config_init(&libconfig_object);
+
+    if(config_read(&libconfig_object, libconfig_stream) == CONFIG_TRUE) {
+      maria_load_string_setting(libconfig_object, config->dbrootuser, "database_settings.username");
+      maria_load_string_setting(libconfig_object, config->dbrootpass, "database_settings.password");
+
+      config_destroy(&libconfig_object);
+      debug_print_var("root settings dbuser:%s;dbpass:%s", config->dbrootuser, config->dbrootpass);
 
       return 0;
     } else {

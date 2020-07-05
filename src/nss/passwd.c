@@ -27,7 +27,8 @@ enum nss_status _nss_maria_getpwnam_r (
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    0
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -81,7 +82,8 @@ enum nss_status _nss_maria_getpwuid_r (
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    0
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -132,7 +134,8 @@ enum nss_status _nss_maria_setpwent (void) {
     settings,
     &passwd_dbconn,
     &passwd_dbresult,
-    &err
+    &err,
+    0
   );
 
   free(settings);

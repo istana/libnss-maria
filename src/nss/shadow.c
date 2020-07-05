@@ -27,7 +27,8 @@ enum nss_status _nss_maria_getspnam_r(
     settings,
     &conn,
     &result,
-    errnop
+    errnop,
+    1
   );
 
   if (status != NSS_STATUS_SUCCESS) {
@@ -78,7 +79,8 @@ enum nss_status _nss_maria_setspent (void) {
     settings,
     &shadow_dbconn,
     &shadow_dbresult,
-    &err
+    &err,
+    1
   );
 
   free(settings);
