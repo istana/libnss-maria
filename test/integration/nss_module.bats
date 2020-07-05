@@ -15,15 +15,15 @@ setup() {
       $SUDO_COMMAND mysql -u root sos-sso-production
     else
       cat /home/libnss-maria/examples/sos-sso/sql/1-db.sql | \
-      mysql -uroot -ptoor -hdatabase &&
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase &&
       cat /home/libnss-maria/examples/sos-sso/sql/2-users.sql | \
-      mysql -uroot -ptoor -hdatabase &&
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase &&
       cat /home/libnss-maria/examples/sos-sso/sql/3-data-structures.sql | \
-      mysql -uroot -ptoor -hdatabase sos-sso-production &&
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase sos-sso-production &&
       cat /home/libnss-maria/examples/sos-sso/sql/4-privileges.sql | \
-      mysql -uroot -ptoor -hdatabase sos-sso-production &&
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase sos-sso-production &&
       cat /home/libnss-maria/examples/sos-sso/sql/5-data.sql | \
-      mysql -uroot -ptoor -hdatabase sos-sso-production
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase sos-sso-production
     fi
   fi
 }

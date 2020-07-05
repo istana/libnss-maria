@@ -111,3 +111,13 @@ I've chosen libconfig, because:
 - libyaml is event based and I don't really understand it. Also YAML depends on indentation (or braces).
 - libconfig is used by nginx, so it is not a big unknown. It has multiline strings and is multiplatform (BSD, ...)
 
+SHOW VARIABLES LIKE 'have_ssl';
+
+openssl genrsa -aes256 -passout pass:mumumu -out server.pass.key 4096
+openssl rsa -passin pass:mumumu -in server.pass.key -out server.key
+rm server.pass.key
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -sha256 -days 3650 -in server.csr -signkey server.key -out server.crt
+
+mysql -u root -h database --ssl -p
+

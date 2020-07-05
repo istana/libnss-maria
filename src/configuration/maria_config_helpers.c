@@ -12,6 +12,7 @@ void maria_initialize_config(Maria_config *config) {
   config->getgrnam[0] = config->getgrgid[0] = config->getgrent[0] = '\0';
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
   config->dbrootuser[0] = config->dbrootpass[0] = '\0';
+  config->mariadb_client_config[0] = '\0';
 }
 
 void maria_load_string_setting(config_t libconfig_object, char *destination, const char *selector) {
@@ -45,6 +46,7 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       maria_load_string_setting(libconfig_object, config->dbpass, "database_settings.password");
       maria_load_int64_setting(libconfig_object, &(config->dbport), "database_settings.port");
       maria_load_string_setting(libconfig_object, config->unix_socket, "database_settings.unix_socket");
+      maria_load_string_setting(libconfig_object, config->mariadb_client_config, "database_settings.client_config");
 
       maria_load_string_setting(libconfig_object, config->getpwnam, "nss_queries.getpwnam");
       maria_load_string_setting(libconfig_object, config->getpwuid, "nss_queries.getpwuid");
@@ -63,7 +65,7 @@ int maria_set_config_from_file(const char *path, Maria_config *config) {
       config_destroy(&libconfig_object);
 
       debug_print_var("settings dbhost:%s;dbname:%s;\
-dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
+dbuser:%s;dbpass:%s;dbport:%lld;unix_socket:%s;mariadb_client_config:%s;getpwnam:%s;getpwuid:%s;getpwent:%s;getspnam:%s;\
 getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
         config->dbhost,
         config->dbname,
@@ -71,6 +73,7 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
         config->dbpass,
         config->dbport,
         config->unix_socket,
+        config->mariadb_client_config,
         config->getpwnam,
         config->getpwuid,
         config->getpwent,

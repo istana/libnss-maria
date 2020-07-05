@@ -1,0 +1,4 @@
+# must be valid, connector/c doesn't report invalid files
+[client]
+tls_version = TLSv1.2,TLSv1.3
+ssl_enforce = 1

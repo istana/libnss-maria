@@ -1,0 +1,7 @@
+# read by both mysql and mariadb
+
+[mysqld]
+ssl_cert = /etc/mysql/mariadb.conf.d/server.crt
+ssl_key = /etc/mysql/mariadb.conf.d/server.key
+ssl_ca = /etc/mysql/mariadb.conf.d/server.crt
+require_secure_transport = ON

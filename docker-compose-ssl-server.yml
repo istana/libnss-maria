@@ -1,0 +1,27 @@
+version: '3'
+services:
+  sys:
+    build:
+      context: .
+      dockerfile: Dockerfile.debian
+    volumes:
+      - ${TRAVIS_BUILD_DIR:-.}:/home/libnss-maria
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    environment:
+      - PREDEFINED_DB=true
+    depends_on:
+      - database
+  database:
+    image: mariadb:latest
+    ports:
+      - '3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      # doesn't work with MYSQL_ROOT_HOST=172.*.*.*, or sys
+      - MYSQL_ROOT_HOST=172.%
+    volumes:
+      - ./examples/ssl/70-turn-on-ssl.cnf:/etc/mysql/mariadb.conf.d/70-turn-on-ssl.cnf
+      - ./examples/ssl/server.crt:/etc/mysql/mariadb.conf.d/server.crt
+      - ./examples/ssl/server.key:/etc/mysql/mariadb.conf.d/server.key

@@ -19,11 +19,10 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 ## TODO
 
-- TLS config options
+- fix bug with too many users in a group - not a bug, just buffer is too small (1k) for all group members and glibc won't retry with a larger one
 - v1 version
 - announce
 - deb + rpm packages + universal package managers too
-- fix bug with too many users in a group - not a bug, just buffer is too small (1k) for all group members and glibc won't retry with a larger one
 - code quality analyzer in addition to strict compiler checks
 - more unit tests
 
@@ -63,7 +62,7 @@ Set `RELEASE` variable to any value to build a release build.
 
 ## Installation & Usage
 
-See `examples/sos-sso` and `script/compile_and_test.sh` to see how to set it up and use.
+See `examples` and `script/compile_and_test.sh` to see how to set it up and use.
 
 ## License
 
