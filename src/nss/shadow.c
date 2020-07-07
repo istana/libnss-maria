@@ -16,6 +16,7 @@ enum nss_status _nss_maria_getspnam_r(
   Maria_config *settings = malloc(sizeof(*settings));
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
+  MYSQL_ROW_OFFSET result_initial_offset;
   MYSQL_ROW row;
 
   READ_USER_CONFIG(errnop);
@@ -36,6 +37,7 @@ enum nss_status _nss_maria_getspnam_r(
     return status;
   }
 
+  result_initial_offset = mysql_row_tell(result);
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
@@ -43,7 +45,7 @@ enum nss_status _nss_maria_getspnam_r(
     return row_status;
   }
 
-  enum nss_status result_status = copy_db_row_to_shadow(row, shadow_result, buffer, buflen, errnop);
+  enum nss_status result_status = copy_db_row_to_shadow(result, result_initial_offset, row, shadow_result, buffer, buflen, errnop);
 
   CLEANUP();
   return result_status;
@@ -59,12 +61,13 @@ enum nss_status _nss_maria_getspent_r (
   debug_print("_nss_maria_getspent_r called!");
 
   MYSQL_ROW row;
+  MYSQL_ROW_OFFSET shadow_db_initial_offset = mysql_row_tell(shadow_dbresult);
   enum nss_status row_status = maria_get_row(&shadow_dbconn, &shadow_dbresult, &row, errnop);
   if (row_status != NSS_STATUS_SUCCESS) {
     return row_status;
   }
 
-  return copy_db_row_to_shadow(row, shadow_result, buffer, buflen, errnop);
+  return copy_db_row_to_shadow(shadow_dbresult, shadow_db_initial_offset, row, shadow_result, buffer, buflen, errnop);
 }
 enum nss_status _nss_maria_setspent (void) {
   debug_print("_nss_maria_setspent called!");

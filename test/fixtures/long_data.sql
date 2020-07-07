@@ -1,0 +1,26 @@
+INSERT INTO groups (id, password, name) VALUES (
+  '1234567890',
+  'Vaez5Rierosu0aig5oHop5be1eiHu8ae0ohshooqu8eeteu5naemahC6mooFoph0taishaim1ohzaef1govee0euS7chif3chaep5viopooziequie1ux4Si5Uxeitahhao9Ku2wo2aeyaeraiTai1xaejieWoo4thoojoa6Ye1laichahBuo1quahkaiX4ooweoyae6kikiatee4Iechiethairiex7ahcoog6dah4ailuQu0na0ian6raemiY',
+  'treasure_island_hohhi8Eir1idaetaiy3ooXe5ooc3uGhoo4eiroixoonao2aevuqu7aiNei1ai9ohpohchah3Cei8naithamaeg1voe0kai9eiW5hohfae9aesheihuu1Shood5ephe9ohLie7ahpaiNgei3Uughi9kaish4rohth8Iey3quiex8jahbeiJ3AeZ0ea1reebooThi9au4ta4dae4acaa8gahv7Ahboh2Nu2ahahNoop1Yauw5'
+);
+INSERT INTO users (
+  id, username, gid, gecos, homedir, shell, password,
+  lstchg, min, max, warn, inact, expire, flag
+)
+  VALUES (
+    '1234567890',
+    'johnsilver_shoozee9shaequ2gi2beechoof3Nuxio4hee7geiDaqu7aezaiyee9aebai6xieF3uez2Oriec3quohjie2Shoh6aiZah7EebohGh0ji8ui6aefoquu3shu9ay0Tee7oakej7the1Aishe0ci8chee5iY3eC9aej1Weuliequai0Nahd3viemaiYeedaehishei0meixiejahghaeCh7Igeijeithohquia8johl8Siechfhfhfh',
+    '1234567890',
+    'John Silver shoozee9shaequ2gi2beechoof3Nuxio4hee7geiDaqu7aezaiyee9aebai6xieF3uez2Oriec3quohjie2Shoh6aiZah7EebohGh0ji8ui6aefoquu3shu9ay0Tee7oakej7the1Aishe0ci8chee5iY3eC9aej1Weuliequai0Nahd3viemaiYeedaehishei0meixiejahghaeCh7Igeijeithohquia8johl8Si,501,,,,',
+    '/home/john_silver_shoozee9shaequ2gi2beechoof3Nuxio4hee7geiDaqu7aezaiyee9aebai6xieF3uez2Oriec3quohjie2Shoh6aiZah7EebohGh0ji8ui6aefoquu3shu9ay0Tee7oakej7the1Aishe0ci8chee5iY3eC9aej1Weuliequai0Nahd3viemaiYeedaehishei0meixiejahghaeCh7Igeijeithohquia8johl8Siec',
+    '/bin/bashshoozee9shaequ2gi2beechoof3Nuxio4hee7geiDaqu7aezaiyee9aebai6xieF3uez2Oriec3quohjie2Shoh6aiZah7EebohGh0ji8ui6aefoquu3shu9ay0Tee7oakej7the1Aishe0ci8chee5iY3eC9aej1Weuliequai0Nahd3viemaiYeedaehishei0meixiejahghaeCh7Igeijeithohquia8johl8Siecgfgdfddfg',
+    'rohGhahc9queiCieG3onooC5ahWohL4Hoh8ek2ohcohfapeth0leik5ahp8sah1aemeej2oaH8yoCh2duz0OhX5eiNuofa9Ohc5Eish0ahkoovuquai5AhvuingagahBah3ozithaihee0aPhoh4eineewin2gietoh2aif1ooG2ohfahaishee8sho0eexieheePahhoqui0fuivooTook2roruFei0Shangan9Voob8ooDai2yei6iedaahoc',
+    2,
+    5,
+    1000,
+    67,
+    10,
+    4004,
+    1
+  );
+INSERT INTO groups_users (group_id, user_id) VALUES ('1234567890', '1234567890');

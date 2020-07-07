@@ -65,13 +65,13 @@ setup() {
 
 ## shadow
 @test "finds known user shadow entry by name" {
-  run getent shadow katarina
+  run $SUDO_COMMAND getent shadow katarina
   [[ $status -eq 0 ]]
   [[ $output == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
 }
 
 @test "doesn't find unknown user shadow entry by name" {
-  run getent shadow eliza
+  run $SUDO_COMMAND getent shadow eliza
   [[ "$status" -gt 0 ]]
   [[ "$output" == *"no result found"* || "$output" == "" ]]
 }

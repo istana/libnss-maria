@@ -1,6 +1,14 @@
 #include "result_handler.h"
 
-enum nss_status copy_db_row_to_passwd(MYSQL_ROW row, struct passwd *passwd_result, char *buffer, size_t buflen, int *errnop) {
+enum nss_status copy_db_row_to_passwd(
+  MYSQL_RES *passwd_query_result,
+  MYSQL_ROW_OFFSET passwd_query_initial_offset,
+  MYSQL_ROW row,
+  struct passwd *passwd_result,
+  char *buffer,
+  size_t buflen,
+  int *errnop
+) {
   size_t username_l = strlen(row[0]);
   size_t password_l = strlen(row[1]);
   size_t gecos_l = strlen(row[4]);
@@ -8,6 +16,7 @@ enum nss_status copy_db_row_to_passwd(MYSQL_ROW row, struct passwd *passwd_resul
   size_t shell_l = strlen(row[6]);
 
   if (username_l + password_l + gecos_l + homedir_l + shell_l + 5 > buflen) {
+    mysql_row_seek(passwd_query_result, passwd_query_initial_offset);
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -37,11 +46,20 @@ enum nss_status copy_db_row_to_passwd(MYSQL_ROW row, struct passwd *passwd_resul
   return NSS_STATUS_SUCCESS;
 }
 
-enum nss_status copy_db_row_to_shadow(MYSQL_ROW row, struct spwd *shadow_result, char *buffer, size_t buflen, int *errnop) {
+enum nss_status copy_db_row_to_shadow(
+  MYSQL_RES *shadow_query_result,
+  MYSQL_ROW_OFFSET shadow_query_initial_offset,
+  MYSQL_ROW row,
+  struct spwd *shadow_result,
+  char *buffer,
+  size_t buflen,
+  int *errnop
+) {
   size_t username_l = strlen(row[0]);
   size_t password_l = strlen(row[1]);
 
   if (username_l + password_l + 2 > buflen) {
+    mysql_row_seek(shadow_query_result, shadow_query_initial_offset);
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -68,6 +86,8 @@ enum nss_status copy_db_row_to_shadow(MYSQL_ROW row, struct spwd *shadow_result,
 }
 
 enum nss_status copy_db_row_to_group(
+  MYSQL_RES *group_query_result,
+  MYSQL_ROW_OFFSET group_query_initial_offset,
   MYSQL_ROW row,
   struct group *group_result,
   char *buffer,
@@ -79,6 +99,7 @@ enum nss_status copy_db_row_to_group(
   size_t password_l = strlen(row[1]);
 
   if (groupname_l + password_l + 2 > buflen) {
+    mysql_row_seek(group_query_result, group_query_initial_offset);
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -100,6 +121,8 @@ enum nss_status copy_db_row_to_group(
 }
 
 enum nss_status copy_group_members_to_group(
+  MYSQL_RES *group_query_result,
+  MYSQL_ROW_OFFSET group_query_initial_offset,
   MYSQL_RES *members_query_result,
   struct group *group_result,
   char *buffer,
@@ -117,6 +140,8 @@ enum nss_status copy_group_members_to_group(
   int ptr_size = sizeof(char*) * (rows_len + 1);
   
   if (*occupied_buffer + ptr_size > buflen) {
+    maria_log("first buffer out of range, buflen: %zu\n", buflen);
+    mysql_row_seek(group_query_result, group_query_initial_offset);
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
   }
@@ -127,6 +152,7 @@ enum nss_status copy_group_members_to_group(
     MYSQL_ROW row = mysql_fetch_row(members_query_result);
 
     if (row == NULL) {
+      maria_log("row is null");
       *errnop = EAGAIN;
       return NSS_STATUS_TRYAGAIN;
     }
@@ -135,6 +161,8 @@ enum nss_status copy_group_members_to_group(
     size_t name_l = strlen(name);
 
     if (*occupied_buffer + name_l + 1 > buflen) {
+      debug_print_var("second buffer out of range, buflen: %zu\n", buflen);
+      mysql_row_seek(group_query_result, group_query_initial_offset);
       *errnop = ERANGE;
       return NSS_STATUS_TRYAGAIN;
     }
@@ -156,6 +184,7 @@ enum nss_status copy_group_members_to_group(
 
 enum nss_status copy_gids(
   MYSQL_RES *result,
+  MYSQL_ROW_OFFSET result_initial_offset,
   long int *start_index,
   long int *gids_size,
   gid_t **gids,
@@ -167,6 +196,7 @@ enum nss_status copy_gids(
 
   my_ulonglong rows_len = mysql_num_rows(result);
   if (limit > available_gids || (long int)rows_len > available_gids) {
+    mysql_row_seek(result, result_initial_offset);
     *errnop = ERANGE;
     return NSS_STATUS_TRYAGAIN;
   }

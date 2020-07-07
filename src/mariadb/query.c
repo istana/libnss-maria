@@ -167,7 +167,7 @@ enum nss_status maria_get_row(MYSQL **conn, MYSQL_RES **result, MYSQL_ROW *row, 
 
 enum nss_status maria_reset_connection(MYSQL **conn, int *errnop) {
   if(mysql_reset_connection(*conn) > 0) {
-    maria_log("issues resetting database connection");
+    debug_print("issues resetting database connection");
     log_mysql_error(*conn);
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;

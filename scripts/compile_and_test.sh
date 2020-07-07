@@ -54,6 +54,7 @@ if [[ $ORIG_RETURN_CODE -eq 0 && -z $COMPILE_ONLY ]]; then
   $SUDO_COMMAND chmod 600 /etc/libnss-maria-root.conf
 
   SSL_COMMAND=$SSL_COMMAND ${HOME_PATH}/test/integration/nss_module.bats
+  SSL_COMMAND=$SSL_COMMAND ${HOME_PATH}/test/integration/buffers_test.bats
 else
   exit $ORIG_RETURN_CODE
 fi

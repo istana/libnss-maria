@@ -5,9 +5,7 @@
 
 void maria_log(const char *message, ...);
 
-#ifdef NDEBUG
-  #define debug_print(msg)
-#else
+#ifdef VERBOSE
   #define debug_print(msg) \
     do { \
       char xmessage[4096] = ""; \
@@ -19,11 +17,11 @@ void maria_log(const char *message, ...);
       ); \
       maria_log(xmessage); \
     } while (0);
+#else
+  #define debug_print(msg)
 #endif
 
-#ifdef NDEBUG
-  #define debug_print_var(...)
-#else
+#ifdef VERBOSE
   #define debug_print_var(...) \
     do { \
       char xmessage[4096] = ""; \
@@ -38,6 +36,8 @@ void maria_log(const char *message, ...);
       maria_log(__VA_ARGS__); \
       maria_log("\n"); \
     } while (0);
+#else
+  #define debug_print_var(...)
 #endif
 
 #define log_mysql_error(mysql_handle) \

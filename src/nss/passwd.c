@@ -16,6 +16,7 @@ enum nss_status _nss_maria_getpwnam_r (
   Maria_config *settings = malloc(sizeof(*settings));
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
+  MYSQL_ROW_OFFSET result_initial_offset;
   MYSQL_ROW row;
 
   READ_USER_CONFIG(errnop);
@@ -36,6 +37,7 @@ enum nss_status _nss_maria_getpwnam_r (
     return status;
   }
 
+  result_initial_offset = mysql_row_tell(result);
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
@@ -43,7 +45,7 @@ enum nss_status _nss_maria_getpwnam_r (
     return row_status;
   }
 
-  enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
+  enum nss_status result_status = copy_db_row_to_passwd(result, result_initial_offset, row, passwd_result, buffer, buflen, errnop);
 
   CLEANUP();
   return result_status;
@@ -73,6 +75,7 @@ enum nss_status _nss_maria_getpwuid_r (
 
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
+  MYSQL_ROW_OFFSET result_initial_offset;
   MYSQL_ROW row;
 
   enum nss_status status = maria_query_with_param(
@@ -91,6 +94,7 @@ enum nss_status _nss_maria_getpwuid_r (
     return status;
   }
 
+  result_initial_offset = mysql_row_tell(result);
   enum nss_status row_status = maria_get_row(&conn, &result, &row, errnop);
 
   if (row_status != NSS_STATUS_SUCCESS) {
@@ -98,7 +102,7 @@ enum nss_status _nss_maria_getpwuid_r (
     return row_status;
   }
 
-  enum nss_status result_status = copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
+  enum nss_status result_status = copy_db_row_to_passwd(result, result_initial_offset, row, passwd_result, buffer, buflen, errnop);
 
   CLEANUP();
   return result_status;
@@ -113,12 +117,13 @@ enum nss_status _nss_maria_getpwent_r (
   debug_print("_nss_maria_getpwent called!");
 
   MYSQL_ROW row;
+  MYSQL_ROW_OFFSET passwd_db_initial_offset = mysql_row_tell(passwd_dbresult);
   enum nss_status row_status = maria_get_row(&passwd_dbconn, &passwd_dbresult, &row, errnop);
   if (row_status != NSS_STATUS_SUCCESS) {
     return row_status;
   }
 
-  return copy_db_row_to_passwd(row, passwd_result, buffer, buflen, errnop);
+  return copy_db_row_to_passwd(passwd_dbresult, passwd_db_initial_offset, row, passwd_result, buffer, buflen, errnop);
 }
 
 enum nss_status _nss_maria_setpwent (void) {

@@ -8,6 +8,7 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 
 ## Features
 
+- implements password, shadow and group getters
 - cmake build system
 - libconfig for configuration
 - uses direct queries and real_escape_string
@@ -16,15 +17,14 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
     Might work or compile on older systems, but it's untested
 - tested systems - Archlinux, Centos, Debian (buster/stable), Fedora, latest Ubuntu, Ubuntu LTS
 - both unix socket and host are supported
+- shouldn't be used with SUID programs
 
 ## TODO
 
-- fix bug with too many users in a group - not a bug, just buffer is too small (1k) for all group members and glibc won't retry with a larger one
 - v1 version
 - announce
-- deb + rpm packages + universal package managers too
-- code quality analyzer in addition to strict compiler checks
-- more unit tests
+- deb + rpm packages
+- architecture like nss_ldapd would be nice
 
 ## Build && Test in Vagrant
 
@@ -85,6 +85,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 - https://github.com/Snaipe/Criterion used as unit test framework (MIT)
 - https://stackoverflow.com/questions/779875/what-is-the-function-to-replace-string-in-c - for string replace function (CC4 BY)
+
+## Thanks
+
+- @xHire for answering and not answering my infinite number of questions about C
+- and other people answering my quesions
 
 ## Related Software
 

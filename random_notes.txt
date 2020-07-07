@@ -121,3 +121,7 @@ openssl x509 -req -sha256 -days 3650 -in server.csr -signkey server.key -out ser
 
 mysql -u root -h database --ssl -p
 
+
+
+(1..108).each do |i|; num = sprintf("%03d", i); puts "INSERT INTO users (id, username, gid, homedir) VALUES ('10#{num}', 'user#{num}', '10000', '/home/user#{num}');"; end
+(1..108).each do |i|; num = sprintf("%03d", i); puts "INSERT INTO groups_users (group_id, user_id) VALUES ('10000', '10#{num}');"; end
