@@ -19,7 +19,7 @@ enum nss_status _nss_maria_getpwnam_r (
   MYSQL_ROW_OFFSET result_initial_offset;
   MYSQL_ROW row;
 
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   enum nss_status status = maria_query_with_param(
     "_nss_maria_getpwnam_r",
@@ -62,7 +62,7 @@ enum nss_status _nss_maria_getpwuid_r (
   debug_print("_nss_maria_getpwuid_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   if (sizeof(uid) > 16) {
     maria_log("uid size is too high (more than 16 bytes)");
@@ -131,7 +131,7 @@ enum nss_status _nss_maria_setpwent (void) {
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(&err);
+  READ_USER_CONFIG(0, &err);
 
   enum nss_status status = maria_query_no_param(
     "_nss_maria_setpwent",

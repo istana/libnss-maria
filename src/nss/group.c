@@ -14,7 +14,7 @@ enum nss_status _nss_maria_getgrnam_r (
   debug_print("_nss_maria_getgrnam_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
@@ -124,7 +124,7 @@ enum nss_status _nss_maria_getgrgid_r (
   snprintf(gid_as_string, 17, "%d", gid);
 
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
@@ -219,7 +219,7 @@ enum nss_status _nss_maria_initgroups_dyn (
   debug_print("_nss_maria_initgroups_dyn called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   MYSQL *conn = NULL;
   MYSQL_RES *result = NULL;
@@ -258,7 +258,7 @@ enum nss_status _nss_maria_getgrent_r (
   debug_print("_nss_maria_getgrent_r called!");
 
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(errnop);
+  READ_USER_CONFIG(0, errnop);
 
   enum nss_status row_status;
   enum nss_status copy_status;
@@ -323,7 +323,7 @@ enum nss_status _nss_maria_setgrent (void) {
 
   int err;
   Maria_config *settings = malloc(sizeof(*settings));
-  READ_USER_CONFIG(&err);
+  READ_USER_CONFIG(0, &err);
 
   enum nss_status status = maria_query_no_param(
     "_nss_maria_setgrent / getgrent",
