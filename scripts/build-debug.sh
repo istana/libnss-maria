@@ -8,4 +8,4 @@ fi
 REAL_PATH=`realpath -e -m $0`
 SCRIPTS_DIR=`dirname $REAL_PATH`
 
-HOME_PATH=${SCRIPTS_DIR}/.. ./compile_and_test.sh
+HOME_PATH="${SCRIPTS_DIR}/.." "${SCRIPTS_DIR}"/compile_and_test.sh
