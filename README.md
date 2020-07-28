@@ -55,14 +55,14 @@ Required libraries for building the library and test:
 apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
 apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
 
-./script/build-debug.sh
+./scripts/build-debug.sh
 ```
 
 Set `RELEASE` variable to any value to build a release build.
 
 ## Installation & Usage
 
-See `examples` and `script/compile_and_test.sh` to see how to set it up and use.
+See `examples` and `scripts/compile_and_test.sh` to see how to set it up and use.
 
 ## License
 
