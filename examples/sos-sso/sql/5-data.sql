@@ -23,3 +23,6 @@ INSERT INTO groups_users (group_id, user_id) VALUES ('9002', '8003');
 INSERT INTO users (id, username, gid, homedir) VALUES ('8004', 'chocobo', '9002', '/home/chocobo');
 INSERT INTO groups_users (group_id, user_id) VALUES ('9001', '8004');
 INSERT INTO groups_users (group_id, user_id) VALUES ('9002', '8004');
+
+INSERT INTO users (id, username, gid, gecos, homedir) VALUES ('8005', 'testutf', '9000', 'Činčila číha na vĺča,501,,,,', '/home/testutf');
+INSERT INTO groups_users (group_id, user_id) VALUES ('9000', '8005');

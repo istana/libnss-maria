@@ -8,14 +8,17 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
     return NSS_STATUS_TRYAGAIN;
   }
 
-  if(mysql_optionsv(*conn, MYSQL_READ_DEFAULT_FILE, (void *)settings->mariadb_client_config)) {
-    maria_log("Cannot load mariadb client options");
+  if(strlen(settings->mariadb_client_config) == 0) {
+    debug_print("custom mariadb client config file not specified");
+  } else if (mysql_optionsv(*conn, MYSQL_READ_DEFAULT_FILE, (void *)settings->mariadb_client_config)) {
+    maria_log("cannot load mariadb client options");
     log_mysql_error(*conn);
     *errnop = ENOENT;
     return NSS_STATUS_UNAVAIL;
   } else {
     debug_print("custom options file loaded");
-  };
+  }
+
 
   if(mysql_real_connect(
     *conn,
@@ -34,12 +37,19 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
       use_root_user ? settings->dbrootuser : settings->dbuser,
       use_root_user ? settings->dbrootpass : settings->dbpass,
       settings->dbport,
-      settings->unix_socket,
+      strlen(settings->unix_socket) == 0 ? NULL : settings->unix_socket,
       settings->mariadb_client_config
     );
     log_mysql_error(*conn);
     *errnop = EAGAIN;
     return NSS_STATUS_TRYAGAIN;
+  }
+
+  char encoding[] = "utf8";
+  if (mysql_set_character_set(*conn, encoding) == 0) {
+    debug_print_var("character set set to %s", encoding);
+  } else {
+    maria_log("cannot set character set to %s", encoding);
   }
 
   return NSS_STATUS_SUCCESS;

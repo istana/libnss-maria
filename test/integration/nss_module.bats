@@ -63,6 +63,12 @@ setup() {
   [[ "$output" == *"chocobo:x:8004:9002::/home/chocobo:/usr/bin/rssh"* ]]
 }
 
+@test "UTF-8 characters in GECOS" {
+  run getent passwd testutf
+  [[ "$status" -eq 0 ]]
+  [[ "$output" == *"testutf:x:8005:9000:Činčila číha na vĺča,501,,,,:/home/testutf:/usr/bin/rssh"* ]]
+}
+
 ## shadow
 @test "finds known user shadow entry by name" {
   run $SUDO_COMMAND getent shadow katarina
