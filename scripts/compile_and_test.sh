@@ -23,11 +23,13 @@ echo "DOCKER: $DOCKER"
 echo "PREDEFINED_DB: $PREDEFINED_DB"
 echo "SSL_COMMAND: $SSL_COMMAND"
 echo "SUDO_COMMAND: $SUDO_COMMAND"
+echo "TARGET: $TARGET"
+echo "VERBOSE: $VERBOSE"
 
 rm -rf "$HOME_PATH/$TARGET"
 mkdir "$HOME_PATH/$TARGET"
 
-cd ${HOME_PATH}/${TARGET} && cmake -D CMAKE_BUILD_TYPE=${TARGET} .. && make && ctest --verbose
+cd ${HOME_PATH}/${TARGET} && cmake -D CMAKE_BUILD_TYPE=${TARGET} -D VERBOSE=${VERBOSE} .. && make && ctest --verbose
 ORIG_RETURN_CODE=$?
 
 if [[ $ORIG_RETURN_CODE -eq 0 && -z $COMPILE_ONLY ]]; then

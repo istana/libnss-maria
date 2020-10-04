@@ -28,6 +28,12 @@ set_target_properties(nss_maria PROPERTIES
   SOVERSION ${nss_maria_VERSION_MAJOR}
 )
 
+if(VERBOSE)
+  add_definitions(-DVERBOSE=1)
+  set(VERBOSE ON)
+endif()
+
+
 include_directories(SYSTEM ${MARMYSQL_INCLUDE_DIRS})
 target_link_libraries(nss_maria config ${MARMYSQL_LDFLAGS})
 

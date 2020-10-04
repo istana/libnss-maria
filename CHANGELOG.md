@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.92] - 2020-10-04
+### Fixed
+- Set mariadb/mysql client character encoding to UTF-8 - strings in a result are valid UTF-8 strings now
+- Fixes "cannot connect to unix socket ''" when unix_socket nor host are defined in configuration file. Connects to "localhost" by default
+- Set `export VERBOSE=1` before compilation to see detailed logs from the library
+
 ## [0.91] - 2020-07-09
 ### Added
 - Project logo
