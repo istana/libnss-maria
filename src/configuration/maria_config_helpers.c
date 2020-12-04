@@ -86,6 +86,7 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
         config->gidsbymem
       );
 
+      fclose(libconfig_stream);
       return 0;
     } else {
       maria_log("error found in file %s, message: %s, line: %i",
@@ -102,8 +103,6 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
     maria_log("opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
     return 1;
   }
-
-  fclose(libconfig_stream);
 }
 
 int maria_set_root_config_from_file(const char *path, Maria_config *config) {
