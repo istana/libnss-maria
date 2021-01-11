@@ -10,7 +10,6 @@
 #include <threads.h>
 #include "../logger/maria_logger.h"
 #include "../configuration/maria_config.h"
-#include "../str_replace.h"
 #include "../mariadb/query.h"
 #include "./result_handler.h"
 
