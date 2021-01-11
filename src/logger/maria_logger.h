@@ -2,6 +2,7 @@
 #define MARIA_LOGGER_H
 #include <syslog.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 void maria_log(const char *message, ...);
 

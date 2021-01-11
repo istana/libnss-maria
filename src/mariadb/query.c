@@ -111,6 +111,13 @@ enum nss_status maria_query_with_param(
   char *param_sanitized = malloc((sizeof(char) * strlen(param) * 2) + 1);
   mysql_real_escape_string(*conn, param_sanitized, param, strlen(param));
   char *final_query = str_replace(query, "?", param_sanitized);
+
+  if (final_query == NULL) {
+    maria_log("cannot build final query. out of memory?");
+    *errnop = EAGAIN;
+    return NSS_STATUS_TRYAGAIN;
+  }
+
   debug_print_var(final_query);
 
   if((query_status = maria_do_query(*conn, final_query, errnop)) != NSS_STATUS_SUCCESS) {
