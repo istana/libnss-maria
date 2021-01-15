@@ -39,3 +39,9 @@ target_link_libraries(nss_maria config ${MARMYSQL_LDFLAGS})
 
 add_executable(config_db_settings "util/config_db_settings.c")
 target_link_libraries(config_db_settings nss_maria config ${MARMYSQL_LDFLAGS})
+
+
+install(TARGETS nss_maria
+  LIBRARY DESTINATION lib
+  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
