@@ -12,7 +12,7 @@ setup() {
       cat /home/libnss-maria/examples/sos-sso/sql/4-privileges.sql | \
       $SUDO_COMMAND mysql -u root sos-sso-production &&
       cat /home/libnss-maria/examples/sos-sso/sql/5-data.sql | \
-      $SUDO_COMMAND mysql -u root sos-sso-production
+      $SUDO_COMMAND mysql -u root --default-character-set=utf8 sos-sso-production
     else
       cat /home/libnss-maria/examples/sos-sso/sql/1-db.sql | \
       mysql $SSL_COMMAND -uroot -ptoor -hdatabase &&
@@ -23,7 +23,7 @@ setup() {
       cat /home/libnss-maria/examples/sos-sso/sql/4-privileges.sql | \
       mysql $SSL_COMMAND -uroot -ptoor -hdatabase sos-sso-production &&
       cat /home/libnss-maria/examples/sos-sso/sql/5-data.sql | \
-      mysql $SSL_COMMAND -uroot -ptoor -hdatabase sos-sso-production
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase --default-character-set=utf8 sos-sso-production
     fi
   fi
 }
