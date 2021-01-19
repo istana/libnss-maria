@@ -12,7 +12,7 @@ setup() {
       cat /home/libnss-maria/examples/libnss-mysql-linux/sql/4-privileges.sql | \
       $SUDO_COMMAND mysql -u root auth &&
       cat /home/libnss-maria/examples/libnss-mysql-linux/sql/5-data.sql | \
-      $SUDO_COMMAND mysql -u root auth
+      $SUDO_COMMAND mysql -u root --default-character-set=utf8 auth
     else
       cat /home/libnss-maria/examples/libnss-mysql-linux/sql/1-db.sql | \
       mysql $SSL_COMMAND -uroot -ptoor -hdatabase &&
@@ -23,7 +23,7 @@ setup() {
       cat /home/libnss-maria/examples/libnss-mysql-linux/sql/4-privileges.sql | \
       mysql $SSL_COMMAND -uroot -ptoor -hdatabase auth &&
       cat /home/libnss-maria/examples/libnss-mysql-linux/sql/5-data.sql | \
-      mysql $SSL_COMMAND -uroot -ptoor -hdatabase auth
+      mysql $SSL_COMMAND -uroot -ptoor -hdatabase --default-character-set=utf8 auth
     fi
   fi
 }

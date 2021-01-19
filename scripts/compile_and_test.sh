@@ -33,22 +33,12 @@ echo "VERBOSE: $VERBOSE"
 rm -rf "$HOME_PATH/$TARGET"
 mkdir "$HOME_PATH/$TARGET"
 
-cd ${HOME_PATH}/${TARGET} && cmake -D CMAKE_BUILD_TYPE=${TARGET} -D VERBOSE=${VERBOSE} .. && make && ctest --verbose
+cd ${HOME_PATH}/${TARGET} && cmake -D CMAKE_INSTALL_PREFIX='/' -D CMAKE_BUILD_TYPE=${TARGET} -D VERBOSE=${VERBOSE} .. && make && ctest --verbose
 ORIG_RETURN_CODE=$?
 
 if [[ $ORIG_RETURN_CODE -eq 0 && -z $COMPILE_ONLY ]]; then
   $SUDO_COMMAND rm -f /lib/libnss_maria.so*
-  $SUDO_COMMAND cp -bf /home/libnss-maria/${TARGET}/src/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2.0.0
-  $SUDO_COMMAND ln -fs /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so
-  $SUDO_COMMAND ln -fs /lib/libnss_maria.so.2.0.0 /lib/libnss_maria.so.2
-  # for fedora, arch linux has the same /lib and /lib64
-  if [[ ! -f "/lib64/libnss_maria.so.2" ]]; then
-    $SUDO_COMMAND ln -fs /lib/libnss_maria.so.2.0.0 /lib64/libnss_maria.so.2
-  fi
-  if [[ ! -f "/lib64/libnss_maria.so.2.0.0" ]]; then
-    $SUDO_COMMAND ln -fs /lib/libnss_maria.so.2.0.0 /lib64/libnss_maria.so.2.0.0
-  fi
-  $SUDO_COMMAND chmod 644 /lib/libnss_maria.so.2.0.0
+  $SUDO_COMMAND make install
 
   # test sos-sso example config or other tests compatible with database structure
   if [[ (! -z $EXAMPLE_SET) && -f /home/libnss-maria/examples/$EXAMPLE_SET/nsswitch.conf ]]; then

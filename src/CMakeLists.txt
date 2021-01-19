@@ -22,7 +22,7 @@ add_library(nss_maria SHARED
 set (nss_maria_VERSION_MAJOR 2)
 set (nss_maria_VERSION_MINOR 0)
 set (nss_maria_VERSION_PATCH 0)
-set(nss_maria_VERSION ${nss_maria_VERSION_MAJOR}.${nss_maria_VERSION_MINOR}.${nss_maria_VERSION_PATCH})
+set (nss_maria_VERSION ${nss_maria_VERSION_MAJOR}.${nss_maria_VERSION_MINOR}.${nss_maria_VERSION_PATCH})
 set_target_properties(nss_maria PROPERTIES
   VERSION ${nss_maria_VERSION}
   SOVERSION ${nss_maria_VERSION_MAJOR}
@@ -39,3 +39,18 @@ target_link_libraries(nss_maria config ${MARMYSQL_LDFLAGS})
 
 add_executable(config_db_settings "util/config_db_settings.c")
 target_link_libraries(config_db_settings nss_maria config ${MARMYSQL_LDFLAGS})
+
+
+math(EXPR BITS "8*${CMAKE_SIZEOF_VOID_P}")
+find_file (FEDORA_FOUND fedora-release PATHS /etc)
+
+if (FEDORA_FOUND)
+  set (INSTALL_PATH lib${BITS})
+else ()
+  set (INSTALL_PATH lib)
+endif (FEDORA_FOUND)
+
+install(TARGETS nss_maria
+  LIBRARY DESTINATION ${INSTALL_PATH}
+  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)

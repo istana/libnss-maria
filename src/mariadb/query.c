@@ -52,6 +52,7 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
     maria_log("cannot set character set to %s", encoding);
   }
 
+  debug_print("connection initialized successfully");
   return NSS_STATUS_SUCCESS;
 }
 
