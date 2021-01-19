@@ -1,6 +1,6 @@
 FROM centos:latest
 RUN yum install -y 'dnf-command(config-manager)'
-RUN yum config-manager -y --set-enabled PowerTools
+RUN yum config-manager -y --set-enabled powertools
 RUN dnf install -y epel-release
 RUN dnf update -y
 RUN dnf install -y gcc gcc-c++ make cmake mariadb-connector-c mariadb-connector-c-devel \
