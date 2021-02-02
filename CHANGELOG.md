@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Close config file properly after parsing
 - String replace function is more thread safe
 - `export VERBOSE=1` is passed via `./script/build-docker.sh` into build script
+- test script explicitly sets UTF-8 for mysql command fixes UTF-8 failures in integration tests in Fedora
+
+### Changed
+- added support for `make install` command instead of copying and linking files manually
+- update Dockerfile for *CentOS Stream*
 
 ## [0.92] - 2020-10-04
 ### Fixed

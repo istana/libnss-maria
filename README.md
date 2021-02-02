@@ -56,6 +56,14 @@ apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev sys
 apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
 
 ./scripts/build-debug.sh
+
+or
+
+mkdir Debug
+cd Debug
+cmake ..
+make
+(sudo) make install
 ```
 
 Set `RELEASE` variable to any value to build a release build.
