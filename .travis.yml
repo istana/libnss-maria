@@ -10,8 +10,8 @@ addons:
 before_script:
   - if [[ $DISTRO = "centos" ]]; then export COMPILE_ONLY="1"; fi
   - export DC_FILE="docker-compose.yml"
-  - if [[ $DISTRO = "ssl_server" ]]; then export DC_FILE="docker-compose-ssl-server.yml"; fi
-  - if [[ $DISTRO = "unix_socket" ]]; then export DC_FILE="docker-compose-unix-socket.yml"; fi
+  - if [[ $DISTRO = "ssl_server" ]]; then export DC_FILE="docker/docker-compose-ssl-server.yml"; fi
+  - if [[ $DISTRO = "unix_socket" ]]; then export DC_FILE="docker/docker-compose-unix-socket.yml"; fi
   - docker-compose -f $DC_FILE pull
   - docker-compose -f $DC_FILE build
   - docker-compose -f $DC_FILE up -d
