@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added support for `make install` command instead of copying and linking files manually
 - update Dockerfile for *CentOS Stream*
 
+### Added
+- authselect configuration (thx @ondrejj)
+
 ## [0.92] - 2020-10-04
 ### Fixed
 - Set mariadb/mysql client character encoding to UTF-8 - strings in a result are valid UTF-8 strings now

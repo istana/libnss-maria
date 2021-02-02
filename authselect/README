@@ -1,0 +1,6 @@
+Enable libnss-maria for system authentication
+=============================================
+
+Selecting this profile will enable libnss-maria.
+
+Based on libnss-nis, check README file in this configuration.
