@@ -66,7 +66,7 @@ See `examples` and `scripts/compile_and_test.sh` to see how to set it up and use
 
 ## License
 
-Copyright (C) 2015-2020  Ivan Stana
+Copyright (C) 2015-2021  Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
