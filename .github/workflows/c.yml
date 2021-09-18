@@ -103,4 +103,4 @@ jobs:
         with:
           time: '20s'
       - name: Build and test
-        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/compile_and_test.sh
+        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket HOME_PATH=/home/runner/work/libnss-maria/libnss-maria RELEASE=1 ./scripts/compile_and_test.sh
