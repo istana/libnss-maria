@@ -31,7 +31,7 @@ jobs:
         with:
           time: '20s'
       - name: Build and test
-        run: CI=1 ./scripts/build-docker.sh
+        run: CI=1 COMPILE_ONLY=1 ./scripts/build-docker.sh
   Debian:
     runs-on: ubuntu-latest
     steps:
