@@ -89,6 +89,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
+      - name: show current directory
+        run: pwd
       - name: Start MariaDB
         uses: getong/mariadb-action@v1.1
         with:
