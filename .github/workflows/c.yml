@@ -1,0 +1,17 @@
+name: github-actions-c-mysql
+
+on:
+  pull_request:
+    branches: ['*']
+  push:
+    branches: [master]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks out the repository
+        uses: actions/checkout@v2
+      - name: Starts docker-compose
+        run: docker-compose up -d
+      - name: Run tests
+        run: ./script/build-docker.sh
