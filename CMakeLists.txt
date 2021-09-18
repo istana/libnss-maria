@@ -10,7 +10,7 @@ set(ENV{COMPILE_OPTIONS} "\
 -Wcast-align;-Wwrite-strings;-Winline;-Wformat-nonliteral;-Wformat-security;\
 -Wswitch-enum;\
 -Winit-self;-Wmissing-include-dirs;-Wundef;-Waggregate-return;-Wnested-externs;\
--Wunsafe-loop-optimizations;-Winvalid-pch;-Wcast-qual;\
+-Wunsafe-loop-optimizations;-Winvalid-pch;-Wcast-qual;-fanalyzer;\
 --std=c11\
 ")
 set(ENV{DEBUG_OPTIONS} "-g;-ggdb;-O0")
