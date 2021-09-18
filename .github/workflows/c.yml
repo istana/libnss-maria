@@ -6,16 +6,27 @@ on:
   push:
     branches: [master]
 jobs:
-  test:
+  Build & test Debian:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
       - name: Starts docker-compose
-        run: docker-compose up -d
+        run: DISTRO=debian docker-compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
-          time: '60s'
-      - name: Run tests
+          time: '20s'
+        run: CI=1 ./scripts/build-docker.sh
+  Build & test Archlinux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks out the repository
+        uses: actions/checkout@v2
+      - name: Starts docker-compose
+        run: DISTRO=archlinux docker-compose up -d
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '20s'
         run: CI=1 ./scripts/build-docker.sh
