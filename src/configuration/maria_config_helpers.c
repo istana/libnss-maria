@@ -102,7 +102,7 @@ getspent:%s;getgrnam:%s;getgrgid:%s;getgrent:%s;memsbygid:%s;gidsbymem:%s",
       return 1;
     }
   } else {
-    maria_log("opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
+    maria_log("opening file failed, file=%s, error number=%d, error description=%s\n", path, errno, strerror(errno));
     return 1;
   }
 }
@@ -134,7 +134,8 @@ int maria_set_root_config_from_file(const char *path, Maria_config *config) {
       return 1;
     }
   } else {
-    maria_log("opening file failed, file=%s, error number=%d, error description=%s", path, errno, strerror(errno));
+    // do not log, user or something like amavis try to get shadow info for some reason
+    debug_print_var("opening file failed, file=%s, error number=%d, error description=%s\n", path, errno, strerror(errno));
     return 1;
   }
 
