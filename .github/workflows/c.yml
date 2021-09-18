@@ -89,8 +89,13 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Installs MariaDB
-        run:  apt-get install mariadb-server
+      - name: Start MariaDB
+        uses: getong/mariadb-action@v1.1
+        with:
+          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql database: 'test' # Optional, default value is "test". The specified database which will be create
+          mysql root password: "" # Required if "mysql user" is empty, default is empty. The root superuser password
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
