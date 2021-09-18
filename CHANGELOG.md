@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Fixed
+- segfault when cannot connect to the database - related to unix_socket value
+- segfault when a config file is unreadable - happened everywhere listing and also find by name
+- do not use uninitialized value - unix_socket config field
+
+### Changed
+- logger buffer value increased from 4k to 10k bytes
+- do not log when root config is not readable
 
 ## [0.94] - 2021-09-18
 ### Fixed
