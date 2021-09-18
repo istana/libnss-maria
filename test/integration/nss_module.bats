@@ -73,7 +73,7 @@ setup() {
 @test "finds known user shadow entry by name" {
   run $SUDO_COMMAND getent shadow katarina
   [[ $status -eq 0 ]]
-  [[ $output == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
+  [[ $output == *'katarina:$2a$12$p1JGwXPpd22BZKz/ZUZcMOwZlk2SrQVmkiaqkhrvNY9PMXUYqs.4C:2:5:1000:67:10:4004:1'* ]]
 }
 
 @test "doesn't find unknown user shadow entry by name" {
@@ -85,11 +85,11 @@ setup() {
 @test "finds all user shadow entries" {
   run $SUDO_COMMAND getent shadow
   [[ "$status" -eq 0 ]]
-  [[ "$output" == *"katarina:xxx*hashed_password*xxx:2:5:1000:67:10:4004:1"* ]]
-  [[ "$output" == *"noctis:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"cindy:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"cloud:x:1:0:9999:30:0::0"* ]]
-  [[ "$output" == *"chocobo:x:1:0:9999:30:0::0"* ]]
+  [[ "$output" == *'katarina:$2a$12$p1JGwXPpd22BZKz/ZUZcMOwZlk2SrQVmkiaqkhrvNY9PMXUYqs.4C:2:5:1000:67:10:4004:1'* ]]
+  [[ "$output" == *'noctis:$2a$12$7YAfze4UqNTs2CMZf9jL5ukBw6C/JupZAdsMcDSbYCBGh8EGHnexm:1:0:9999:30:0::0'* ]]
+  [[ "$output" == *'cindy:$2a$12$j4wld4W9N1knQ4k422kLaOfetwCwrO5ySK8TnSHH0mB1n8i.CJyCS:1:0:9999:30:0::0'* ]]
+  [[ "$output" == *'cloud:$2a$12$vv1vjjRxsZNLNLC.O.2MYOx9kCeEm0qSp4aGUjpfVU3xqqV1ZyI/6:1:0:9999:30:0::0'* ]]
+  [[ "$output" == *'chocobo:$2a$12$wHtl83ZP/nkXtqP5mLmiAOR9fl/aStYhQzalCLaf1LW6Rt9MpM/Re:1:0:9999:30:0::0'* ]]
 }
 
 ## groups
