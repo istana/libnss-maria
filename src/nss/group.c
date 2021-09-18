@@ -260,6 +260,10 @@ enum nss_status _nss_maria_getgrent_r (
   Maria_config *settings = malloc(sizeof(*settings));
   READ_USER_CONFIG(0, errnop);
 
+  if(group_dbresult == NULL || group_dbconn == NULL) {
+    return NSS_STATUS_UNAVAIL;
+  }
+
   enum nss_status row_status;
   enum nss_status copy_status;
   enum nss_status members_status;

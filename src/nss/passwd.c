@@ -116,6 +116,10 @@ enum nss_status _nss_maria_getpwent_r (
 ) {
   debug_print("_nss_maria_getpwent called!");
 
+  if(passwd_dbresult == NULL || passwd_dbconn == NULL) {
+    return NSS_STATUS_UNAVAIL;
+  }
+
   MYSQL_ROW row;
   MYSQL_ROW_OFFSET passwd_db_initial_offset = mysql_row_tell(passwd_dbresult);
   enum nss_status row_status = maria_get_row(&passwd_dbconn, &passwd_dbresult, &row, errnop);

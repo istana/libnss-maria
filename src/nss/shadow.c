@@ -60,6 +60,10 @@ enum nss_status _nss_maria_getspent_r (
 ) {
   debug_print("_nss_maria_getspent_r called!");
 
+  if(shadow_dbresult == NULL || shadow_dbconn == NULL) {
+    return NSS_STATUS_UNAVAIL;
+  }
+
   MYSQL_ROW row;
   MYSQL_ROW_OFFSET shadow_db_initial_offset = mysql_row_tell(shadow_dbresult);
   enum nss_status row_status = maria_get_row(&shadow_dbconn, &shadow_dbresult, &row, errnop);
