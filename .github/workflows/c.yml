@@ -94,7 +94,7 @@ jobs:
       - name: list maria packages
         run: dpkg -l
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libmysqlclient-dev libconfig-dev syslog-ng-dev bats syslog-ng mysql-client mysql-server libconfig9 ruby pkg-config
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libmysqlclient-dev libmysqlclient21 libconfig-dev syslog-ng-dev bats syslog-ng mysql-client mysql-server libconfig9 ruby pkg-config
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
