@@ -14,4 +14,4 @@ jobs:
       - name: Starts docker-compose
         run: docker-compose up -d
       - name: Run tests
-        run: ./scripts/build-docker.sh
+        run: CI=1 ./scripts/build-docker.sh
