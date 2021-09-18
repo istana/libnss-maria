@@ -90,10 +90,10 @@ jobs:
       - name: Checks out the repository
         uses: actions/checkout@v2
       - name: Starts docker-compose
-        run: DISTRO=unix_socket docker-compose up -d
+        run: DISTRO=unix_socket docker-compose -f docker/docker-compose-unix-socket.yml up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
           time: '20s'
       - name: Build and test
-        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh
+        run: CI=1 CONFIG_FILE=libnss-maria.conf DOCKERCFILE=docker/docker-compose-unix-socket.yml EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh

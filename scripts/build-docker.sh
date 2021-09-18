@@ -1,4 +1,4 @@
-docker-compose exec $( (( CI == 1 )) && printf %s '-T' ) sys sh -c "\
+docker-compose -f $DOCKERCFILE exec  $( (( CI == 1 )) && printf %s '-T' ) sys sh -c "\
 CLIENT_FILE=${CLIENT_FILE} \
 COMPILE_ONLY=${COMPILE_ONLY} \
 CONFIG_FILE=${CONFIG_FILE:=libnss-maria-docker.conf} \

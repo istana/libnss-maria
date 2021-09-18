@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.${DISTRO:-debian}
     volumes:
-      - ${TRAVIS_BUILD_DIR:-.}:/home/libnss-maria
+      - .:/home/libnss-maria
     stdin_open: true
     tty: true
     command: /bin/bash
