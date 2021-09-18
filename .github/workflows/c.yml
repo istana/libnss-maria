@@ -6,7 +6,7 @@ on:
   push:
     branches: [master]
 jobs:
-  Build & test Debian:
+  Debian:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
@@ -19,7 +19,7 @@ jobs:
           time: '20s'
       - name: Build and test
         run: CI=1 ./scripts/build-docker.sh
-  Build & test Archlinux:
+  Archlinux:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
