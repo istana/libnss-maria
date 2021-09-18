@@ -12,9 +12,9 @@ typedef struct Maria_configs {
   char dbpass[1024];
   long long dbport;
   char unix_socket[1024];
+  char mariadb_client_config[1024];
   char dbrootuser[1024];
   char dbrootpass[1024];
-  char mariadb_client_config[1024];
 
   // "password" SQL queries
   // get user by name

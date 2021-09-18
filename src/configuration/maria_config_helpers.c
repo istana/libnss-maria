@@ -2,17 +2,19 @@
 
 void maria_initialize_config(Maria_config *config) {
   strncpy(config->dbhost, "localhost", 1023);
+  strncpy(config->dbname, "libnss_maria", 1023);
   strncpy(config->dbuser, "root", 1023);
   strncpy(config->dbpass, "", 1023);
-  strncpy(config->dbname, "libnss_maria", 1023);
   config->dbport = 3306;
+  config->unix_socket[0] = '\0';
+  config->mariadb_client_config[0] = '\0';
+  config->dbrootuser[0] = '\0';
+  config->dbrootpass[0] = '\0';
 
   config->getpwnam[0] = config->getpwuid[0] = config->getpwent[0] = '\0';
   config->getspnam[0] = config->getspent[0] = '\0';
   config->getgrnam[0] = config->getgrgid[0] = config->getgrent[0] = '\0';
   config->memsbygid[0] = config->gidsbymem[0] = '\0';
-  config->dbrootuser[0] = config->dbrootpass[0] = '\0';
-  config->mariadb_client_config[0] = '\0';
 }
 
 void maria_load_string_setting(config_t libconfig_object, char *destination, const char *selector) {
