@@ -1,7 +1,5 @@
 # <img src="./libnss-maria-logo.svg" width="96" height="96"> libnss-maria
 
-[![Build Status](https://travis-ci.org/istana/libnss-maria.svg?branch=master)](https://travis-ci.org/istana/libnss-maria)
-
 Replacement for old libnss-mysql as naming service library in Linux.
 
 You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database, `getent` shows users and groups.
