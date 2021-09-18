@@ -37,10 +37,6 @@ endif()
 include_directories(SYSTEM ${MARMYSQL_INCLUDE_DIRS})
 target_link_libraries(nss_maria config ${MARMYSQL_LDFLAGS})
 
-add_executable(config_db_settings "util/config_db_settings.c")
-target_link_libraries(config_db_settings nss_maria config ${MARMYSQL_LDFLAGS})
-
-
 math(EXPR BITS "8*${CMAKE_SIZEOF_VOID_P}")
 find_file (FEDORA_FOUND fedora-release PATHS /etc)
 
