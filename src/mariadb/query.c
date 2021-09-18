@@ -27,7 +27,7 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
     use_root_user ? settings->dbrootpass : settings->dbpass,
     settings->dbname,
     settings->dbport,
-    settings->unix_socket,
+    strlen(settings->unix_socket) == 0 ? NULL : settings->unix_socket,
     0
   ) == NULL) {
     maria_log("++ cannot connect to the database\n");
