@@ -84,7 +84,7 @@ jobs:
           time: '20s'
       - name: Build and test
         run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  UnixDocket:
+  UnixSocket:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
