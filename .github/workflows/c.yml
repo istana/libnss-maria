@@ -96,4 +96,19 @@ jobs:
         with:
           time: '20s'
       - name: Build and test
-        run: CI=1 CONFIG_FILE=libnss-maria.conf DOCKERCFILE=docker/docker-compose-unix-socket.yml EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh
+        run: CI=1 CONFIG_FILE=libnss-maria.conf DOCKERCFILE=docker/docker-compose-unix-socket.yml
+          EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh
+  CustomClientConfigSSL:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks out the repository
+        uses: actions/checkout@v2
+      - name: Starts docker-compose
+        run: DISTRO=unix_socket docker-compose -f docker/docker-compose-ssl-server.yml up -d
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '20s'
+      - name: Build and test
+        run: CI=1 CLIENT_FILE=client.cnf DOCKERCFILE=docker/docker-compose-unix-socket.yml EXAMPLE_SET=ssl
+          RELEASE=1 TEST_USE_SSL=1 ./scripts/build-docker.sh
