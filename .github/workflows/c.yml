@@ -94,14 +94,7 @@ jobs:
       - name: list maria packages
         run: dpkg -l
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats syslog-ng mariadb-client libconfig9 ruby pkg-config
-      - name: Start MariaDB
-        uses: getong/mariadb-action@v1.1
-        with:
-          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-          mysql database: 'test' # Optional, default value is "test". The specified database which will be create
-          mysql root password: "" # Required if "mysql user" is empty, default is empty. The root superuser password
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libmysqlclient-dev libconfig-dev syslog-ng-dev bats syslog-ng mysql-client mysql-server libconfig9 ruby pkg-config
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
