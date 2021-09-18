@@ -84,24 +84,16 @@ jobs:
           time: '20s'
       - name: Build and test
         run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  UnixSocket:
+  UnixDocket:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: show current directory
-        run: pwd
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install -y build-essential cmake libmysqlclient-dev libmysqlclient21 libconfig-dev syslog-ng-dev bats syslog-ng mysql-client mysql-server libconfig9 ruby pkg-config
-      - name: list installed packages
-        run: dpkg -l
-      - name: debug pkgconfig
-        run: pkg-config --list-all
-      - name: list pkgconfig
-        run: ls -lah /usr/lib64/pkgconfig/
+      - name: Starts docker-compose
+        run: DISTRO=unix_socket docker-compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
           time: '20s'
       - name: Build and test
-        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket HOME_PATH=/home/runner/work/libnss-maria/libnss-maria RELEASE=1 ./scripts/compile_and_test.sh
+        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh
