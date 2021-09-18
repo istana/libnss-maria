@@ -1,4 +1,4 @@
-name: github-actions-c-mysql
+name: github-actions-c
 
 on:
   pull_request:
@@ -14,4 +14,4 @@ jobs:
       - name: Starts docker-compose
         run: docker-compose up -d
       - name: Run tests
-        run: ./script/build-docker.sh
+        run: ./scripts/build-docker.sh
