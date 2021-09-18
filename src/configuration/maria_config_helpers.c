@@ -17,7 +17,7 @@ void maria_initialize_config(Maria_config *config) {
 
 void maria_load_string_setting(config_t libconfig_object, char *destination, const char *selector) {
   // is freed by libconfig
-  const char *buffer = malloc(1024 * sizeof(char));
+  const char *buffer;
 
   if(config_lookup_string(&libconfig_object, selector, &buffer) == CONFIG_TRUE) {
     strncpy(destination, buffer, 1023);
