@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.0)
 project (nss_maria)
 
-set(ENV{COMPILE_OPTIONS} "\
+set(ENV{COMPILE_OPTIONS_SHARED} "\
 -pipe;-pedantic;-Wall;-Wextra;-Wshadow;-Wno-missing-field-initializers;\
 -Wno-unused-parameter;-Wold-style-definition;\
 -Wmissing-declarations;\
@@ -10,17 +10,30 @@ set(ENV{COMPILE_OPTIONS} "\
 -Wcast-align;-Wwrite-strings;-Winline;-Wformat-nonliteral;-Wformat-security;\
 -Wswitch-enum;\
 -Winit-self;-Wmissing-include-dirs;-Wundef;-Waggregate-return;-Wnested-externs;\
--Wunsafe-loop-optimizations;-Winvalid-pch;-Wcast-qual;-fanalyzer;\
+-Wunsafe-loop-optimizations;-Winvalid-pch;-Wcast-qual;\
 --std=c11\
 ")
 set(ENV{DEBUG_OPTIONS} "-g;-ggdb;-O0")
 set(ENV{RELEASE_OPTIONS} "-O3;-Werror")
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-  add_compile_options($ENV{COMPILE_OPTIONS} $ENV{DEBUG_OPTIONS})
+  add_compile_options($ENV{COMPILE_OPTIONS_SHARED} $ENV{DEBUG_OPTIONS})
+
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_C_COMPILER_VERSION VERSION_GREATER 10)
+    add_compile_options("-fanalyzer")
+  endif()
+
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options("-fanalyzer")
+  endif()
+
 else()
-  add_compile_options($ENV{COMPILE_OPTIONS} $ENV{RELEASE_OPTIONS})
+  add_compile_options($ENV{COMPILE_OPTIONS_SHARED} $ENV{RELEASE_OPTIONS})
 endif()
+
+# mega useful to debug compile parameters
+# https://cmake.org/cmake/help/latest/variable/CMAKE_DEBUG_TARGET_PROPERTIES.html
+#set(CMAKE_DEBUG_TARGET_PROPERTIES COMPILE_OPTIONS)
 
 add_subdirectory(src)
 add_subdirectory(test)
