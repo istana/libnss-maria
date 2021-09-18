@@ -84,3 +84,16 @@ jobs:
           time: '20s'
       - name: Build and test
         run: CI=1 RELEASE=1 ./scripts/build-docker.sh
+  UnixSocket:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks out the repository
+        uses: actions/checkout@v2
+      - name: Installs MariaDB
+        run:  apt-get install mariadb-server
+      - name: Sleep
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '20s'
+      - name: Build and test
+        run: CI=1 CONFIG_FILE=libnss-maria.conf EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/compile_and_test.sh
