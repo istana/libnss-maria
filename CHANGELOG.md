@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.94] - 2021-09-18
+### Fixed
+- Memory leak in config load [thx bassbot123]
+
+### Changed
+- Move continuous integration from Travis CI to Github Actions
+- Add -fanalyzer to compile options
+- Update Debian Buster (10) to Bullseye (11)
+
 ## [0.93] - 2021-02-03
 ### Fixed
 - Close config file properly after parsing
