@@ -9,7 +9,7 @@ void maria_log(const char *message, ...);
 #ifdef VERBOSE
   #define debug_print(msg) \
     do { \
-      char xmessage[4096] = ""; \
+      char xmessage[10240] = ""; \
       sprintf(xmessage, \
         "%s:%d:%s(): " msg "\n", \
         __FILE__, \
@@ -25,7 +25,7 @@ void maria_log(const char *message, ...);
 #ifdef VERBOSE
   #define debug_print_var(...) \
     do { \
-      char xmessage[4096] = ""; \
+      char xmessage[10240] = ""; \
       snprintf(xmessage, \
         sizeof(xmessage), \
         "%s:%d:%s(): ", \

@@ -2,11 +2,11 @@
 #include "maria_logger.h"
 
 void maria_log(const char *message, ...) {
-  char assembled_message[4096];
+  char assembled_message[10240];
   va_list ap;
 
   va_start(ap, message);
-  vsnprintf(assembled_message, 4096, message, ap);
+  vsnprintf(assembled_message, 10240, message, ap);
   va_end(ap);
 
   openlog("libnss-maria", LOG_PID|LOG_CONS, LOG_USER);
