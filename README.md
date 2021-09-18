@@ -1,8 +1,8 @@
 # <img src="./libnss-maria-logo.svg" width="96" height="96"> libnss-maria
 
-Replacement for old libnss-mysql as naming service library in Linux.
+Replacement for old [libnss-mysql](https://github.com/Cellebyte/libnss-mysql-bg-1.5) as a naming service library for Linux.
 
-You can store user information in MariaDB/MySQL database. E.g. `ls` then automatically shows user name from the database, `getent` shows users and groups.
+You can store user and group information in `MariaDB` or `MySQL` database. E.g. `ls` then automatically shows user name from the database, `getent` shows users and groups.
 
 ## Features
 
@@ -11,9 +11,10 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - `libconfig` for configuration
 - uses direct queries and `real_escape_string`
 - uses `threads.c` from `C11`
-- requirements: Glibc 2.28, GCC8, equivalent of Debian 10 (Buster) and newer, MySQL5.5+/MariaDB10.0+, mariadb-connector-c/mysql-client. Might work or compile on older systems, but it's untested
-- tested systems - Archlinux, Centos, Debian (bullseye/stable), Fedora, latest Ubuntu, Ubuntu LTS
-- both unix socket and host are supported
+- requirements: `Glibc 2.28`, `GCC 8`, equivalent of `Debian 10` (*Buster*) and newer, `MySQL 5.5+`/`MariaDB 10.0+`, `mariadb-connector-c`/`libmysqlclient`. Might work or compile on older systems, but it's untested
+- tested systems - latest `Archlinux`, `CentOS`, `Debian`, `Fedora`, `Ubuntu` and `Ubuntu LTS`
+- both *unix socket* and *hostname* + *port* are supported
+- accepts custom mysql client configuration
 - shouldn't be used with SUID programs
 
 ## TODO
@@ -22,6 +23,13 @@ You can store user information in MariaDB/MySQL database. E.g. `ls` then automat
 - announce
 - deb + rpm packages
 - architecture like nss_ldapd would be nice
+
+## Build && Test in Docker
+
+`docker-compose up`
+`./scripts/build-docker.sh`
+
+The result is in `./Debug/src` directory.
 
 ## Build && Test in Vagrant
 
@@ -37,16 +45,9 @@ vagrant up
 
 The result is in `./Debug/src` or `./Release/src`directory.
 
-## Build && Test in Docker
-
-`docker-compose up`
-`./scripts/build-docker.sh`
-
-The result is in `./Debug/src` directory.
-
 ## Build && Test on a Linux system
 
-Required libraries for building the library and test:
+Required libraries for building the library and test, browse `docker/Dockerfile*` to see required packages for other distros:
 
 ```
 apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
