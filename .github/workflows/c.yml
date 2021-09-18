@@ -97,6 +97,8 @@ jobs:
         run: dpkg -l
       - name: debug pkgconfig
         run: pkg-config --list-all
+      - name: list pkgconfig
+        run: ls -lah /usr/lib64/pkgconfig/
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
