@@ -4,7 +4,15 @@ set (PROJECT_BINARY_DIR src)
 
 # find mariadb or mysql
 find_package(PkgConfig REQUIRED)
-pkg_search_module(MARMYSQL REQUIRED libmariadb libmysqlclient)
+pkg_search_module(MARMYSQL REQUIRED libmariadb libmysqlclient mysqlclient)
+
+#message(STATUS "aaa ${MARMYSQL_FOUND} ${MARMYSQL_LIBRARIES}")
+
+if(MARMYSQL_LIBRARIES STREQUAL "libmariadb")
+  add_definitions(-DMARIADB_USED=1)
+else()
+  add_definitions(-DMYSQLDB_USED=1)
+endif()
 
 add_library(nss_maria SHARED
   "configuration/maria_config.c"

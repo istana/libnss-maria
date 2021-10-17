@@ -10,7 +10,11 @@ enum nss_status maria_init_db_conn(Maria_config *settings, MYSQL **conn, int *er
 
   if(strlen(settings->mariadb_client_config) == 0) {
     debug_print("custom mariadb client config file not specified");
-  } else if (mysql_optionsv(*conn, MYSQL_READ_DEFAULT_FILE, (void *)settings->mariadb_client_config)) {
+  #ifdef MARIADB_USED
+    } else if (mysql_optionsv(*conn, MYSQL_READ_DEFAULT_FILE, (void *)settings->mariadb_client_config)) {
+  #else
+    } else if (mysql_options(*conn, MYSQL_READ_DEFAULT_FILE, (void *)settings->mariadb_client_config)) {
+  #endif
     maria_log("cannot load mariadb client options");
     log_mysql_error(*conn);
     *errnop = ENOENT;
