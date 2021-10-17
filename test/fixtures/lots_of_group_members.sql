@@ -1,4 +1,4 @@
-INSERT INTO groups (id, password, name) VALUES ('10000', 'x', 'management');
+INSERT INTO `groups` (id, password, name) VALUES ('10000', 'x', 'management');
 
 INSERT INTO users (id, username, gid, homedir) VALUES ('10001', 'user001', '10000', '/home/user001');
 INSERT INTO users (id, username, gid, homedir) VALUES ('10002', 'user002', '10000', '/home/user002');

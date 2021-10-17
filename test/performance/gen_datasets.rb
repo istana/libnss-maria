@@ -12,7 +12,7 @@ groups_name_template = %w(
   Sculptor Scutum Serpens Sextans Taurus Telescopium Triangulum Triangulum\ Australe Tucana Ursa\ Major Ursa\ Minor
   Vela Virgo Volans Vulpecula
 )
-group_template = "INSERT INTO groups (id, name) VALUES (':gid', ':name');"
+group_template = "INSERT INTO `groups` (id, name) VALUES (':gid', ':name');"
 user_template = "INSERT INTO users (id, username, gid, homedir) VALUES (':uid', ':username', ':gid', '/home/:username');"
 
 start_uid = 10000
