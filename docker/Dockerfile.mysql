@@ -1,0 +1,3 @@
+FROM fedora:latest
+RUN dnf install -y gcc g++ make cmake community-mysql community-mysql-devel \
+libconfig libconfig-devel syslog-ng syslog-ng-devel bats ruby pkg-config
