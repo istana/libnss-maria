@@ -19,10 +19,12 @@ You can store user and group information in `MariaDB` or `MySQL` database. E.g. 
 
 ## TODO
 
-- v1 version
-- announce
 - deb + rpm packages
 - architecture like nss_ldapd would be nice
+
+## Installation & Usage
+
+See `examples` and `scripts/compile_and_test.sh` to see how to set it up and use.
 
 ## Build && Test in Docker
 
@@ -65,10 +67,6 @@ make
 ```
 
 Set `RELEASE` variable to any value to build a release build.
-
-## Installation & Usage
-
-See `examples` and `scripts/compile_and_test.sh` to see how to set it up and use.
 
 ## License
 
