@@ -15,6 +15,8 @@ enum nss_status copy_db_row_to_passwd(
   size_t homedir_l = strlen(row[5]);
   size_t shell_l = strlen(row[6]);
 
+  debug_print_var("XXXXXXX username:%s; buflen:%lu", row[0], buflen);
+
   if (username_l + password_l + gecos_l + homedir_l + shell_l + 5 > buflen) {
     mysql_row_seek(passwd_query_result, passwd_query_initial_offset);
     debug_print("copy_db_row_to_passwd: buffer too small");
