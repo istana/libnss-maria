@@ -42,26 +42,26 @@ if [[ $ORIG_RETURN_CODE -eq 0 && -z $COMPILE_ONLY ]]; then
   $SUDO_COMMAND make install
 
   # test sos-sso example config or other tests compatible with database structure
-  if [[ (! -z $EXAMPLE_SET) && -f /home/libnss-maria/examples/$EXAMPLE_SET/nsswitch.conf ]]; then
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/$EXAMPLE_SET/nsswitch.conf /etc
+  if [[ (! -z $EXAMPLE_SET) && -f ${HOME_PATH}/examples/$EXAMPLE_SET/nsswitch.conf ]]; then
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/$EXAMPLE_SET/nsswitch.conf /etc
   else
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/sos-sso/nsswitch.conf /etc
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/sos-sso/nsswitch.conf /etc
   fi
 
-  if [[ -f /home/libnss-maria/examples/$EXAMPLE_SET/$CONFIG_FILE ]]; then
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/$EXAMPLE_SET/$CONFIG_FILE /etc/libnss-maria.conf
+  if [[ -f ${HOME_PATH}/examples/$EXAMPLE_SET/$CONFIG_FILE ]]; then
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/$EXAMPLE_SET/$CONFIG_FILE /etc/libnss-maria.conf
   else
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/sos-sso/$CONFIG_FILE /etc/libnss-maria.conf
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/sos-sso/$CONFIG_FILE /etc/libnss-maria.conf
   fi
 
-  if [[ -f /home/libnss-maria/examples/$EXAMPLE_SET/$CONFIG_ROOT_FILE ]]; then
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/$EXAMPLE_SET/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
+  if [[ -f ${HOME_PATH}/examples/$EXAMPLE_SET/$CONFIG_ROOT_FILE ]]; then
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/$EXAMPLE_SET/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
   else
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/sos-sso/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/sos-sso/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
   fi
 
   if [[ ! -z $CLIENT_FILE ]]; then
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/$EXAMPLE_SET/$CLIENT_FILE /etc/libnss-maria-client.cnf
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/$EXAMPLE_SET/$CLIENT_FILE /etc/libnss-maria-client.cnf
   fi
   $SUDO_COMMAND chmod 644 /etc/nsswitch.conf /etc/libnss-maria.conf
   $SUDO_COMMAND chmod 600 /etc/libnss-maria-root.conf
@@ -73,9 +73,9 @@ if [[ $ORIG_RETURN_CODE -eq 0 && -z $COMPILE_ONLY ]]; then
 
   # test libnss-mysql example config
   if [[ $EXAMPLE_SET == "sos-sso" ]]; then
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/libnss-mysql-linux/nsswitch.conf /etc
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/libnss-mysql-linux/$CONFIG_FILE /etc/libnss-maria.conf
-    $SUDO_COMMAND cp -bf /home/libnss-maria/examples/libnss-mysql-linux/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/libnss-mysql-linux/nsswitch.conf /etc
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/libnss-mysql-linux/$CONFIG_FILE /etc/libnss-maria.conf
+    $SUDO_COMMAND cp -bf ${HOME_PATH}/examples/libnss-mysql-linux/$CONFIG_ROOT_FILE /etc/libnss-maria-root.conf
     $SUDO_COMMAND chmod 644 /etc/nsswitch.conf /etc/libnss-maria.conf
     $SUDO_COMMAND chmod 600 /etc/libnss-maria-root.conf
 
