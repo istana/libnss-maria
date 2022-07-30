@@ -19,19 +19,6 @@ jobs:
           time: '20s'
       - name: Build and test
         run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  CentOS:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=centos docker-compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 COMPILE_ONLY=1 RELEASE=1 ./scripts/build-docker.sh
   Debian:
     runs-on: ubuntu-latest
     steps:

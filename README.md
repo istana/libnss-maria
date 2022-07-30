@@ -55,7 +55,8 @@ Required libraries for building the library and test, browse `docker/Dockerfile*
 apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
 apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
 
-./scripts/build-debug.sh
+COMPILE_ONLY=1 ./scripts/build-debug.sh
+(sudo) make install
 
 or
 
@@ -70,7 +71,7 @@ Set `RELEASE` variable to any value to build a release build.
 
 ## License
 
-Copyright (C) 2015-2021  Ivan Stana
+Copyright (C) 2015-2022  Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
