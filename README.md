@@ -12,7 +12,7 @@ You can store user and group information in `MariaDB` or `MySQL` database. E.g. 
 - uses direct queries and `real_escape_string`
 - uses `threads.c` from `C11`
 - requirements: `Glibc 2.28`, `GCC 8`, equivalent of `Debian 10` (*Buster*) and newer, `MySQL 5.5+`/`MariaDB 10.0+`, `mariadb-connector-c`/`libmysqlclient`. Might work or compile on older systems, but it's untested
-- tested systems - latest `Archlinux`, `CentOS`, `Debian`, `Fedora`, `Ubuntu` and `Ubuntu LTS`
+- tested systems - latest `Archlinux`, `Debian`, `Fedora`, `Ubuntu` and `Ubuntu LTS`
 - both *unix socket* and *hostname* + *port* are supported
 - accepts custom mysql client configuration
 - shouldn't be used with SUID programs
@@ -20,7 +20,9 @@ You can store user and group information in `MariaDB` or `MySQL` database. E.g. 
 ## TODO
 
 - deb + rpm packages
-- architecture like nss_ldapd would be nice
+- mysql/mariadb lib should not be linked and loaded, but separated - architecture like nss_ldapd would be nice
+- add RHEL (does not have bats) or Rockylinux/AlmaLinux
+- not sure if MySQL works correctly, the test fails on buff_test which means it does not increase buffer size for long result
 
 ## Installation & Usage
 
