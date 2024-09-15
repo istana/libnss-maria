@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=archlinux docker-compose up -d
+      - name: Starts docker compose
+        run: DISTRO=archlinux docker compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -24,8 +24,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=debian docker-compose up -d
+      - name: Starts docker compose
+        run: DISTRO=debian docker compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -37,8 +37,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=fedora docker-compose up -d
+      - name: Starts docker compose
+        run: DISTRO=fedora docker compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -50,8 +50,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=ubuntu docker-compose up -d
+      - name: Starts docker compose
+        run: DISTRO=ubuntu docker compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -63,8 +63,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=ubuntu-lts docker-compose up -d
+      - name: Starts docker compose
+        run: DISTRO=ubuntu-lts docker compose up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -76,8 +76,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=unix_socket docker-compose -f docker/docker-compose-unix-socket.yml up -d
+      - name: Starts docker compose
+        run: DISTRO=unix_socket docker compose -f docker/docker-compose-unix-socket.yml up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
@@ -90,8 +90,8 @@ jobs:
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker-compose
-        run: DISTRO=unix_socket docker-compose -f docker/docker-compose-ssl-server.yml up -d
+      - name: Starts docker compose
+        run: DISTRO=unix_socket docker compose -f docker/docker-compose-ssl-server.yml up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:

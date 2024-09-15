@@ -30,7 +30,7 @@ See `examples` and `scripts/compile_and_test.sh` to see how to set it up and use
 
 ## Build && Test in Docker
 
-`docker-compose up`
+`docker compose up`
 `./scripts/build-docker.sh`
 
 The result is in `./Debug/src` directory.
