@@ -105,7 +105,7 @@ jobs:
       - name: Checks out the repository
         uses: actions/checkout@v2
       - name: Starts docker-compose
-        run: docker-compose -f docker/docker-compose-mysql.yml up -d
+        run: docker compose -f docker/docker-compose-mysql.yml up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
