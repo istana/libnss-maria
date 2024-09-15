@@ -11,7 +11,7 @@ You can store user and group information in `MariaDB` or `MySQL` database. E.g. 
 - `libconfig` for configuration
 - uses direct queries and `real_escape_string`
 - uses `threads.c` from `C11`
-- requirements: `Glibc 2.28`, `GCC 8`, equivalent of `Debian 10` (*Buster*) and newer, `MySQL 5.5+`/`MariaDB 10.0+`, `mariadb-connector-c`/`libmysqlclient`. Might work or compile on older systems, but it's untested
+- requirements: `Glibc 2.28` or newer, `GCC 8` or newer, equivalent of `Debian 10` (*Buster*) or newer, `MySQL 5.5+`/`MariaDB 10.0+`, `mariadb-connector-c`/`libmysqlclient`. Might work or compile on older systems, but it's untested
 - tested systems - latest `Archlinux`, `Debian`, `Fedora`, `Ubuntu` and `Ubuntu LTS`
 - both *unix socket* and *hostname* + *port* are supported
 - accepts custom mysql client configuration
@@ -23,6 +23,8 @@ You can store user and group information in `MariaDB` or `MySQL` database. E.g. 
 - mysql/mariadb lib should not be linked and loaded, but separated - architecture like nss_ldapd would be nice
 - add RHEL (does not have bats) or Rockylinux/AlmaLinux
 - not sure if MySQL works correctly, the test fails on buff_test which means it does not increase buffer size for long result
+
+Feedback is welcome.
 
 ## Installation & Usage
 
@@ -73,7 +75,7 @@ Set `RELEASE` variable to any value to build a release build.
 
 ## License
 
-Copyright (C) 2015-2023  Ivan Stana
+Copyright (C) 2015-2024 Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
