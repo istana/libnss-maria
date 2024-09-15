@@ -1,4 +1,4 @@
-docker-compose \
+docker compose \
 -f ${DOCKERCFILE:=docker-compose.yml} exec \
 $( (( CI == 1 )) && printf %s '-T' ) sys sh -c "\
 CLIENT_FILE=${CLIENT_FILE} \

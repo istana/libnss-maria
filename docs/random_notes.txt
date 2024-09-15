@@ -100,7 +100,7 @@ __m128i_shift_right (offset=15, value=<error reading variable: Cannot access mem
 - spec says you never should set errno when it's successful
 - nss_maria_initgroups_dyn / gidsbymem propagate limit param to db query
 
-docker-compose exec sys sh -c "/bin/bash"
+docker compose exec sys sh -c "/bin/bash"
 
 ### Why weird configuration format?
 
