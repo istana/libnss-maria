@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.11)
 project (nss_maria)
 
 set(ENV{COMPILE_OPTIONS_SHARED} "\
