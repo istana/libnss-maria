@@ -1,0 +1,23 @@
+version: '3'
+services:
+  sys:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    volumes:
+      - ..:/home/libnss-maria
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    environment:
+      - PREDEFINED_DB=true
+    depends_on:
+      - database
+  database:
+    image: mysql:latest
+    ports:
+      - '3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      # doesn't work with MYSQL_ROOT_HOST=172.*.*.*, or sys
+      - MYSQL_ROOT_HOST=172.%
