@@ -75,7 +75,7 @@ Set `RELEASE` variable to any value to build a release build.
 
 ## License
 
-Copyright (C) 2015-2024 Ivan Stana
+Copyright (C) 2015-2026 Ivan Stana
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
