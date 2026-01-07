@@ -57,7 +57,7 @@ Required libraries for building the library and test, browse `docker/Dockerfile*
 
 ```
 apt-get install coreutils build-essential cmake libmariadb-dev libconfig-dev syslog-ng-dev bats
-apt-get install syslog-ng mariadb-client libconfig9 mariadb-server ruby pkg-config
+apt-get install syslog-ng mariadb-client libconfig11 mariadb-server ruby pkg-config
 
 COMPILE_ONLY=1 ./scripts/build-debug.sh
 (sudo) make install
