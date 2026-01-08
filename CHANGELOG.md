@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ## [1.1] - 2025-01-08
-### Added
+### Fixed
 - update cmake minimum version for recent cmake
 - keep CI builds up to date
 - keep Vagrant up to date
