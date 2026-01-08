@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.1] - 2025-01-08
+### Added
+- update cmake minimum version for recent cmake
+- keep CI builds up to date
+- keep Vagrant up to date
+- small updates to documentation
+- [#20] Replace hardcoded home path with HOME_PATH variable in automated build+test scripts
+
 ## [1.0] - 2021-11-21
 ### Added
 - mysql 8 compatibility
