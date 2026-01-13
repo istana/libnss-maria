@@ -2,100 +2,20 @@ name: github-actions-c
 
 on:
   pull_request:
-    branches: ['*']
+    branches: ["*"]
   push:
     branches: [master]
 jobs:
-  Archlinux:
+  Mysql:
     runs-on: ubuntu-latest
     steps:
       - name: Checks out the repository
         uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=archlinux docker compose up -d
+      - name: Starts docker-compose
+        run: docker compose -f docker/docker-compose-mysql.yml up -d
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
-          time: '20s'
+          time: "20s"
       - name: Build and test
-        run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  Debian:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=debian docker compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  Fedora:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=fedora docker compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  Ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=ubuntu docker compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  UbuntuLTS:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=ubuntu-lts docker compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 RELEASE=1 ./scripts/build-docker.sh
-  UnixSocket:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=unix_socket docker compose -f docker/docker-compose-unix-socket.yml up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 CONFIG_FILE=libnss-maria.conf DOCKERCFILE=docker/docker-compose-unix-socket.yml
-          EXAMPLE_SET=unix_socket RELEASE=1 ./scripts/build-docker.sh
-  CustomClientConfigSSL:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checks out the repository
-        uses: actions/checkout@v2
-      - name: Starts docker compose
-        run: DISTRO=unix_socket docker compose -f docker/docker-compose-ssl-server.yml up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Build and test
-        run: CI=1 CLIENT_FILE=client.cnf DOCKERCFILE=docker/docker-compose-unix-socket.yml EXAMPLE_SET=ssl
-          RELEASE=1 TEST_USE_SSL=1 ./scripts/build-docker.sh
+        run: CI=1 RELEASE=1 DOCKERCFILE=docker/docker-compose-mysql.yml ./scripts/build-docker.sh

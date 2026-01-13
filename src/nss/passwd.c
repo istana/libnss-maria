@@ -47,6 +47,7 @@ enum nss_status _nss_maria_getpwnam_r (
 
   enum nss_status result_status = copy_db_row_to_passwd(result, result_initial_offset, row, passwd_result, buffer, buflen, errnop);
 
+  debug_print_var("nss_status: %i, errnop: %i, iserange: %i", result_status, *errnop, *errnop == ERANGE);
   CLEANUP();
   return result_status;
 }
