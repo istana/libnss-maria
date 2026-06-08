@@ -97,7 +97,15 @@ enum nss_status _nss_maria_setspent (void) {
 enum nss_status _nss_maria_endspent (void) {
   debug_print("_nss_maria_endspent called!");
 
-  if(shadow_dbresult != NULL) mysql_free_result(shadow_dbresult);
-  if(shadow_dbconn != NULL) mysql_close(shadow_dbconn);
+  if (shadow_dbresult != NULL) {
+    mysql_free_result(shadow_dbresult);
+    shadow_dbresult = NULL;
+  }
+
+  if (shadow_dbconn != NULL) {
+    mysql_close(shadow_dbconn);
+    shadow_dbconn = NULL;
+  }
+
   return NSS_STATUS_SUCCESS;
 }

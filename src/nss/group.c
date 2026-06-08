@@ -346,7 +346,15 @@ enum nss_status _nss_maria_setgrent (void) {
 enum nss_status _nss_maria_endgrent (void) {
   debug_print("_nss_maria_endgrent called!");
 
-  if(group_dbresult != NULL) mysql_free_result(group_dbresult);
-  if(group_dbconn != NULL) mysql_close(group_dbconn);
+  if (group_dbresult != NULL) {
+    mysql_free_result(group_dbresult);
+    group_dbresult = NULL;
+  }
+
+  if (group_dbconn != NULL) {
+    mysql_close(group_dbconn);
+    group_dbconn = NULL;
+  }
+
   return NSS_STATUS_SUCCESS;
 }

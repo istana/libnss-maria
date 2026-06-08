@@ -154,7 +154,15 @@ enum nss_status _nss_maria_setpwent (void) {
 enum nss_status _nss_maria_endpwent (void) {
   debug_print("_nss_maria_endpwent called!");
 
-  if(passwd_dbresult != NULL) mysql_free_result(passwd_dbresult);
-  if(passwd_dbconn != NULL) mysql_close(passwd_dbconn);
+  if (passwd_dbresult != NULL) {
+    mysql_free_result(passwd_dbresult);
+    passwd_dbresult = NULL;
+  }
+
+  if (passwd_dbconn != NULL) {
+    mysql_close(passwd_dbconn);
+    passwd_dbconn = NULL;
+  }
+
   return NSS_STATUS_SUCCESS;
 }
