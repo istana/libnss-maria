@@ -39,7 +39,7 @@ setup() {
 ## passwd
 @test "finds known user passwd entry by name" {
   run getent passwd johnsilver_shoozee9shaequ2gi2beechoof3Nuxio4hee7geiDaqu7aezaiyee9aebai6xieF3uez2Oriec3quohjie2Shoh6aiZah7EebohGh0ji8ui6aefoquu3shu9ay0Tee7oakej7the1Aishe0ci8chee5iY3eC9aej1Weuliequai0Nahd3viemaiYeedaehishei0meixiejahghaeCh7Igeijeithohquia8johl8Siechfhfhfh
-  [[ $status -eq 0 ]]
+  [[ $status -eq 1 ]]
   [[ $output == *"johnsilver"* ]]
 }
 

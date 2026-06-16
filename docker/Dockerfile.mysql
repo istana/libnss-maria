@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+ENV DEBIAN_FRONTEND=noninteractive
+ENV VERBOSE=1
+RUN apt-get update
+RUN apt-get install -y build-essential cmake libconfig-dev syslog-ng-dev bats \
+syslog-ng libconfig9 ruby pkg-config mysql-client libmysqlclient-dev libmysqlclient21

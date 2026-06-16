@@ -23,11 +23,18 @@ struct passwd {
 enum nss_status
 {
   NSS_STATUS_TRYAGAIN = -2,
-  NSS_STATUS_UNAVAIL,
-  NSS_STATUS_NOTFOUND,
-  NSS_STATUS_SUCCESS,
+  NSS_STATUS_UNAVAIL = -1,
+  NSS_STATUS_NOTFOUND = 0,
+  NSS_STATUS_SUCCESS = 1,
   NSS_STATUS_RETURN
 };
+
+
+successful result:
+nss_status: 1, errnop: 11, iserange: 0
+buffer too small:
+nss_status: -2, errnop: 34, iserange: 1
+
 
 
 gdb --args getent passwd katarina
